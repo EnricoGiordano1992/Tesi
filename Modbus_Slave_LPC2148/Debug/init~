@@ -1,0 +1,12 @@
+target remote localhost:3333
+
+monitor reset
+monitor reset init
+monitor soft_reset_halt
+load MB.axf
+file MB.axf
+#break ../src/mbrtu.c : 169
+
+#monitor reset init
+#info registers
+

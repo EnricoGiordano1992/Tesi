@@ -1,0 +1,9 @@
+target remote localhost:3333
+
+monitor reset
+monitor reset init
+monitor soft_reset_halt
+#load
+
+#monitor reset init
+#info registers
