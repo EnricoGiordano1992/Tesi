@@ -8,10 +8,10 @@
 #ifndef MODBUS_H_
 #define MODBUS_H_
 
-#include "LPC177x_8x.h"
-#include "lpc177x_8x_uart.h"
-#include "lpc177x_8x_timer.h"
-#include "lpc177x_8x_pinsel.h"
+#include "CMSIS/LPC177x_8x.h"
+#include "CMSIS_modbus/lpc177x_8x_uart.h"
+#include "CMSIS_modbus/lpc177x_8x_timer.h"
+#include "CMSIS_modbus/lpc177x_8x_pinsel.h"
 #include "port.h"
 
 

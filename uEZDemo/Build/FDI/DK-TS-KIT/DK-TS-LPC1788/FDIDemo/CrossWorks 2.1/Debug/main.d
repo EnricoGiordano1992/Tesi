@@ -90,8 +90,4 @@ Debug/main.o: \
  ../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin/GUI_Type.h \
  ../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin/LCD.h \
  ../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin/Global.h \
- ../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin/GUI_Version.h \
- ../../../../../../../uEZ/Source/Library/USBDevice/MassStorage/Generic/USBMSDrive.h \
- ../../../../../../../uEZ/Include/Device/MassStorage.h \
- ../../../../../../../uEZ/Include/uEZDevice.h \
- ../../../../../../../uEZ/Include/Types/TimeDate.h
+ ../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin/GUI_Version.h

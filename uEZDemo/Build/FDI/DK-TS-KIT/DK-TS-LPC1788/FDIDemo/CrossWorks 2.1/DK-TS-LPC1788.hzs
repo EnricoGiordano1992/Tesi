@@ -22,6 +22,10 @@
  </Memory4>
  <Project>
   <ProjectSessionItem path="DK-TS-LPC1788" name="unnamed" />
+  <ProjectSessionItem path="DK-TS-LPC1788;DK-TS-LPC1788" name="unnamed" />
+  <ProjectSessionItem path="DK-TS-LPC1788;DK-TS-LPC1788;App" name="unnamed" />
+  <ProjectSessionItem path="DK-TS-LPC1788;DK-TS-LPC1788;App;DKTSKit" name="unnamed" />
+  <ProjectSessionItem path="DK-TS-LPC1788;DK-TS-LPC1788;Modbus" name="unnamed" />
  </Project>
  <Register1>
   <RegisterWindow openNodes="" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="" decimalNodes="" octalNodes="" asciiNodes="" />
@@ -51,6 +55,15 @@
  <Watch4>
   <Watches active="0" update="Never" />
  </Watch4>
- <Files/>
- <ARMCrossStudioWindow activeProject="DK-TS-LPC1788" autoConnectTarget="" debugSearchFileMap="" fileDialogInitialDirectory="" fileDialogDefaultFilter="*.c" autoConnectCapabilities="0" debugSearchPath="" buildConfiguration="Debug" />
+ <Files>
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="22" debugPath="/home/enrico/TESI/uEZDemo/Source/modbus_lib/init.c" y="11" path="/home/enrico/TESI/uEZDemo/Source/modbus_lib/init.c" left="0" selected="0" name="unnamed" top="0" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/enrico/TESI/uEZDemo/Source/App/SEGGER/emWin/emWin.c" y="22" path="/home/enrico/TESI/uEZDemo/Source/App/SEGGER/emWin/emWin.c" left="0" selected="0" name="unnamed" top="15" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="10" debugPath="/home/enrico/TESI/uEZDemo/Source/modbus_lib/modbus.h" y="14" path="/home/enrico/TESI/uEZDemo/Source/modbus_lib/modbus.h" left="0" selected="0" name="unnamed" top="0" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/enrico/TESI/uEZDemo/Source/modbus_lib/modbus_function.c" y="5" path="/home/enrico/TESI/uEZDemo/Source/modbus_lib/modbus_function.c" left="0" selected="0" name="unnamed" top="12" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="25" debugPath="/home/enrico/TESI/uEZDemo/Source/App/DKTSKit/main.c" y="77" path="/home/enrico/TESI/uEZDemo/Source/App/DKTSKit/main.c" left="0" selected="0" name="unnamed" top="71" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/enrico/TESI/uEZDemo/Source/App/DKTSKit/MainMenu.c" y="0" path="/home/enrico/TESI/uEZDemo/Source/App/DKTSKit/MainMenu.c" left="0" selected="0" name="unnamed" top="332" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/enrico/TESI/uEZDemo/Build/FDI/DK-TS-KIT/DK-TS-LPC1788/FDIDemo/CrossWorks 2.1/Config_Build.h" y="96" path="/home/enrico/TESI/uEZDemo/Build/FDI/DK-TS-KIT/DK-TS-LPC1788/FDIDemo/CrossWorks 2.1/Config_Build.h" left="0" selected="0" name="unnamed" top="84" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/enrico/TESI/uEZDemo/Source/App/DKTSKit/Config_App.h" y="51" path="/home/enrico/TESI/uEZDemo/Source/App/DKTSKit/Config_App.h" left="0" selected="1" name="unnamed" top="0" />
+ </Files>
+ <ARMCrossStudioWindow activeProject="DK-TS-LPC1788" autoConnectTarget="" debugSearchFileMap="" fileDialogInitialDirectory="/home/enrico/TESI/uEZDemo/Source/CMSIS" fileDialogDefaultFilter="*.c" autoConnectCapabilities="0" debugSearchPath="" buildConfiguration="Debug" />
 </session>

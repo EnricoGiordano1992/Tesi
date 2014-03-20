@@ -336,7 +336,7 @@ void MainMenu(void)
 #endif
 
             // Set the screen saver icon
-            BouncingLogoSS_Setup(
+/*            BouncingLogoSS_Setup(
                 (TUInt8 *)G_uEZLogo,
                 UEZ_ICON_WIDTH,
                 UEZ_ICON_HEIGHT,
@@ -344,7 +344,7 @@ void MainMenu(void)
                 DISPLAY_HEIGHT);
 
             AppMenu(&mainmenu);
-            UEZLCDClose(lcd);
+            UEZLCDClose(lcd);*/
         }
     }
 }

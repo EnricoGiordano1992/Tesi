@@ -104,9 +104,9 @@ int MainTask(void)
     // Pass control to the main menu
     MainMenu();
 
-//		  while(1) {
-//				GUIDEMO_Main();
-  //}
+		  while(1) {
+				emWin(NULL);
+  }
 		
     // We should not exit main unless we want to reset the board
     return 0;

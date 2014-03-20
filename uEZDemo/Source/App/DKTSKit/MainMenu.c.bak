@@ -344,8 +344,8 @@ void MainMenu(void)
                 DISPLAY_HEIGHT);
 
             AppMenu(&mainmenu);
-            UEZLCDClose(lcd);*/
-        }
+            UEZLCDClose(lcd);
+        }*/
     }
 }
 /*-------------------------------------------------------------------------*

@@ -59,8 +59,8 @@
 
 #if (FDI_PLATFORM == CARRIER_R4)
 #define UEZ_ENABLE_WIRELESS_NETWORK     0
-#define UEZ_ENABLE_AUDIO_CODEC          0
-#define UEZ_ENABLE_AUDIO_AMP            0
+#define UEZ_ENABLE_AUDIO_CODEC          1
+#define UEZ_ENABLE_AUDIO_AMP            1
 #define UEZ_ENABLE_I2S_AUDIO            0
 #else
 #define UEZ_ENABLE_WIRELESS_NETWORK     0   //not avalible
@@ -69,7 +69,7 @@
 #define UEZ_ENABLE_I2S_AUDIO            0   //not avalible
 #endif
 
-#define INCLUDE_EMWIN               0
+#define INCLUDE_EMWIN               1
 #define APP_DEMO_EMWIN              INCLUDE_EMWIN
 #define APP_DEMO_YOUR_APP           0 //needs to be off if emWin is on
 #define APP_DEMO_COM                0
@@ -94,4 +94,5 @@
 #define UEZ_REGISTER              0
 #else
 #define UEZ_REGISTER              1  //Used for registering Queues and Semaphores in the RTOS
+
 #endif

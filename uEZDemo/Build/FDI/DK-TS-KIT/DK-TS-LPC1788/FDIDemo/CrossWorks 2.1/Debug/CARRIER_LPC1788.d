@@ -188,4 +188,10 @@ Debug/CARRIER_LPC1788.o: \
  ../../../../../../../uEZ/Source/Library/Network/GainSpan/CmdLib/GainSpan_CmdLib.h \
  ../../../../../../../uEZ/Source/Library/Network/GainSpan/CmdLib/AtCmdLib.h \
  /usr/share/crossworks_for_arm_2.1/include/stdbool.h \
- ../../../../../../../uEZ/Source/Library/GUI/FDI/SimpleUI/SimpleUI_Types.h
+ ../../../../../../../uEZ/Source/Library/GUI/FDI/SimpleUI/SimpleUI_Types.h \
+ ../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin/LCD.h \
+ ../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin/GUI_ConfDefaults.h \
+ ../../../../../../../uEZ/Source/Platform/emWin/Config/GUIConf.h \
+ ../../../../../../../uEZ/Source/Platform/emWin/Inc/SEGGER.h \
+ ../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin/Global.h \
+ ../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin/Global.h

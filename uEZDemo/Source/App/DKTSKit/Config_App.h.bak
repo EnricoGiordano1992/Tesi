@@ -28,7 +28,7 @@
 #define SERIAL_PORTS_DEFAULT_BAUD           115200
 
 #define UEZ_ENABLE_LCD                      1
-#include <Include\Device\LCD\Config_LCD.h>
+#include <Include/Device/LCD/Config_LCD.h>
 
 // Components to allow to run
 #ifndef UEZ_ENABLE_TCPIP_STACK
