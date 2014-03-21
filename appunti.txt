@@ -18,6 +18,7 @@ LPC1788
 		- eseguire suoni tramite DA converter (write holding registers)
 		- usare GPIO (write/read coil registers)
 		- scrivere valori su touchscreen (write holding registers)
+		- accendere/spegnere led esterni tramite GPIO (write/read holding registers)
 
 LPC2148
 	nella scheda:
@@ -34,4 +35,5 @@ LPC2148
 		- ricevere feedback motore tramite AD converter (read holding registers)
 		- eseguire suoni tramite DA converter (write holding registers)
 		- usare GPIO (write/read coil registers)
+		- accendere/spegnere led esterni tramite GPIO (write/read holding registers)
 
