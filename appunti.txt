@@ -1,0 +1,37 @@
+LPC1788
+	nella scheda:
+		- led
+		- cicalina
+		- AD converter
+		- DA converter
+		- PWM
+		- GPIO
+		- touchscreen
+
+	cosa si può fare:
+		- accendere/spegnere led (write coil registers)
+		- far suonare la cicalina con diversa tonalità (write holding registers)
+		- ricevere valore convertito da AD converter (read holding registers)
+		- far partire un motore on/off (write coil registers)
+		- far partire un motore a diversa velocità (write holding registers)
+		- ricevere feedback motore tramite AD converter (read holding registers)
+		- eseguire suoni tramite DA converter (write holding registers)
+		- usare GPIO (write/read coil registers)
+		- scrivere valori su touchscreen (write holding registers)
+
+LPC2148
+	nella scheda:
+		- AD converter
+		- DA converter
+		- PWM
+		- GPIO
+		- LCD (?)
+
+	cosa si può fare:
+		- ricevere valore convertito da AD converter (read holding registers)
+		- far partire un motore on/off (write coil registers)
+		- far partire un motore a diversa velocità (write holding registers)
+		- ricevere feedback motore tramite AD converter (read holding registers)
+		- eseguire suoni tramite DA converter (write holding registers)
+		- usare GPIO (write/read coil registers)
+
