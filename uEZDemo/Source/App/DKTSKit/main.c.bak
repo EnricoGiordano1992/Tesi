@@ -104,9 +104,11 @@ int MainTask(void)
     // Pass control to the main menu
     MainMenu();
 
-		  while(1) {
-				emWin(NULL);
-  }
+		  while(1) 
+                  {
+                  FDI_emWin_Demo();
+//                    test_window();  
+                    }
 		
     // We should not exit main unless we want to reset the board
     return 0;
