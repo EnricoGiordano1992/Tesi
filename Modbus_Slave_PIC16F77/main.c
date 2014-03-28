@@ -9,37 +9,11 @@
 */
 
 
-/*
- *
- * 	Discrete Input		Single bit		Read-Only
-	Coils				Single bit		Read-Write
-	Input Registers		16-bit word		Read-Only
-	Holding Registers	16-bit word		Read-Write
- *
- *
- */
+#include "Includes.h"
 
+// Config word (fuses)
+__CONFIG(FOSC_HS & WDTE_OFF & PWRTE_ON & BOREN_ON & CP_OFF);
 
-/*
- * The Discrete Inputs represent a single bit (Boolean) which can only be read.
- * In other words, the master can only perform a read action on the discrete inputs.
- * The same holds for the Input Registers.
- * The master can only read the slave’s Input Registers.
- * The difference between the Discrete Inputs and the Input Registers is
- * that the Input Registers represent 16 bits while the Discrete Inputs are only a single bit.
- * The Coils also represent a Boolean data type which can be read and written to by the master.
- * The Holding Registers represent a 16 bit word that can be read and written to.
-
- *
- */
-
-// Variable to store CRP value in. Will be placed automatically
-// by the linker when "Enable Code Read Protect" selected.
-// See crp.h header for more information
-
-// TODO: insert other include files here
-
-// TODO: insert other definitions and declarations here
 
 /* ----------------------- Modbus includes ----------------------------------*/
 #include "mb.h"
@@ -59,31 +33,26 @@ static USHORT   usRegHoldingBuf[REG_HOLDING_NREGS];
 int
 main( void )
 {
-    int n = 0;
-
-	//initialize all
-
-
 
     eMBErrorCode    eStatus;
+
+    
+    InitUART();							// Initialize UART
 
     eStatus = eMBInit( MB_RTU, 0x0A, 0, 38400, /*MB_PAR_EVEN*/ MB_PAR_NONE );
 
     /* Initialize the holding register values before starting the
      * Modbus stack
      */
-    int i;
-
-    for( i = 0; i < REG_HOLDING_NREGS; i++ )
-    {
-        usRegHoldingBuf[i] = ( unsigned short )i;
-    }
-
 
     /* Enable the Modbus Protocol Stack. */
     eStatus = eMBEnable(  );
 
-    for( ;; )
+
+    GIE  = 1;  							// Enable global interrupts
+    PEIE = 1;  							// Enable Peripheral Interrupts
+
+    while(1)
     {
         ( void )eMBPoll(  );
 

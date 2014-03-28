@@ -1,1 +1,0 @@
-openocd -f ~/openocd3.cfg -c "adapter_khz 10; reset_config trst_and_srst"
