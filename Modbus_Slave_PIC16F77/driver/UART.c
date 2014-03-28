@@ -15,7 +15,7 @@ void InitUART(unsigned long baudrate)
 	SPEN  = 1;						// Enable serial port pins
 	CREN  = 1;						// Enable reception
 	SREN  = 0;						// No effect
-	TXIE  = 0;						// Disable tx interrupts
+	TXIE  = 1;						// Enable tx interrupts
 	RCIE  = 1;						// Enable rx interrupts
 	TX9   = 0;						// 8-bit transmission
 	RX9   = 0;						// 8-bit reception

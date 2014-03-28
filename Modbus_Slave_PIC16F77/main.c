@@ -46,6 +46,8 @@ main( void )
     /* Enable the Modbus Protocol Stack. */
     eStatus = eMBEnable(  );
 
+    //PEIE, Interrupt di periferica attivato
+    //GIE, Gestione Interrupt attiva
 
     GIE  = 1;  							// Enable global interrupts
     PEIE = 1;  							// Enable Peripheral Interrupts

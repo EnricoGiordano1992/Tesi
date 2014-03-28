@@ -14,15 +14,16 @@ void timer_settings(void)
 	// bit 7 -> Resistenze di pull-up su porta B disattivate
 
 	// Impostazione Interrupt
-	INTCON=0b10100000;
+	INTCON=0b00000000;
+
 	// bit 0 -> RBIF - Flag interrupt su porte B
 	// bit 1 -> INTF - Flag interrupt su RB0/INT
 	// bit 2 -> T0IF - Flag interrupt su Timer0
 	// bit 3 -> RBIE, Interrupt su porte B disattivato
 	// bit 4 -> INTE, Interrupt su porta RB0/INT disattivato
-	// bit 5 -> TMR0IE, Interrupt su Timer0 attivato
+	// bit 5 -> TMR0IE, Interrupt su Timer0 disattivato
 	// bit 6 -> PEIE, Interrupt di periferica disattivato
-	// bit 7 -> GIE, Gestione Interrupt attiva
+	// bit 7 -> GIE, Gestione Interrupt disattivata
 
 	TMR0=100; // Imposto Timer0 a 100   (1 tick per 1 ms)
 
