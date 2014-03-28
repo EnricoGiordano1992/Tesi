@@ -23,10 +23,7 @@
  <Project>
   <ProjectSessionItem path="DK-TS-LPC1788" name="unnamed" />
   <ProjectSessionItem path="DK-TS-LPC1788;DK-TS-LPC1788" name="unnamed" />
-  <ProjectSessionItem path="DK-TS-LPC1788;DK-TS-LPC1788;App" name="unnamed" />
-  <ProjectSessionItem path="DK-TS-LPC1788;DK-TS-LPC1788;App;DKTSKit" name="unnamed" />
-  <ProjectSessionItem path="DK-TS-LPC1788;DK-TS-LPC1788;App;GUICommon" name="unnamed" />
-  <ProjectSessionItem path="DK-TS-LPC1788;DK-TS-LPC1788;GUI" name="unnamed" />
+  <ProjectSessionItem path="DK-TS-LPC1788;DK-TS-LPC1788;Source" name="unnamed" />
  </Project>
  <Register1>
   <RegisterWindow openNodes="" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="" decimalNodes="" octalNodes="" asciiNodes="" />
@@ -57,11 +54,12 @@
   <Watches active="0" update="Never" />
  </Watch4>
  <Files>
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="19" debugPath="/home/enrico/TESI/uEZDemo/Source/GUI/test_window.c" y="152" path="/home/enrico/TESI/uEZDemo/Source/GUI/test_window.c" left="0" selected="0" name="unnamed" top="147" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="24" debugPath="/home/enrico/TESI/uEZDemo/Source/App/GUICommon/FDI_emWin_Demo.c" y="465" path="/home/enrico/TESI/uEZDemo/Source/App/GUICommon/FDI_emWin_Demo.c" left="0" selected="0" name="unnamed" top="418" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/enrico/TESI/uEZDemo/Source/App/DKTSKit/main.c" y="107" path="/home/enrico/TESI/uEZDemo/Source/App/DKTSKit/main.c" left="0" selected="0" name="unnamed" top="99" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/enrico/TESI/uEZDemo/Source/GUI/test_window.c" y="152" path="/home/enrico/TESI/uEZDemo/Source/GUI/test_window.c" left="0" selected="0" name="unnamed" top="152" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/enrico/TESI/uEZDemo/Source/App/GUICommon/FDI_emWin_Demo.c" y="465" path="/home/enrico/TESI/uEZDemo/Source/App/GUICommon/FDI_emWin_Demo.c" left="0" selected="0" name="unnamed" top="465" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/enrico/TESI/uEZDemo/Source/App/DKTSKit/main.c" y="109" path="/home/enrico/TESI/uEZDemo/Source/App/DKTSKit/main.c" left="0" selected="0" name="unnamed" top="99" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/enrico/TESI/uEZDemo/Source/App/DKTSKit/MainMenu.c" y="279" path="/home/enrico/TESI/uEZDemo/Source/App/DKTSKit/MainMenu.c" left="0" selected="0" name="unnamed" top="261" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="10" debugPath="/home/enrico/TESI/uEZDemo/Source/GUI/gui_task.c" y="15" path="/home/enrico/TESI/uEZDemo/Source/GUI/gui_task.c" left="0" selected="1" name="unnamed" top="6" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/enrico/TESI/uEZDemo/Source/GUI/gui_task.c" y="183" path="/home/enrico/TESI/uEZDemo/Source/GUI/gui_task.c" left="0" selected="0" name="unnamed" top="420" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/enrico/TESI/uEZ/Source/Processor/NXP/LPC1788/CrossWorks2.0/LPC177x_8x_Target.js" y="0" path="/home/enrico/TESI/uEZ/Source/Processor/NXP/LPC1788/CrossWorks2.0/LPC177x_8x_Target.js" left="0" selected="1" name="unnamed" top="3" />
  </Files>
  <ARMCrossStudioWindow activeProject="DK-TS-LPC1788" autoConnectTarget="" debugSearchFileMap="" fileDialogInitialDirectory="/home/enrico/TESI/uEZDemo/Source/CMSIS" fileDialogDefaultFilter="*.c" autoConnectCapabilities="0" debugSearchPath="" buildConfiguration="Debug" />
 </session>

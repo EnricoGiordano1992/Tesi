@@ -37,9 +37,7 @@ main( void )
     eMBErrorCode    eStatus;
 
     
-    InitUART();							// Initialize UART
-
-    eStatus = eMBInit( MB_RTU, 0x0A, 0, 38400, /*MB_PAR_EVEN*/ MB_PAR_NONE );
+    eStatus = eMBInit( MB_RTU, 0x0A, 0, 38400, MB_PAR_NONE );
 
     /* Initialize the holding register values before starting the
      * Modbus stack

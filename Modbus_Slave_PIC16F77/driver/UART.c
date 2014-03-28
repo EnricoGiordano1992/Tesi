@@ -4,12 +4,12 @@
 
 #include "../Includes.h"
 
-void InitUART(void)
+void InitUART(unsigned long baudrate)
 {
 	TRISC6 = 0;   					// TX Pin , 0 == output
 	TRISC7 = 1;   					// RX Pin,  1 == input
 	
-	SPBRG = ((_XTAL_FREQ/16)/BAUDRATE) - 1;
+	SPBRG = ((_XTAL_FREQ/16)/baudrate) - 1;
 	BRGH  = 1;                   	// Fast baudrate
 	SYNC  = 0;						// Asynchronous
 	SPEN  = 1;						// Enable serial port pins

@@ -1,5 +1,5 @@
 #include "../Includes.h"
-
+#include "ISR.h"
 
 
 void interrupt ISR(void)
@@ -12,6 +12,19 @@ void interrupt ISR(void)
 			CREN = 1;
 		}
 
-		SendByteSerially(RCREG);	// Echo back received char
+		prvvUARTRxISR();
 	}
+
+        if(TXIF == 0)   // uart tx empty
+        {
+            prvvUARTTxReadyISR();
+        }
+
+
+        	if (T0IF) // timer0 interrupt
+		{
+                    TMR0 = 100; // reset Timer0
+                    T0IF=0; // Resetto flag interrupt timer 0,
+		}
+
 }

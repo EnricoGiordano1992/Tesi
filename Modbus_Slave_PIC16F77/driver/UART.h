@@ -12,7 +12,7 @@
 // No flow control, no parity bit
 
 //Function Prototypes
-void InitUART(void);
+void InitUART(unsigned long baudrate);
 void SendByteSerially(unsigned char);
 unsigned char ReceiveByteSerially(void);
 void SendStringSerially(const unsigned char*);
