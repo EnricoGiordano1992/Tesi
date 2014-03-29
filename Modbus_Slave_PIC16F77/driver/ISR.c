@@ -28,11 +28,15 @@ void interrupt ISR(void)
 	}
 
 	prvvUARTRxISR();
+
+	RCIF = 0;
     }
 
-    if(TXIF == 0)   // uart tx empty
+    if(TXIF)   // uart tx empty
     {
         prvvUARTTxReadyISR();
+
+	TXIF = 0;
     }
 
 
