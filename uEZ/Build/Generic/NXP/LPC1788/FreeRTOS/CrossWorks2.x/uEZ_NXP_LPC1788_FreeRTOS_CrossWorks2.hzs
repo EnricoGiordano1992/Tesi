@@ -22,8 +22,6 @@
  </Memory4>
  <Project>
   <ProjectSessionItem path="uEZ_NXP_LPC1788_FreeRTOS_CrossWorks2" name="unnamed" />
-  <ProjectSessionItem path="uEZ_NXP_LPC1788_FreeRTOS_CrossWorks2;uEZ_NXP_LPC1788_FreeRTOS_CrossWorks2" name="unnamed" />
-  <ProjectSessionItem path="uEZ_NXP_LPC1788_FreeRTOS_CrossWorks2;uEZ_NXP_LPC1788_FreeRTOS_CrossWorks2;Source" name="unnamed" />
  </Project>
  <Register1>
   <RegisterWindow openNodes="" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="" decimalNodes="" octalNodes="" asciiNodes="" />
