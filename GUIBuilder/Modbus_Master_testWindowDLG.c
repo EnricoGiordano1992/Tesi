@@ -30,22 +30,22 @@
 **********************************************************************
 */
 #define ID_FRAMEWIN_0  (GUI_ID_USER + 0x00)
-#define ID_EDIT_0  (GUI_ID_USER + 0x01)
 #define ID_TEXT_0  (GUI_ID_USER + 0x02)
 #define ID_RADIO_0  (GUI_ID_USER + 0x03)
 #define ID_TEXT_1  (GUI_ID_USER + 0x04)
 #define ID_TEXT_2  (GUI_ID_USER + 0x05)
-#define ID_EDIT_1  (GUI_ID_USER + 0x06)
 #define ID_TEXT_3  (GUI_ID_USER + 0x07)
-#define ID_EDIT_2  (GUI_ID_USER + 0x08)
 #define ID_TEXT_4  (GUI_ID_USER + 0x09)
 #define ID_TEXT_5  (GUI_ID_USER + 0x0A)
-#define ID_EDIT_3  (GUI_ID_USER + 0x0B)
 #define ID_BUTTON_0  (GUI_ID_USER + 0x0C)
 #define ID_LISTVIEW_0  (GUI_ID_USER + 0x0D)
 #define ID_CHECKBOX_0  (GUI_ID_USER + 0x0E)
 #define ID_LISTVIEW_1  (GUI_ID_USER + 0x10)
 #define ID_BUTTON_1  (GUI_ID_USER + 0x20)
+#define ID_SPINBOX_0  (GUI_ID_USER + 0x21)
+#define ID_SPINBOX_1  (GUI_ID_USER + 0x22)
+#define ID_SPINBOX_2  (GUI_ID_USER + 0x23)
+#define ID_SPINBOX_3  (GUI_ID_USER + 0x24)
 
 
 // USER START (Optionally insert additional defines)
@@ -67,23 +67,24 @@
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { FRAMEWIN_CreateIndirect, "Modbus_Master_testWindow", ID_FRAMEWIN_0, 0, 0, 640, 480, 0, 0x0, 0 },
-  { EDIT_CreateIndirect, "id_edit", ID_EDIT_0, 30, 46, 80, 20, 0, 0x64, 0 },
   { TEXT_CreateIndirect, "id_text", ID_TEXT_0, 30, 27, 80, 20, 0, 0x64, 0 },
   { RADIO_CreateIndirect, "function_radio", ID_RADIO_0, 138, 32, 143, 84, 0, 0x1404, 0 },
   { TEXT_CreateIndirect, "multiple_text", ID_TEXT_1, 30, 160, 161, 20, 0, 0x64, 0 },
   { TEXT_CreateIndirect, "from_text", ID_TEXT_2, 30, 192, 34, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "from_edit", ID_EDIT_1, 90, 190, 80, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "to_text", ID_TEXT_3, 30, 227, 31, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "to_edit", ID_EDIT_2, 90, 225, 80, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "to_text", ID_TEXT_3, 30, 229, 31, 21, 0, 0x64, 0 },
   { TEXT_CreateIndirect, "single_text", ID_TEXT_4, 30, 290, 143, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "number_text", ID_TEXT_5, 30, 320, 51, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "number_edit", ID_EDIT_3, 90, 320, 80, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "number_text", ID_TEXT_5, 30, 322, 51, 20, 0, 0x64, 0 },
   { BUTTON_CreateIndirect, "send_button", ID_BUTTON_0, 87, 383, 106, 35, 0, 0x0, 0 },
   { LISTVIEW_CreateIndirect, "response_view", ID_LISTVIEW_0, 406, 0, 223, 466, 0, 0x0, 0 },
   { CHECKBOX_CreateIndirect, "loop_check", ID_CHECKBOX_0, 230, 401, 121, 24, 0, 0x0, 0 },
   { LISTVIEW_CreateIndirect, "status_view", ID_LISTVIEW_1, 245, 190, 104, 35, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "exit_button", ID_BUTTON_1, 0, 0, 21, 18, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "exit_button", ID_BUTTON_1, 0, 0, 25, 21, 0, 0x0, 0 },
+  { SPINBOX_CreateIndirect, "slave_id_spinbox", ID_SPINBOX_0, 30, 45, 49, 26, 0, 0x0, 0 },
+  { SPINBOX_CreateIndirect, "from_spinbox", ID_SPINBOX_1, 90, 188, 80, 26, 0, 0x0, 0 },
+  { SPINBOX_CreateIndirect, "to_spinbox", ID_SPINBOX_2, 90, 225, 80, 26, 0, 0x0, 0 },
+  { SPINBOX_CreateIndirect, "number_spinbox", ID_SPINBOX_3, 90, 318, 80, 26, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
+
   // USER END
 };
 
@@ -111,11 +112,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
     //
-    // Initialization of 'id_edit'
-    //
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
-    EDIT_SetText(hItem, "1");
-    //
     // Initialization of 'id_text'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_0);
@@ -139,20 +135,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_2);
     TEXT_SetText(hItem, "from:");
     //
-    // Initialization of 'from_edit'
-    //
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
-    EDIT_SetText(hItem, "123");
-    //
     // Initialization of 'to_text'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_3);
     TEXT_SetText(hItem, "to:");
-    //
-    // Initialization of 'to_edit'
-    //
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
-    EDIT_SetText(hItem, "123");
     //
     // Initialization of 'single_text'
     //
@@ -163,11 +149,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_5);
     TEXT_SetText(hItem, "number:");
-    //
-    // Initialization of 'number_edit'
-    //
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
-    EDIT_SetText(hItem, "123");
     //
     // Initialization of 'send_button'
     //
@@ -209,79 +190,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
     switch(Id) {
-    case ID_EDIT_0: // Notifications sent by 'id_edit'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_VALUE_CHANGED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
-      }
-      break;
     case ID_RADIO_0: // Notifications sent by 'function_radio'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_VALUE_CHANGED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
-      }
-      break;
-    case ID_EDIT_1: // Notifications sent by 'from_edit'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_VALUE_CHANGED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
-      }
-      break;
-    case ID_EDIT_2: // Notifications sent by 'to_edit'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_VALUE_CHANGED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
-      }
-      break;
-    case ID_EDIT_3: // Notifications sent by 'number_edit'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
@@ -374,6 +283,94 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+    case ID_SPINBOX_0: // Notifications sent by 'slave_id_spinbox'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_MOVED_OUT:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_VALUE_CHANGED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+    case ID_SPINBOX_1: // Notifications sent by 'from_spinbox'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_MOVED_OUT:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_VALUE_CHANGED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+    case ID_SPINBOX_2: // Notifications sent by 'to_spinbox'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_MOVED_OUT:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_VALUE_CHANGED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+    case ID_SPINBOX_3: // Notifications sent by 'number_spinbox'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_MOVED_OUT:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
         // USER END
         break;
