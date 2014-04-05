@@ -25,12 +25,12 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * File: $Id: mbfuncinput.c,v 1.10 2007/09/12 10:15:56 wolti Exp $
+ * File: $Id: mbfuncinput.c,v 1.10 2007-09-12 10:15:56 wolti Exp $
  */
 
 /* ----------------------- System includes ----------------------------------*/
-#include <stdlib.h>
-#include <string.h>
+#include "stdlib.h"
+#include "string.h"
 
 /* ----------------------- Platform includes --------------------------------*/
 #include "port.h"

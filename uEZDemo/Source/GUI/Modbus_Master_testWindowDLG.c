@@ -20,7 +20,8 @@
 
 // USER START (Optionally insert additional includes)
 #include "GUI.h"
-
+#include "port.h"
+#include "datamodel.h"
 // USER END
 
 #include "DIALOG.h"
@@ -61,16 +62,9 @@
 */
 
 // USER START (Optionally insert additional static data)
-typedef struct value{
 
-  int slave_id;
-  int multiple_register_from;
-  int multiple_register_to;
-  int single_register_number;
+extern GUI_value new_GUI_value;
 
-}spinbox_value;
-
-spinbox_value new_spinbox_value;
 // USER END
 
 /*********************************************************************
@@ -119,6 +113,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   int     NCode;
   int     Id;
   // USER START (Optionally insert additional variables)
+
+  new_GUI_value.BUTTON_value.send_button= FALSE;
+
   // USER END
 
   switch (pMsg->MsgId) {
@@ -214,6 +211,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
+
+          hItem = WM_GetDialogItem(pMsg->hWin, ID_RADIO_0);
+          new_GUI_value.RADIO_value.radio_selection = RADIO_GetValue(hItem);
+
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -228,6 +229,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
+
+        modbus_task();
+        
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -319,7 +323,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
 
-        new_spinbox_value.slave_id = SPINBOX_GetValue(pMsg->hWinSrc);
+        new_GUI_value.SPINBOX_value.slave_id = SPINBOX_GetValue(pMsg->hWinSrc);
         hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_0);
 
         // USER END
@@ -345,7 +349,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
 
-        new_spinbox_value.multiple_register_from = SPINBOX_GetValue(pMsg->hWinSrc);
+        new_GUI_value.SPINBOX_value.multiple_register_from = SPINBOX_GetValue(pMsg->hWinSrc);
         hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_1);
 
         // USER END
@@ -371,7 +375,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
 
-        new_spinbox_value.multiple_register_to = SPINBOX_GetValue(pMsg->hWinSrc);
+        new_GUI_value.SPINBOX_value.multiple_register_to = SPINBOX_GetValue(pMsg->hWinSrc);
         hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_2);
 
         // USER END
@@ -397,7 +401,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
 
-        new_spinbox_value.single_register_number = SPINBOX_GetValue(pMsg->hWinSrc);
+        new_GUI_value.SPINBOX_value.single_register_number = SPINBOX_GetValue(pMsg->hWinSrc);
         hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_3);
 
         // USER END
@@ -432,11 +436,21 @@ WM_HWIN CreateModbus_Master_testWindow(void);
 WM_HWIN CreateModbus_Master_testWindow(void) {
   WM_HWIN hWin;
 
-  hWin = GUI_ExecDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
+  hWin = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
   return hWin;
 }
 
 // USER START (Optionally insert additional public code)
+
+WM_HWIN ExecModbus_Master_testWindow(void);
+WM_HWIN ExecModbus_Master_testWindow(void) {
+  WM_HWIN hWin;
+
+  hWin = CreateModbus_Master_testWindow();
+  hWin = GUI_ExecDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
+  return hWin;
+}
+
 // USER END
 
 /*************************** End of file ****************************/

@@ -204,11 +204,11 @@ void TitleScreen(void)
 
         swim_set_font(&G_mmWin, &APP_DEMO_DEFAULT_FONT);
 		
-		SUIDrawBitmap(
+/*		SUIDrawBitmap(
 			G_uEZLogo,
             (DISPLAY_WIDTH-UEZ_ICON_WIDTH)/2,
             (DISPLAY_HEIGHT-UEZ_ICON_HEIGHT)/2);
-
+*/
         swim_set_font_transparency(&G_mmWin, 1);
         /*swim_put_text_xy(
             &G_mmWin,

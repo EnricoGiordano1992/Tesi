@@ -25,17 +25,18 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * File: $Id: mbrtu.c,v 1.18 2007/09/12 10:15:56 wolti Exp $
+ * File: $Id: mbrtu.c,v 1.18 2007-09-12 10:15:56 wolti Exp $
  */
 
 /* ----------------------- System includes ----------------------------------*/
-#include <stdlib.h>
-#include <string.h>
-
+#include "stdlib.h"
+#include "string.h"
+#include <stdio.h>
 /* ----------------------- Platform includes --------------------------------*/
 #include "port.h"
-#include "uart.h"
 #include "LPC17xx.h"
+#include "lcd_horizontal.h"
+
 /* ----------------------- Modbus includes ----------------------------------*/
 #include "mb.h"
 #include "mbrtu.h"
@@ -89,9 +90,7 @@ eMBRTUInit( UCHAR ucSlaveAddress, UCHAR ucPort, ULONG ulBaudRate, eMBParity ePar
 
     /* Modbus RTU uses 8 Databits. */
     if( xMBPortSerialInit( ucPort, ulBaudRate, 8, eParity ) != TRUE )
-
     {
-//    	LPC_GPIO2->FIOSET = 0x3;
         eStatus = MB_EPORTERR;
     }
     else
@@ -157,12 +156,19 @@ eMBRTUReceive( UCHAR * pucRcvAddress, UCHAR ** pucFrame, USHORT * pusLength )
     eMBErrorCode    eStatus = MB_ENOERR;
 
     ENTER_CRITICAL_SECTION(  );
-    //assert( usRcvBufferPos < MB_SER_PDU_SIZE_MAX );
+
+    /* nota su CRC check:
+     *
+     *Se il messaggio è stato ricevuto inalterato la divisione non produce resto
+     *mentre se si sono verificati errori di trasmissione la divisione produrrà un resto
+     *
+    */
 
     /* Length and CRC check */
     if( ( usRcvBufferPos >= MB_SER_PDU_SIZE_MIN )
         && ( usMBCRC16( ( UCHAR * ) ucRTUBuf, usRcvBufferPos ) == 0 ) )
     {
+
         /* Save the address field. All frames are passed to the upper layed
          * and the decision if a frame is used is done there.
          */
@@ -179,6 +185,7 @@ eMBRTUReceive( UCHAR * pucRcvAddress, UCHAR ** pucFrame, USHORT * pusLength )
     }
     else
     {
+//    	LPC_GPIO2->FIOSET = 0xff;
         eStatus = MB_EIO;
     }
 
@@ -236,6 +243,8 @@ xMBRTUReceiveFSM( void )
     /* Always read the character. */
     ( void )xMBPortSerialGetByte( ( CHAR * ) & ucByte );
 
+//    LPC_GPIO2->FIOSET = eRcvState;
+
     switch ( eRcvState )
     {
         /* If we have received a character in the init state we have to
@@ -274,6 +283,7 @@ xMBRTUReceiveFSM( void )
         if( usRcvBufferPos < MB_SER_PDU_SIZE_MAX )
         {
             ucRTUBuf[usRcvBufferPos++] = ucByte;
+//            LPC_GPIO2->FIOSET = usRcvBufferPos;
         }
         else
         {
@@ -346,9 +356,9 @@ xMBRTUTimerT35Expired( void )
         break;
 
         /* Function called in an illegal state. */
-    default: break;
+    default:;
         //assert( ( eRcvState == STATE_RX_INIT ) ||
-                //( eRcvState == STATE_RX_RCV ) || ( eRcvState == STATE_RX_ERROR ) );
+//                ( eRcvState == STATE_RX_RCV ) || ( eRcvState == STATE_RX_ERROR ) );
     }
 
     vMBPortTimersDisable(  );

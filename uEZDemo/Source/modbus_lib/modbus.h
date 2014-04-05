@@ -5,18 +5,16 @@
  *      Author: enrico
  */
 
-#ifndef MODBUS_H_
-#define MODBUS_H_
+#ifndef _MODBUS_H_
+#define _MODBUS_H_
 
-#include "CMSIS/LPC177x_8x.h"
-#include "CMSIS_modbus/lpc177x_8x_uart.h"
-#include "CMSIS_modbus/lpc177x_8x_timer.h"
-#include "CMSIS_modbus/lpc177x_8x_pinsel.h"
+//#include "CMSIS/LPC177x_8x.h"
+//#include "CMSIS_modbus/lpc177x_8x_uart.h"
+//#include "CMSIS_modbus/lpc177x_8x_timer.h"
+//#include "CMSIS_modbus/lpc177x_8x_pinsel.h"
+
 #include "port.h"
 
-
-#define MODBUS_SERIAL_TX_PIN LPC_UART0->THR
-#define MODBUS_SERIAL_RX_PIN LPC_UART0->RBR
 
 /*Some defines so we can use identifiers to set things up*/
 #define MODBUS_TYPE_MASTER 99999
@@ -36,7 +34,7 @@
 #define MODBUS_SERIAL_BAUD 38400
 
 #ifndef MODBUS_SERIAL_TIMEOUT
-#define MODBUS_SERIAL_TIMEOUT      1000000     //in us
+#define MODBUS_SERIAL_TIMEOUT      1000     //in us
 #endif
 
 
@@ -169,14 +167,6 @@ void modbus_calc_crc(char data);
   exception modbus_read_FIFO_queue(int8_t address, int16_t FIFO_address);
 
 
-  struct
-   {
-      int8_t address;
-      int8_t len;                                //number of bytes in the message received
-      function func;                           //the function of the message received
-      exception error;                         //error recieved, if any
-      int8_t data[MODBUS_SERIAL_RX_BUFFER_SIZE]; //data of the message received
-   } modbus_rx;
 
 
 

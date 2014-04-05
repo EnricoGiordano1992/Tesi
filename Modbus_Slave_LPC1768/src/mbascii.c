@@ -25,13 +25,12 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * File: $Id: mbascii.c,v 1.17 2010/06/06 13:47:07 wolti Exp $
+ * File: $Id: mbascii.c,v 1.17 2010-06-06 13:47:07 wolti Exp $
  */
 
 /* ----------------------- System includes ----------------------------------*/
-#include <stdlib.h>
-#include <string.h>
-//#include <assert.h>
+#include "stdlib.h"
+#include "string.h"
 
 /* ----------------------- Platform includes --------------------------------*/
 #include "port.h"

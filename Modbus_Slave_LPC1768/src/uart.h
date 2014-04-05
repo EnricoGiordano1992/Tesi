@@ -1,22 +1,13 @@
-/****************************************************************************
- *   $Id:: uart.h 5751 2010-11-30 23:56:11Z usb00423                        $
- *   Project: NXP LPC17xx UART example
+/*****************************************************************************
+ *   uart.h:  Header file for NXP LPC17xx Family Microprocessors
  *
- *   Description:
- *     This file contains UART code header definition.
+ *   Copyright(C) 2009, NXP Semiconductor
+ *   All rights reserved.
  *
- ****************************************************************************
- * Software that is described herein is for illustrative purposes only
- * which provides customers with programming information regarding the
- * products. This software is supplied "AS IS" without any warranties.
- * NXP Semiconductors assumes no responsibility or liability for the
- * use of the software, conveys no license or title under any patent,
- * copyright, or mask work right to the product. NXP Semiconductors
- * reserves the right to make changes in the software without
- * notification. NXP Semiconductors also make no representation or
- * warranty that such application will be suitable for the specified
- * use without further testing or modification.
-****************************************************************************/
+ *   History
+ *   2009.05.27  ver 1.00    Prelimnary version, first Release
+ *
+******************************************************************************/
 #ifndef __UART_H 
 #define __UART_H
 

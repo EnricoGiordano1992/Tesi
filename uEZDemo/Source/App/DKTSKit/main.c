@@ -36,7 +36,8 @@
 #include "Audio.h"
 #include "Source/Library/GUI/FDI/SimpleUI/SimpleUI_Types.h"
 #include "Source/Library/GUI/SEGGER/emWin/GUI.h"
-
+#include "modbus.h"
+#include "datamodel.h"
 #if FREERTOS_PLUS_TRACE //LPC1788 only as of uEZ v2.04
 #include <trcUser.h>
 #endif
@@ -58,6 +59,10 @@ extern T_uezTask G_mainTask;
  * Globals:
  *---------------------------------------------------------------------------*/
 
+
+GUI_value new_GUI_value;
+
+
 /*---------------------------------------------------------------------------*
  * Prototypes:
  *---------------------------------------------------------------------------*/
@@ -75,6 +80,8 @@ extern T_uezTask G_mainTask;
  *---------------------------------------------------------------------------*/
 int MainTask(void)
 {
+
+
 #if COMPILE_OPTION_USB_SDCARD_DISK
     T_USBMSDriveCallbacks usbMSDiskCallbacks = { 0 };
 #endif
@@ -106,9 +113,9 @@ int MainTask(void)
 
 		  while(1) 
                   {
-//                  FDI_emWin_Demo();
-                    gui_task();
-                    }
+                    modbus_init();
+                    gui_task();  
+                  }
 		
     // We should not exit main unless we want to reset the board
     return 0;

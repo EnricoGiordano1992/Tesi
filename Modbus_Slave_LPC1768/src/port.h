@@ -16,14 +16,14 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * File: $Id: port.h,v 1.1 2007/04/24 23:15:18 wolti Exp $
+ * File: $Id: port.h,v 1.1 2007-04-24 23:15:18 wolti Exp $
  */
 
 #ifndef _PORT_H
 #define _PORT_H
 
 #include <assert.h>
-//#include "inttypes.h"
+//#include <inttypes.h>
 #include <stdint.h>
 
 #define	INLINE

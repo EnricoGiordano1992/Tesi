@@ -19,10 +19,10 @@
  * File: $Id: port.h,v 1.1 2007-04-24 23:15:18 wolti Exp $
  */
 
-#ifndef _PORT_H
-#define _PORT_H
+#ifndef _PORT_H_
+#define _PORT_H_
 
-#include <assert.h>
+//#include <assert.h>
 //#include <inttypes.h>
 #include <stdint.h>
 
@@ -47,11 +47,11 @@ typedef uint32_t ULONG;
 typedef int32_t LONG;
 
 #ifndef TRUE
-#define TRUE            1
+//#define TRUE            1
 #endif
 
 #ifndef FALSE
-#define FALSE           0
+//#define FALSE           0
 #endif
 
 void EnterCriticalSection(  );

@@ -431,7 +431,7 @@ void gui_task(const T_choice *aChoice)
             //
             // emWin application
             //
-              CreateModbus_Master_testWindow();
+              ExecModbus_Master_testWindow();
                         
 
             UEZLCDGetFrame(hLCD, 0, (void **)&pixels);

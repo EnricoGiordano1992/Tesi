@@ -90,4 +90,8 @@ Debug/main.o: \
  ../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin/GUI_Type.h \
  ../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin/LCD.h \
  ../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin/Global.h \
- ../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin/GUI_Version.h
+ ../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin/GUI_Version.h \
+ ../../../../../../../uEZDemo/Source/modbus_lib/modbus.h \
+ ../../../../../../../uEZDemo/Source/modbus_lib/port.h \
+ ../../../../../../../uEZDemo/Source/Data_Model/datamodel.h \
+ ../../../../../../../uEZDemo/Source/modbus_lib/port.h

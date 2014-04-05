@@ -1,1 +1,1 @@
-arm-eabi-gdb -x init
+arm-none-eabi-gdb -x init -tui

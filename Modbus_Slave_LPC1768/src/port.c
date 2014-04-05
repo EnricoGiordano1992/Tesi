@@ -1,6 +1,6 @@
  /*
-  * FreeModbus Libary: LPC214X Port
-  * Copyright (C) 2007 Tiago Prado Lone <tiago@maxwellbohr.com.br>
+ * FreeModbus Libary: LPC17xx Port
+ * Copyright (C) 2013 Enrico Giordano <enricogiordano1992@gmail.com>
   *
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -16,30 +16,25 @@
   * License along with this library; if not, write to the Free Software
   * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   *
-  * File: $Id: port.c,v 1.1 2007/04/24 23:15:18 wolti Exp $
+  * File: $Id: port.c,v 1.1 2007-04-24 23:15:18 wolti Exp $
   */
 
 /* ----------------------- System includes --------------------------------*/
-#include "LPC17xx.h"
+#include <LPC17xx.h>
 
 /* ----------------------- Modbus includes ----------------------------------*/
 
 /* ----------------------- Variables ----------------------------------------*/
-//int           VIC_Temp;
 
 /* ----------------------- Start implementation -----------------------------*/
 void
 EnterCriticalSection(  )
 {
-//    VIC_Temp = VICIntEnable;    /* Save VICIntEnable */
-	//	VICIntEnClr = VIC_Temp;     /* Disable Interruptions */
 	__disable_irq();
 }
 
 void
 ExitCriticalSection(  )
 {
-//    VICIntEnable = VIC_Temp;    /* Restore VICIntEnable */
-//	  NVIC_EnableIRQ(VIC_Temp);
 	__enable_irq();
 }

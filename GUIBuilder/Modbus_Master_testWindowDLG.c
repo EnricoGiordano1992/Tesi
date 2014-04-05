@@ -19,6 +19,9 @@
 */
 
 // USER START (Optionally insert additional includes)
+#include "GUI.h"
+#include "port.h"
+
 // USER END
 
 #include "DIALOG.h"
@@ -59,6 +62,30 @@
 */
 
 // USER START (Optionally insert additional static data)
+typedef struct spinbox_val{
+
+  int slave_id;
+  int multiple_register_from;
+  int multiple_register_to;
+  int single_register_number;
+
+}spinbox_value;
+
+typedef struct button_val{
+
+  BOOL send_button;
+
+}button_value;
+
+typedef struct gui{
+
+  spinbox_value SPINBOX_value;
+  button_value BUTTON_value;
+
+}GUI_value;
+
+GUI_value new_GUI_value;
+
 // USER END
 
 /*********************************************************************
@@ -107,6 +134,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   int     NCode;
   int     Id;
   // USER START (Optionally insert additional variables)
+
+  new_GUI_value.BUTTON_value.send_button= FALSE;
+
   // USER END
 
   switch (pMsg->MsgId) {
@@ -216,6 +246,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
+
+        new_GUI_value.BUTTON_value.send_button != new_GUI_value.BUTTON_value.send_button;
+        
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -306,6 +339,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
+
+        new_GUI_value.SPINBOX_value.slave_id = SPINBOX_GetValue(pMsg->hWinSrc);
+        hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_0);
+
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -328,6 +365,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
+
+        new_GUI_value.SPINBOX_value.multiple_register_from = SPINBOX_GetValue(pMsg->hWinSrc);
+        hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_1);
+
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -350,6 +391,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
+
+        new_GUI_value.SPINBOX_value.multiple_register_to = SPINBOX_GetValue(pMsg->hWinSrc);
+        hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_2);
+
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -372,6 +417,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
+
+        new_GUI_value.SPINBOX_value.single_register_number = SPINBOX_GetValue(pMsg->hWinSrc);
+        hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_3);
+
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -409,6 +458,16 @@ WM_HWIN CreateModbus_Master_testWindow(void) {
 }
 
 // USER START (Optionally insert additional public code)
+
+WM_HWIN ExecModbus_Master_testWindow(void);
+WM_HWIN ExecModbus_Master_testWindow(void) {
+  WM_HWIN hWin;
+
+  hWin = CreateModbus_Master_testWindow();
+  hWin = GUI_ExecDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
+  return hWin;
+}
+
 // USER END
 
 /*************************** End of file ****************************/

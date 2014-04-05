@@ -11,8 +11,20 @@
 
 /****************************************************************************************************************/
 
+struct
+   {
+      int8_t address;
+      int8_t len;                                //number of bytes in the message received
+      function func;                           //the function of the message received
+      exception error;                         //error recieved, if any
+      int8_t data[MODBUS_SERIAL_RX_BUFFER_SIZE]; //data of the message received
+   } modbus_rx;
+
+
 char Message[256] = {0};
 int indix = 0;
+
+BOOL char_received = FALSE;
 
 /* Table of CRC values for high�order byte */
 const unsigned char modbus_auchCRCHi[] = {
@@ -61,12 +73,9 @@ const char modbus_auchCRCLo[] = {
 /*Stages of MODBUS reception.  Used to keep our ISR fast enough.*/
 enum {MODBUS_GETADDY=0, MODBUS_GETFUNC=1, MODBUS_GETDATA=2} modbus_serial_state = 0;
 
-
 int32_t modbus_serial_wait=MODBUS_SERIAL_TIMEOUT;
 
-BOOL modbus_serial_new= FALSE;
-
-//BOOL Message = FALSE;
+BOOL modbus_serial_new= TRUE;
 
 int i = 0;
 
@@ -85,10 +94,16 @@ union
 
 
 /**************************************************************************************************************************/
+/***********************************
+*
+* UTILITY SECTION
+*
+************************************/
+
 
 void delay_us(uint32_t delayInMs)
 {
-	TIM_Waitus(delayInMs);
+	TIM_Waitms(delayInMs);
 
 }
 
@@ -100,58 +115,31 @@ unsigned int make8(unsigned int var,unsigned int offset)
 
 void MODBUS_SERIAL_WAIT_FOR_RESPONSE()
 {
+        modbus_serial_state=MODBUS_GETADDY;
 
-        while(!modbus_kbhit() && --modbus_serial_wait)
-        {
+        while(--modbus_serial_wait >= 0)
+          //se non ci sono caratteri disponibili, aspetto o vado in timeout
+          if(!modbus_kbhit())
             delay_us(1);
-        }
+          else
+          //resetto il timer per 30 ms e mi preparo per aspettare di nuovo
+            modbus_serial_wait=30;
 
-        modbus_calc_crc('0');
-
-
-        if(!modbus_serial_wait)
-            modbus_rx.error=TIMEOUT;
-
-
-
-    modbus_serial_wait = MODBUS_SERIAL_TIMEOUT;
-}
+        //se non ho letto nulla
+        if(modbus_serial_new == TRUE)
+           //errore!
+           modbus_rx.error=TIMEOUT;
 
 
-
-void TimersEnable(  )
-{
-	TIM_Cmd(BRD_TIMER_USED, ENABLE);
-
-}
-
-void TimersDisable(  )
-{
-	TIM_Cmd(BRD_TIMER_USED, DISABLE);
+        modbus_serial_wait = MODBUS_SERIAL_TIMEOUT;
+        modbus_serial_new = TRUE;
 
 }
 
 
 
-// Purpose:    Enable data reception
-// Inputs:     None
-// Outputs:    None
-void RCV_ON(void)
-{
-	//if receive, disable thre
-    UART_IntConfig(_LPC_UART, UART_INTCFG_THRE, DISABLE);
 
-}
-
-void RCV_OFF(void)
-{
-	//if not receive, enable thre
-    UART_IntConfig(_LPC_UART, UART_INTCFG_THRE, ENABLE);
-
-}
-
-
-// Purpose:    Initialize RS485 communication. Call this before
+// Purpose:    Initialize RS232 communication. Call this before
 //             using any other RS485 functions.
 // Inputs:     None
 // Outputs:    None
@@ -160,52 +148,10 @@ void modbus_init()
 
    uart_init();
 
-   RCV_ON();
-
-   timer_init();
-
-   //ATTENZIONE: imposta SysTick ~4ms interrupts
-
 }
 
-// Purpose:    Start our timeout timer
-// Inputs:     Enable, used to turn timer on/off
-// Outputs:    None
-void modbus_enable_timeout(BOOL enable)
-{
-   if (enable) {
 
-	   TimersEnable();
 
-   }
-
-   else
-	   TimersDisable();
-
-}
-
-// Purpose:    Check if we have timed out waiting for a response
-// Inputs:     None
-// Outputs:    None
-//void modbus_timeout_now(void)
-void TIMER0_IRQHandler(void)
-{
-
-   if((modbus_serial_state == MODBUS_GETDATA) /*&& (modbus_serial_crc.d == 0x0000)*/ && (!modbus_serial_new))
-   {
-      modbus_rx.len-=2;
-      modbus_serial_new=TRUE;
-   }
-   else
-      modbus_serial_new=FALSE;
-
-   modbus_serial_crc.d=0xFFFF;
-   modbus_serial_state=MODBUS_GETADDY;
-   modbus_enable_timeout(FALSE);
-
-		TIM_ClearIntPending(BRD_TIMER_USED, TIM_MR0_INT);
-
-}
 
 // Purpose:    Calculate crc of data and updates global crc
 // Inputs:     Character
@@ -213,12 +159,6 @@ void TIMER0_IRQHandler(void)
 void modbus_calc_crc(char data)
 {
 
-/*  int8_t uIndex ; // will index into CRC lookup table
-
-  uIndex = (modbus_serial_crc.b[1]) ^ data; // calculate the CRC
-  modbus_serial_crc.b[1] = (modbus_serial_crc.b[0]) ^ modbus_auchCRCHi[uIndex];
-  modbus_serial_crc.b[0] = modbus_auchCRCLo[uIndex];
-*/
 
 	  uint16_t crc = 0xFFFF;
 	  int pos;
@@ -243,20 +183,17 @@ void modbus_calc_crc(char data)
 
 }
 
+
+
 // Purpose:    Puts a character onto the serial line
 // Inputs:     Character
 // Outputs:    None
 void modbus_serial_putc(int8_t c)
 {
-    UART_IntConfig(_LPC_UART, UART_INTCFG_THRE, DISABLE);
-
 	Message[indix] = c;
 	indix++;
 
 	UART_SendByte(_LPC_UART, c);
-//	modbus_calc_crc(c);
-
-   UART_IntConfig(_LPC_UART, UART_INTCFG_THRE, ENABLE);
 
 }
 
@@ -269,9 +206,6 @@ void uart_rx_interrupt(void)
 
    c = UART_ReceiveByte(_LPC_UART);
 
-
-   //if (!modbus_serial_new)
-   //{
 
       if(modbus_serial_state == MODBUS_GETADDY)
       {
@@ -293,11 +227,7 @@ void uart_rx_interrupt(void)
          modbus_rx.len++;
       }
 
-//      modbus_calc_crc(c);
       Message[indix++] = c;
-
-      modbus_enable_timeout(TRUE);
-   //}
 
 }
 
@@ -349,16 +279,11 @@ void _UART_IRQHander(void)
 void modbus_serial_send_start(int8_t to, int8_t func)
 {
 
-//	LPC_UART0->IER = 0;	/* disable UART0 interrupt */
-
-
-//	Message = FALSE;
-	indix = 0;
+   indix = 0;
 
    modbus_serial_crc.d=0xFFFF;
-   modbus_serial_new=FALSE;
+   modbus_serial_new=TRUE;
 
-   RCV_OFF();
    
    modbus_serial_putc(to);
    modbus_serial_putc(func);
@@ -379,8 +304,6 @@ void modbus_serial_send_stop()
     
    indix = 0;
 
-   RCV_ON();
-
    modbus_serial_crc.d=0xFFFF;
 
 
@@ -397,7 +320,7 @@ void modbus_serial_send_stop()
 BOOL modbus_kbhit()
 {
 
-	if(!modbus_serial_new)
+  if(!modbus_serial_new)
       return FALSE;
 
 
@@ -409,10 +332,17 @@ BOOL modbus_kbhit()
    modbus_serial_new=FALSE;
    return TRUE;
 
-
-//	return Message;
 }
 
+
+
+
+
+/***********************************
+*
+* MODBUS SECTION
+*
+************************************/
 /*MODBUS Master Functions*/
 
 

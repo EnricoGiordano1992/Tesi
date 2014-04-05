@@ -25,12 +25,12 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * File: $Id: mbutils.c,v 1.6 2007/02/18 23:49:07 wolti Exp $
+ * File: $Id: mbutils.c,v 1.6 2007-02-18 23:49:07 wolti Exp $
  */
 
 /* ----------------------- System includes ----------------------------------*/
-#include <stdlib.h>
-#include <string.h>
+#include "stdlib.h"
+#include "string.h"
 
 /* ----------------------- Platform includes --------------------------------*/
 #include "port.h"

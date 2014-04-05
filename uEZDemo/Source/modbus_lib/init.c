@@ -27,47 +27,6 @@ __IO FlagStatus TxIntStat;
 
 
 
-
-void timer_init()
-{
-
-	// Conifg P1.28 as MAT0.0
-	PINSEL_ConfigPin(BRD_TIM_CAP_LINKED_PORT, BRD_TIM_CAP_LINKED_PIN, 3);
-
-	// Initialize timer 0, prescale count time of 100uS
-	TIM_ConfigStruct.PrescaleOption = TIM_PRESCALE_USVAL;
-	TIM_ConfigStruct.PrescaleValue	= 100;
-
-	// use channel 0, MR0
-	TIM_MatchConfigStruct.MatchChannel = 0;
-	// Enable interrupt when MR0 matches the value in TC register
-	TIM_MatchConfigStruct.IntOnMatch   = TRUE;
-	//Enable reset on MR0: TIMER will reset if MR0 matches it
-	TIM_MatchConfigStruct.ResetOnMatch = TRUE;
-	//Stop on MR0 if MR0 matches it
-	TIM_MatchConfigStruct.StopOnMatch  = FALSE;
-	//Toggle MR0.0 pin if MR0 matches it
-	TIM_MatchConfigStruct.ExtMatchOutputType =TIM_EXTMATCH_TOGGLE;
-	// Set Match value, count value of 10000 (10000 * 100uS = 1000000us = 1s --> 1 Hz)
-	TIM_MatchConfigStruct.MatchValue   = 4000;
-
-	// Set configuration for Tim_config and Tim_MatchConfig
-	TIM_Init(BRD_TIMER_USED, TIM_TIMER_MODE, &TIM_ConfigStruct);
-	TIM_ConfigMatch(BRD_TIMER_USED, &TIM_MatchConfigStruct);
-
-	/* preemption = 1, sub-priority = 1 */
-	NVIC_SetPriority(BRD_TIM_INTR_USED, ((0x01<<3)|0x01));
-
-	/* Enable interrupt for timer 0 */
-	NVIC_EnableIRQ(BRD_TIM_INTR_USED);
-
-
-	// To start timer
-//	TIM_Cmd(BRD_TIMER_USED, ENABLE);
-
-}
-
-
 void uart_init()
 {
 	// UART Configuration structure variable

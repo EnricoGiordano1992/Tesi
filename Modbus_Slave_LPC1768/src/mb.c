@@ -25,17 +25,18 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * File: $Id: mb.c,v 1.28 2010/06/06 13:54:40 wolti Exp $
+ * File: $Id: mb.c,v 1.28 2010-06-06 13:54:40 wolti Exp $
  */
 
 /* ----------------------- System includes ----------------------------------*/
-#include <stdlib.h>
-#include <string.h>
+#include "stdlib.h"
+#include "string.h"
 
 /* ----------------------- Platform includes --------------------------------*/
 #include "port.h"
 #include "LPC17xx.h"
-#include "uart.h"
+#include "lcd_horizontal.h"
+
 /* ----------------------- Modbus includes ----------------------------------*/
 #include "mb.h"
 #include "mbconfig.h"
@@ -130,6 +131,43 @@ static xMBFunctionHandler xFuncHandlers[MB_FUNC_HANDLERS_MAX] = {
 eMBErrorCode
 eMBInit( eMBMode eMode, UCHAR ucSlaveAddress, UCHAR ucPort, ULONG ulBaudRate, eMBParity eParity )
 {
+
+	char buffer[500];
+
+    lcd_printStr_hor("MODBUS 1.0 created by Enrico Giordano",3,480,WHITE, no_bg);
+    lcd_printStr_hor("MODBUS INIT:",3,450, WHITE, no_bg );
+
+    switch(eMode)
+    {
+    case MB_RTU:     lcd_printStr_hor("mode: RTU",3,430,WHITE, no_bg); break;
+    case MB_ASCII:	 lcd_printStr_hor("mode: ASCII",3,430,WHITE, no_bg); break;
+    case MB_TCP:	 lcd_printStr_hor("mode: TCP",3,430,WHITE, no_bg); break;
+    default:;
+    }
+
+    sprintf(buffer, "Slave Address: %d", ucSlaveAddress);
+
+    lcd_printStr_hor(buffer, 3, 400,WHITE, no_bg);
+
+    sprintf(buffer, "Serial Port: UART%d", ucPort);
+
+    lcd_printStr_hor(buffer, 3, 380,WHITE, no_bg);
+
+    sprintf(buffer, "Baudrate: %d", ulBaudRate);
+
+    lcd_printStr_hor(buffer, 3, 350,WHITE, no_bg);
+
+    switch(eParity)
+    {
+    case MB_PAR_EVEN:     lcd_printStr_hor("parity: EVEN",3,320,WHITE, no_bg); break;
+    case MB_PAR_NONE:	 lcd_printStr_hor("parity: NONE",3,320,WHITE, no_bg); break;
+    case MB_PAR_ODD:	 lcd_printStr_hor("parity: ODD",3,320,WHITE, no_bg); break;
+    default:;
+    }
+
+    lcd_printStr_hor("characters: 8; stop bit: 1; 1000 ms", 3, 300,WHITE, no_bg);
+
+
     eMBErrorCode    eStatus = MB_ENOERR;
 
     /* check preconditions */
@@ -190,6 +228,8 @@ eMBInit( eMBMode eMode, UCHAR ucSlaveAddress, UCHAR ucPort, ULONG ulBaudRate, eM
             }
         }
     }
+
+
     return eStatus;
 }
 
@@ -345,7 +385,6 @@ eMBPoll( void )
     /* Check if the protocol stack is ready. */
     if( eMBState != STATE_ENABLED )
     {
-    	LPC_GPIO2->FIOSET = 0x00;
         return MB_EILLSTATE;
     }
 
@@ -353,18 +392,21 @@ eMBPoll( void )
      * Otherwise we will handle the event. */
     if( xMBPortEventGet( &eEvent ) == TRUE )
     {
-    	//riceve un evento e lo segnala
-    	LPC_GPIO2->FIOSET = 0x03;
 
-        switch ( eEvent )
+//    	LPC_GPIO2->FIOSET = eEvent;
+
+    	switch ( eEvent )
         {
-        case EV_READY: LPC_GPIO2->FIOSET = 0x04;
+        case EV_READY:
             break;
 
-        case EV_FRAME_RECEIVED: LPC_GPIO2->FIOSET = 0x05;
+        case EV_FRAME_RECEIVED:
+
+
             eStatus = peMBFrameReceiveCur( &ucRcvAddress, &ucMBFrame, &usLength );
             if( eStatus == MB_ENOERR )
             {
+
                 /* Check if the frame is for us. If not ignore the frame. */
                 if( ( ucRcvAddress == ucMBAddress ) || ( ucRcvAddress == MB_ADDRESS_BROADCAST ) )
                 {
@@ -373,7 +415,7 @@ eMBPoll( void )
             }
             break;
 
-        case EV_EXECUTE: LPC_GPIO2->FIOSET = 0x06;
+        case EV_EXECUTE:
             ucFunctionCode = ucMBFrame[MB_PDU_FUNC_OFF];
             eException = MB_EX_ILLEGAL_FUNCTION;
             for( i = 0; i < MB_FUNC_HANDLERS_MAX; i++ )
@@ -409,7 +451,7 @@ eMBPoll( void )
             }
             break;
 
-        case EV_FRAME_SENT: LPC_GPIO2->FIOSET = 0x06;
+        case EV_FRAME_SENT:
             break;
         }
     }
