@@ -177,11 +177,20 @@ void modbus_calc_crc(char data);
    begin processing that message.  Refer to ex_modbus_slave.c to see
    how to properly use this structure.
    ********************************************************************/
+typedef struct
+   {
+      int8_t address;
+      int8_t len;                                //number of bytes in the message received
+      function func;                           //the function of the message received
+      exception error;                         //error recieved, if any
+      int8_t data[MODBUS_SERIAL_RX_BUFFER_SIZE]; //data of the message received
+   }_modbus_rx;
+
 
 
   unsigned int make8(unsigned int var, unsigned int offset);
   void delay_us (uint32_t delayInMs);
-
+  void reset_modbus_struct();
 
 
 #endif /* MODBUS_H_ */

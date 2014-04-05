@@ -6,20 +6,12 @@
 #include "CMSIS_modbus/bsp.h"
 
 #include "port.h"
-
+#include "modbus.h"
 #include "init.h"
 
 /****************************************************************************************************************/
 
-struct
-   {
-      int8_t address;
-      int8_t len;                                //number of bytes in the message received
-      function func;                           //the function of the message received
-      exception error;                         //error recieved, if any
-      int8_t data[MODBUS_SERIAL_RX_BUFFER_SIZE]; //data of the message received
-   } modbus_rx;
-
+_modbus_rx modbus_rx;
 
 char Message[256] = {0};
 int indix = 0;
@@ -77,6 +69,8 @@ int32_t modbus_serial_wait=MODBUS_SERIAL_TIMEOUT;
 
 BOOL modbus_serial_new= TRUE;
 
+BOOL frame_received = FALSE;
+
 int i = 0;
 
 volatile uint32_t timer0_counter = 0;
@@ -116,6 +110,7 @@ unsigned int make8(unsigned int var,unsigned int offset)
 void MODBUS_SERIAL_WAIT_FOR_RESPONSE()
 {
         modbus_serial_state=MODBUS_GETADDY;
+        modbus_serial_new = TRUE;
 
         while(--modbus_serial_wait >= 0)
           //se non ci sono caratteri disponibili, aspetto o vado in timeout
@@ -126,13 +121,17 @@ void MODBUS_SERIAL_WAIT_FOR_RESPONSE()
             modbus_serial_wait=30;
 
         //se non ho letto nulla
-        if(modbus_serial_new == TRUE)
+        if(frame_received == FALSE)
            //errore!
            modbus_rx.error=TIMEOUT;
+
+        else
+           modbus_rx.error = 0;
 
 
         modbus_serial_wait = MODBUS_SERIAL_TIMEOUT;
         modbus_serial_new = TRUE;
+        frame_received = FALSE;
 
 }
 
@@ -140,13 +139,14 @@ void MODBUS_SERIAL_WAIT_FOR_RESPONSE()
 
 
 // Purpose:    Initialize RS232 communication. Call this before
-//             using any other RS485 functions.
+//             using any other RS232 functions.
 // Inputs:     None
 // Outputs:    None
 void modbus_init()
 {
 
    uart_init();
+   modbus_rx.error=TIMEOUT;
 
 }
 
@@ -228,6 +228,9 @@ void uart_rx_interrupt(void)
       }
 
       Message[indix++] = c;
+
+  modbus_serial_new = FALSE;
+  frame_received = TRUE;
 
 }
 
@@ -329,6 +332,7 @@ BOOL modbus_kbhit()
       modbus_rx.error = modbus_rx.data[0];  //if so grab the error and return true
       modbus_rx.len = 1;
    }
+
    modbus_serial_new=FALSE;
    return TRUE;
 

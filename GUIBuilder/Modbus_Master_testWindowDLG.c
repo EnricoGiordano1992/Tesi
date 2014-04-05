@@ -93,7 +93,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { SPINBOX_CreateIndirect, "to_spinbox", ID_SPINBOX_2, 90, 225, 80, 34, 0, 0x0, 0 },
   { SPINBOX_CreateIndirect, "number_spinbox", ID_SPINBOX_3, 90, 318, 80, 34, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "write_req_text", ID_TEXT_6, 230, 160, 143, 20, 0, 0x64, 0 },
-  { SPINBOX_CreateIndirect, "Spinbox", ID_SPINBOX_4, 285, 183, 80, 34, 0, 0x0, 0 },
+  { SPINBOX_CreateIndirect, "write_value_spinbox", ID_SPINBOX_4, 285, 183, 80, 34, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "value_txt", ID_TEXT_7, 230, 191, 43, 20, 0, 0x64, 0 },
   // USER START (Optionally insert additional widgets)
 
@@ -429,7 +429,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       // USER END
       }
       break;
-    case ID_SPINBOX_4: // Notifications sent by 'Spinbox'
+    case ID_SPINBOX_4: // Notifications sent by 'write_value_spinbox'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)

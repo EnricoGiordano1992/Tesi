@@ -22,6 +22,7 @@
 #include "GUI.h"
 #include "port.h"
 #include "datamodel.h"
+#include "modbus.h"
 // USER END
 
 #include "DIALOG.h"
@@ -67,7 +68,8 @@
 // USER START (Optionally insert additional static data)
 
 extern GUI_value new_GUI_value;
-
+extern _modbus_rx modbus_rx;
+static LISTVIEW_Handle _hListView;
 // USER END
 
 /*********************************************************************
@@ -93,7 +95,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { SPINBOX_CreateIndirect, "to_spinbox", ID_SPINBOX_2, 90, 225, 80, 34, 0, 0x0, 0 },
   { SPINBOX_CreateIndirect, "number_spinbox", ID_SPINBOX_3, 90, 318, 80, 34, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "write_req_text", ID_TEXT_6, 230, 160, 143, 20, 0, 0x64, 0 },
-  { SPINBOX_CreateIndirect, "Spinbox", ID_SPINBOX_4, 285, 183, 80, 34, 0, 0x0, 0 },
+  { SPINBOX_CreateIndirect, "write_value_spinbox", ID_SPINBOX_4, 285, 183, 80, 34, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "value_txt", ID_TEXT_7, 230, 191, 43, 20, 0, 0x64, 0 },
   // USER START (Optionally insert additional widgets)
 
@@ -250,7 +252,29 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         // USER START (Optionally insert code for reacting on notification message)
 
         modbus_task();
-        
+        hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTVIEW_1);
+
+        if (modbus_rx.error != 0)
+        {
+          LISTVIEW_SetBkColor(hItem, 0, GUI_RED);
+          LISTVIEW_SetItemText(hItem, 0, 0, "No Response");
+        }
+
+        else if (modbus_rx.func & 0x80)
+        {
+          LISTVIEW_SetBkColor(hItem, 0, GUI_YELLOW);
+          LISTVIEW_SetItemText(hItem, 0, 0, "R: Wrong Message");
+        }
+
+        else
+        {
+          LISTVIEW_SetBkColor(hItem, 0, GUI_GREEN);
+          LISTVIEW_SetItemText(hItem, 0, 0, "R: Message Accepted");
+
+        }
+
+        reset_modbus_struct();
+
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -429,7 +453,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       // USER END
       }
       break;
-    case ID_SPINBOX_4: // Notifications sent by 'Spinbox'
+    case ID_SPINBOX_4: // Notifications sent by 'write_value_spinbox'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
@@ -445,6 +469,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
+        new_GUI_value.SPINBOX_value.write_value = SPINBOX_GetValue(pMsg->hWinSrc);
+        hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_4);
+
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)

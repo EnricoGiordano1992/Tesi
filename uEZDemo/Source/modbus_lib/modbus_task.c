@@ -18,9 +18,10 @@
 *
 ************************************/
 
-extern GUI_value new_GUI_value; 
+extern GUI_value new_GUI_value;
+extern _modbus_rx modbus_rx;
 void modbus_task();
-
+void reset_modbus_struct();
 
 
 
@@ -45,7 +46,7 @@ void modbus_task()
                                         (int16_t)new_GUI_value.SPINBOX_value.multiple_register_to - new_GUI_value.SPINBOX_value.multiple_register_from);
         break;
 
-        //write holding registers
+        //write single registers
         case 1:
 /*          modbus_read_holding_registers((int8_t)new_GUI_value.SPIN_val.slave_id, 
                                         (int16_t)new_GUI_value.SPIN_val.multiple_register_from,
@@ -69,4 +70,19 @@ void modbus_task()
 
       }
  
+}
+
+
+void reset_modbus_struct()
+{
+   int i = 0;
+  
+   modbus_rx.address = 0;
+   modbus_rx.len = 0;
+   modbus_rx.func = 0;
+   modbus_rx.error = 0;
+
+   for (i=0; i < MODBUS_SERIAL_RX_BUFFER_SIZE; i++)
+      modbus_rx.data[i]=0;
+
 }

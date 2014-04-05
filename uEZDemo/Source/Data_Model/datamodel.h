@@ -16,6 +16,7 @@ typedef struct spinbox_val{
   int multiple_register_from;
   int multiple_register_to;
   int single_register_number;
+  int write_value;
 
 }spinbox_value;
 
