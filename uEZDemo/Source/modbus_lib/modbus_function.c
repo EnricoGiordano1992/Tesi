@@ -4,11 +4,10 @@
 #include "CMSIS_modbus/lpc177x_8x_uart.h"
 #include "CMSIS_modbus/lpc177x_8x_timer.h"
 #include "CMSIS_modbus/bsp.h"
-
 #include "port.h"
 #include "modbus.h"
 #include "init.h"
-
+#include <FreeRTOS.h>
 /****************************************************************************************************************/
 
 _modbus_rx modbus_rx;
@@ -97,7 +96,8 @@ union
 
 void delay_us(uint32_t delayInMs)
 {
-	TIM_Waitms(delayInMs);
+	//TIM_Waitms(delayInMs);
+        vTaskDelay(delayInMs / portTICK_RATE_MS);
 
 }
 

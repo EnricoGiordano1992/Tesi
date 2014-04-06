@@ -60,7 +60,7 @@ __CRP const unsigned int CRP_WORD = CRP_NO_CRP ;
 #define REG_INPUT_START 1000
 #define REG_INPUT_NREGS 4
 
-#define REG_HOLDING_START           1000
+#define REG_HOLDING_START           2000
 #define REG_HOLDING_NREGS           130
 
 static USHORT   usRegHoldingStart = REG_HOLDING_START;

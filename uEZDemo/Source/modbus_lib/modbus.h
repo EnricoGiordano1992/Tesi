@@ -34,7 +34,7 @@
 #define MODBUS_SERIAL_BAUD 38400
 
 #ifndef MODBUS_SERIAL_TIMEOUT
-#define MODBUS_SERIAL_TIMEOUT      1000     //in us
+#define MODBUS_SERIAL_TIMEOUT      5000     //in us
 #endif
 
 
@@ -184,6 +184,7 @@ typedef struct
       function func;                           //the function of the message received
       exception error;                         //error recieved, if any
       int8_t data[MODBUS_SERIAL_RX_BUFFER_SIZE]; //data of the message received
+      int16_t data_converted[125];
    }_modbus_rx;
 
 

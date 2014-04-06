@@ -427,7 +427,7 @@ void gui_task(const T_choice *aChoice)
           //
           // Create touch task
           //
-          if (UEZTaskCreate((T_uezTaskFunction)_TouchTask, "TouchTask",  1024, 0, UEZ_PRIORITY_VERY_HIGH, &hTouchTask) == UEZ_ERROR_NONE) {
+          if (UEZTaskCreate((T_uezTaskFunction)_TouchTask, "TouchTask",  2048, 0, UEZ_PRIORITY_VERY_HIGH, &hTouchTask) == UEZ_ERROR_NONE) {
             //
             // emWin application
             //

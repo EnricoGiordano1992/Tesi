@@ -22,6 +22,7 @@
 #include "GUI.h"
 #include "port.h"
 #include "datamodel.h"
+#include "modbus.h"
 // USER END
 
 #include "DIALOG.h"
@@ -42,7 +43,6 @@
 #define ID_TEXT_5  (GUI_ID_USER + 0x0A)
 #define ID_BUTTON_0  (GUI_ID_USER + 0x0C)
 #define ID_LISTVIEW_0  (GUI_ID_USER + 0x0D)
-#define ID_CHECKBOX_0  (GUI_ID_USER + 0x0E)
 #define ID_LISTVIEW_1  (GUI_ID_USER + 0x10)
 #define ID_BUTTON_1  (GUI_ID_USER + 0x20)
 #define ID_SPINBOX_0  (GUI_ID_USER + 0x21)
@@ -67,7 +67,8 @@
 // USER START (Optionally insert additional static data)
 
 extern GUI_value new_GUI_value;
-
+extern _modbus_rx modbus_rx;
+static LISTVIEW_Handle _hListView;
 // USER END
 
 /*********************************************************************
@@ -85,7 +86,6 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { TEXT_CreateIndirect, "number_text", ID_TEXT_5, 30, 322, 51, 20, 0, 0x64, 0 },
   { BUTTON_CreateIndirect, "send_button", ID_BUTTON_0, 87, 383, 106, 35, 0, 0x0, 0 },
   { LISTVIEW_CreateIndirect, "response_view", ID_LISTVIEW_0, 406, 0, 223, 466, 0, 0x0, 0 },
-  { CHECKBOX_CreateIndirect, "loop_check", ID_CHECKBOX_0, 230, 401, 121, 24, 0, 0x0, 0 },
   { LISTVIEW_CreateIndirect, "status_view", ID_LISTVIEW_1, 233, 317, 133, 41, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "exit_button", ID_BUTTON_1, 0, 0, 25, 21, 0, 0x0, 0 },
   { SPINBOX_CreateIndirect, "slave_id_spinbox", ID_SPINBOX_0, 30, 45, 72, 34, 0, 0x0, 0 },
@@ -119,7 +119,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   int     NCode;
   int     Id;
   // USER START (Optionally insert additional variables)
-
   new_GUI_value.BUTTON_value.send_button= FALSE;
 
   // USER END
@@ -139,7 +138,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     RADIO_SetText(hItem, "write single register", 1);
     RADIO_SetText(hItem, "read single coil", 2);
     RADIO_SetText(hItem, "write single coil", 3);
-    RADIO_SetText(hItem, "read multiple registers", 4);
+    RADIO_SetText(hItem, "read multiple coils", 4);
     //
     // Initialization of 'multiple_text'
     //
@@ -182,18 +181,13 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     LISTVIEW_AddColumn(hItem, 30, "Col", GUI_TA_LEFT | GUI_TA_VCENTER);
     LISTVIEW_SetAutoScrollV(hItem, 1);
     //
-    // Initialization of 'loop_check'
-    //
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_CHECKBOX_0);
-    CHECKBOX_SetText(hItem, "send continuously");
-    //
     // Initialization of 'status_view'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTVIEW_1);
     LISTVIEW_AddColumn(hItem, 129, "status", GUI_TA_HCENTER | GUI_TA_VCENTER);
     LISTVIEW_SetGridVis(hItem, 1);
-    LISTVIEW_SetItemText(hItem, 0, 0, "0");
-    LISTVIEW_SetItemText(hItem, 0, 0, "0");
+    LISTVIEW_SetItemText(hItem, 0, 0, "Ready");
+    LISTVIEW_SetItemText(hItem, 0, 0, "Ready");
     LISTVIEW_SetRowHeight(hItem, 20);
     LISTVIEW_SetHeaderHeight(hItem, 20);
     //
@@ -212,6 +206,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_7);
     TEXT_SetText(hItem, "value:");
     // USER START (Optionally insert additional code for further widget initialization)
+
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTVIEW_1);
+    LISTVIEW_AddRow(hItem, NULL);
+    LISTVIEW_SetItemText(hItem, 0, 0, "Ready");
+
     // USER END
     break;
   case WM_NOTIFY_PARENT:
@@ -232,7 +231,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         // USER START (Optionally insert code for reacting on notification message)
 
           hItem = WM_GetDialogItem(pMsg->hWin, ID_RADIO_0);
-          new_GUI_value.RADIO_value.radio_selection = RADIO_GetValue(hItem);
+          new_GUI_value.RADIO_value.radio_selection = RADIO_GetValue(pMsg->hWinSrc);
 
         // USER END
         break;
@@ -250,7 +249,32 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         // USER START (Optionally insert code for reacting on notification message)
 
         modbus_task();
-        
+
+        hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTVIEW_1);
+
+        if (modbus_rx.error != 0)
+        {
+          LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_RED);
+          GUI_Delay(100);
+          LISTVIEW_SetItemText(hItem, 0, 0, "No Response");
+        }
+
+        else if (modbus_rx.func & 0x80)
+        {
+          LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_YELLOW);
+          GUI_Delay(100);
+          LISTVIEW_SetItemText(hItem, 0, 0, "R: Wrong Message");
+        }
+
+        else
+        {
+          LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_GREEN);
+          GUI_Delay(100);
+          LISTVIEW_SetItemText(hItem, 0, 0, "R: Message Accepted");
+        }
+
+//        reset_modbus_struct();
+
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -268,24 +292,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         // USER END
         break;
       case WM_NOTIFICATION_SEL_CHANGED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
-      }
-      break;
-    case ID_CHECKBOX_0: // Notifications sent by 'loop_check'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
         // USER END
         break;
@@ -319,6 +325,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
+        GUI_EndDialog(pMsg->hWin, 0);
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -342,8 +349,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
 
-        new_GUI_value.SPINBOX_value.slave_id = SPINBOX_GetValue(pMsg->hWinSrc);
         hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_0);
+        new_GUI_value.SPINBOX_value.slave_id = SPINBOX_GetValue(pMsg->hWinSrc);
 
         // USER END
         break;
@@ -368,8 +375,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
 
-        new_GUI_value.SPINBOX_value.multiple_register_from = SPINBOX_GetValue(pMsg->hWinSrc);
         hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_1);
+        new_GUI_value.SPINBOX_value.multiple_register_from = SPINBOX_GetValue(pMsg->hWinSrc);
 
         // USER END
         break;
@@ -394,8 +401,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
 
-        new_GUI_value.SPINBOX_value.multiple_register_to = SPINBOX_GetValue(pMsg->hWinSrc);
         hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_2);
+        new_GUI_value.SPINBOX_value.multiple_register_to = SPINBOX_GetValue(pMsg->hWinSrc);
 
         // USER END
         break;
@@ -420,8 +427,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
 
-        new_GUI_value.SPINBOX_value.single_register_number = SPINBOX_GetValue(pMsg->hWinSrc);
         hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_3);
+        new_GUI_value.SPINBOX_value.single_register_number = SPINBOX_GetValue(pMsg->hWinSrc);
 
         // USER END
         break;
@@ -445,6 +452,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
+
+        hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_4);
+        new_GUI_value.SPINBOX_value.write_value = SPINBOX_GetValue(pMsg->hWinSrc);
+
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
