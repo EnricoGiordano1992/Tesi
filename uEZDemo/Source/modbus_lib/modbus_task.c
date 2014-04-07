@@ -45,7 +45,8 @@ void modbus_task()
         case 0:
           modbus_read_holding_registers((int8_t)new_GUI_value.SPINBOX_value.slave_id, 
                                         (int16_t)new_GUI_value.SPINBOX_value.multiple_register_from + 2000,
-                                        (int16_t)new_GUI_value.SPINBOX_value.multiple_register_to + 1 - new_GUI_value.SPINBOX_value.multiple_register_from);
+                                        (int16_t)new_GUI_value.SPINBOX_value.multiple_register_to + 2 - new_GUI_value.SPINBOX_value.multiple_register_from);
+
         break;
 
         //write single registers
@@ -82,7 +83,7 @@ void modbus_task()
         case 4:
           modbus_read_coils((int8_t)new_GUI_value.SPINBOX_value.slave_id,
                             (int16_t)new_GUI_value.SPINBOX_value.multiple_register_from,
-                            (int16_t)new_GUI_value.SPINBOX_value.multiple_register_to + 1 - new_GUI_value.SPINBOX_value.multiple_register_from);
+                            (int16_t)new_GUI_value.SPINBOX_value.multiple_register_to + 2 - new_GUI_value.SPINBOX_value.multiple_register_from);
 
         default:
         break;
