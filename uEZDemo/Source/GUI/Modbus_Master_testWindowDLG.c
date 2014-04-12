@@ -365,7 +365,15 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
+        new_GUI_value.SPINBOX_value.slave_id = 0;
+        new_GUI_value.SPINBOX_value.multiple_register_from = 0;
+        new_GUI_value.SPINBOX_value.multiple_register_to = 0;
+        new_GUI_value.SPINBOX_value.single_register_number = 0;
+        new_GUI_value.SPINBOX_value.write_value = 0;
+        new_GUI_value.RADIO_value.radio_selection = 0;
+
         GUI_EndDialog(pMsg->hWin, 0);
+
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
