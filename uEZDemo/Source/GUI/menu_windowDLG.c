@@ -42,6 +42,7 @@
 
 
 // USER START (Optionally insert additional defines)
+#define GUI_ID_TEXT0 (GUI_ID_USER + 0x12)
 
 #ifndef GUI_CONST_STORAGE
   #define GUI_CONST_STORAGE const
@@ -107,7 +108,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of 'menu_window'
     //
     hItem = pMsg->hWin;
-    WINDOW_SetBkColor(hItem, 0x00FF3939);
+//    WINDOW_SetBkColor(hItem, 0x00FF3939);
     //
     // Initialization of 'Header'
     //
@@ -151,6 +152,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     BUTTON_SetBitmapEx(hItem, 0, &bmsensor_icon, 5, 5);
 
 
+    hItem = TEXT_CreateEx(0, 40, 640, 30, 0, WM_CF_SHOW, 0, GUI_ID_TEXT0, "House Control with MODBUS");
+    TEXT_SetFont(hItem, &GUI_Font24B_ASCII);
+    TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+    TEXT_SetTextColor(hItem, GUI_BLACK);
+
+
     // USER END
     break;
   case WM_NOTIFY_PARENT:
@@ -161,6 +168,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+        PlayAudio(150, 20);				
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -175,6 +183,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+        PlayAudio(150, 20);				
+        
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -189,13 +199,16 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+
+        PlayAudio(150, 20);				
+
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
 
         ExecModbus_Master_testWindow();
-
+        
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -292,9 +305,7 @@ WM_HWIN Createmenu_window(void) {
 WM_HWIN ExecMenu_window(void);
 WM_HWIN ExecMenu_window(void) {
 
-  WM_HWIN hWin = Createmenu_window();
-
-  hWin = GUI_ExecDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
+  WM_HWIN hWin = GUI_ExecDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
   return hWin;
 }
 

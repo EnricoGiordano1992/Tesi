@@ -235,6 +235,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+        PlayAudio(150, 20);				
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -257,6 +258,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+        PlayAudio(600, 20);				
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -271,6 +273,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
           LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_RED);
           GUI_Delay(100);
           LISTVIEW_SetItemText(hItem, 0, 0, "No Response");
+        PlayAudio(50, 60);				
+        PlayAudio(0, 20);				
+        PlayAudio(50, 100);				
         }
 
         else if (modbus_rx.func & 0x80)
@@ -278,6 +283,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
           LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_YELLOW);
           GUI_Delay(100);
           LISTVIEW_SetItemText(hItem, 0, 0, "R: Wrong Message");
+        PlayAudio(90, 60);				
+        PlayAudio(90, 20);				
+        PlayAudio(90, 100);				
+
         }
 
         else
@@ -285,6 +294,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
           LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_GREEN);
           GUI_Delay(100);
           LISTVIEW_SetItemText(hItem, 0, 0, "R: Message Accepted");
+        PlayAudio(600, 20);				
+        PlayAudio(600, 20);				
+        PlayAudio(200, 20);				
           
           //se ho fatto una richiesta read
           if(new_GUI_value.RADIO_value.radio_selection == 0 || new_GUI_value.RADIO_value.radio_selection == 2 || new_GUI_value.RADIO_value.radio_selection == 4)
@@ -325,6 +337,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+        PlayAudio(150, 20);				
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -361,6 +374,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+        PlayAudio(600, 20);				
+        PlayAudio(600, 20);				
+        PlayAudio(200, 20);				
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -372,7 +388,13 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         new_GUI_value.SPINBOX_value.write_value = 0;
         new_GUI_value.RADIO_value.radio_selection = 0;
 
-        GUI_EndDialog(pMsg->hWin, 0);
+        PlayAudio(900, 20);				
+        PlayAudio(1000, 20);				
+        PlayAudio(1100, 20);				
+
+        hItem = pMsg->hWin;
+        GUI_EndDialog(hItem, 0);
+
 
         // USER END
         break;
@@ -384,6 +406,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+        PlayAudio(150, 20);				
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -410,6 +433,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+        PlayAudio(150, 20);				
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -436,6 +460,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+        PlayAudio(150, 20);				
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -462,6 +487,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+        PlayAudio(150, 20);				
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -488,6 +514,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+        PlayAudio(150, 20);				
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -546,7 +573,6 @@ WM_HWIN ExecModbus_Master_testWindow(void);
 WM_HWIN ExecModbus_Master_testWindow(void) {
   WM_HWIN hWin;
 
-  hWin = CreateModbus_Master_testWindow();
   hWin = GUI_ExecDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
   return hWin;
 }

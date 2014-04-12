@@ -198,17 +198,17 @@ void TitleScreen(void)
                          DISPLAY_WIDTH-1,
                          DISPLAY_HEIGHT-1,
                          2,
-                         BLACK,
-                         RGB(0, 0, 0),
+                         WHITE,
+                         RGB(1, 1, 1),
                          RED);
 
         swim_set_font(&G_mmWin, &APP_DEMO_DEFAULT_FONT);
 		
-/*		SUIDrawBitmap(
+		SUIDrawBitmap(
 			G_uEZLogo,
             (DISPLAY_WIDTH-UEZ_ICON_WIDTH)/2,
             (DISPLAY_HEIGHT-UEZ_ICON_HEIGHT)/2);
-*/
+
         swim_set_font_transparency(&G_mmWin, 1);
         /*swim_put_text_xy(
             &G_mmWin,
@@ -222,7 +222,7 @@ void TitleScreen(void)
 #if FAST_STARTUP
         UEZLCDBacklight(lcd, 255);
 #else
-        for (i=0; i<256; i++)  {
+       for (i=0; i<256; i++)  {
             UEZLCDBacklight(lcd, i);
             UEZTaskDelay(1);
         }
@@ -231,7 +231,7 @@ void TitleScreen(void)
 #if FAST_STARTUP
         sprintf(buffer, "CS:????");
 #else
-        while (!G_romChecksumCalculated)
+/*        while (!G_romChecksumCalculated)
             UEZTaskDelay(10);
         sprintf(buffer, "CS:%08X", G_romChecksum);
         swim_set_font_transparency(&G_mmWin, 1);
@@ -240,7 +240,7 @@ void TitleScreen(void)
                          buffer,
                          5,
                          DISPLAY_HEIGHT-15);
-        swim_set_font_transparency(&G_mmWin, 0);
+        swim_set_font_transparency(&G_mmWin, 0);*/
 #endif
 
     }
