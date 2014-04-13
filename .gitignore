@@ -21,3 +21,5 @@
 # backup
 *~
 *.bak
+*.log
+*.aux
