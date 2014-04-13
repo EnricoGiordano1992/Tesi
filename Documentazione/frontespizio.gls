@@ -1,0 +1,14 @@
+
+ \begin{theglossary} 
+
+    \makeatletter\scan@allowedfalse
+
+  \item v1.0\efill 
+ \subitem General:\ First public release\pfill 1
+  \item v1.1\efill 
+ \subitem General:\ Added swapnames option\pfill 14
+      \subsubitem Recoded \cs  {front@ifxetex}\pfill 16
+    \subitem \verb*+\front@swapnames+:\ Added macro \cs  {front@swapnames} and option \texttt  {swapnames}\pfill 
+		15
+
+ \end{theglossary}

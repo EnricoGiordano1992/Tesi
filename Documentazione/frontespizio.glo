@@ -1,0 +1,4 @@
+\glossaryentry{v1.0> =General:>First public release}{1}
+\glossaryentry{v1.1> =General:>Added swapnames option}{14}
+\glossaryentry{v1.1>front@swapnames=\verb!*+\front@swapnames+:>Added macro \cs  {front@swapnames} and option \texttt  {swapnames}}{15}
+\glossaryentry{v1.1> =General:>Recoded \cs  {front@ifxetex}}{16}
