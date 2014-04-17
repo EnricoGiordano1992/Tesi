@@ -1,5 +1,16 @@
 \documentclass[a4paper,titlepage]{book}
 \usepackage{frontespizio}
+\usepackage[italian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{usecases}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,shadows} % for pgf-umlsd
+\usepackage[underline=true,rounded corners=false]{pgf-umlsd}
+
+\usepackage{enumitem}
+\setitemize{noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt}
+
 
 \begin{document}
 \begin{frontespizio}
@@ -12,5 +23,153 @@
 \Relatore{Prof. Graziano Pravadelli}
 \Annoaccademico{2013-2014}
 \end{frontespizio}
+
+
+\tableofcontents
+
+\chapter{Introduzione}
+La domotica è una scienza interdisciplinare che si occupa di creare oggetti utili a migliorare la qualità della vita nella casa e più in generale negli ambienti abitati, favorendo la serenità e facendo risparmiare tempo (e soprattutto denaro) per la gestione le faccende domestiche.
+ 
+Con l'avanzare della tecnologia, vengono utilizzati strumenti sempre più complessi, favorendo un sistema \textit{``user friendly''} ma costoso, che dal punto di vista finanziario non è accessibile per la maggior parte delle famiglie. Un fattore che avvicina gli sviluppatori a queste tecnologie è la semplicità di progettazione: più avanzata è l'architettura, quindi definibile \textit{``general purpoise''}, più è facile sviluppare nuovo software e mantenerlo nel tempo. Queste architetture però non sono dedicate esclusivamente all'ambito di utilizzo; questo è un fattore che impreziosisce tutto il progetto nel complesso e di conseguenza fa aumentare il prezzo di mercato del progetto stesso.
+
+La soluzione a questo problema è progettare un sistema dedicato, \textit{``embedded''}, in grado di occuparsi esclusivamente di alcuni compiti e ottimizzato sia nei costi che nell'esecuzione delle operazioni specifiche. Questo può essere un limite per vari fattori, ossia difficoltà di sviluppo, difficoltà di scelta della componentistica, ottimizzazione di risorse e codice, però offre il vantaggio di essere un progetto a basso costo dal punto di vista sia hardware che software, in quanto si propone qualcosa di più semplice ma efficace.
+
+~
+
+Questo progetto rappresenta un piccolo sistema domotico con cui si controllano le luci di una casa e i vari sensori che monitorano le stanze, utilizzando un pannello di controllo Master che comunica con le diverse periferiche slave tramite protocollo Modbus.
+
+
+\chapter{Architettura del progetto}
+
+\chapter{Modello di sistema}
+
+Di seguito si riporta il modello del sistema secondo lo standard ingegneristico, ossia presentando:
+\begin{itemize}[noitemsep,topsep=23pt,parsep=23pt,partopsep=0pt]
+
+\item\textit{``Use Case Diagram''}, ossia la presentazione ad alto livello dei diversi attori del sistema (nel nostro caso gli attori sono: l'utente, il dispositivo Master e il dispositivo Slave), in modo da rendere chiari i ruoli degli attori e le loro azioni all'interno dello scenario;
+\item\textit{``Sequence Diagram''}, ossia la presentazione ad alto livello dello scambio di ``messaggi'' tra i diversi attori e dispositivi del sistema (vengono identificate le interazioni nel sistema come messaggi);
+\item\textit{``Deploy Diagram''}, ossia la rappresentazione più nel dettaglio delle parti del sistema, in modo da presentare meglio l'architettura specifica.
+
+\end{itemize}
+
+\newpage
+
+\section{Use Case Diagram}
+
+Con questo tipo di diagramma, viene presentata una tabella per ogni attore, ciascuna contenente nell'intestazione il nome dell'attore considerato e all'interno le rispettive azioni. Ogni attore coinvolto nel sistema ha delle precondizioni da rispettare affinchè tutte le operazioni vadano a buon fine e una postcondizione. Vengono presentate infine le azioni sotto forma di algoritmo o insieme di attività da svolgere per eseguire un task.
+
+L'attore principale, cioè l'utente, ha tre tipi di attività, ossia la scelta del task da far eseguire al sistema, l'avvio di esecuzione di tale task (premendo l'opportuno tasto nell'interfaccia) e l'osservazione dei valori che vengono mostrati nella GUI.
+
+L'altro attore è il dispositivo Master, che ha il compito di mostrare ed aggiornare l'interfaccia grafica e di interrogare il dispositivo Slave in base alla scelta dell'utente. Questo attore ha quindi queste attività: mostrare l'interfaccia grafica, avviare i task scelti dall'utente e inviare i messaggi ai dispositivi Slave.
+
+Gli ultimi attori da considerare sono i dispositivi Slave, che hanno il compito di eseguire polling sui sensori a loro associati e di rispondere alle richieste Modbus del dispositivo Master. Le loro attività quindi sono: controllo sensori e ricezione e risposta di messaggi Modbus.
+
+~
+
+~
+
+\begin{usecase}
+  \addheading{Attore}{Utente} 
+  \addrow{Precondizione}{Il sistema è avviato e mostra la GUI a seguito del logo $\mu EZ$, tutti i tasti sono selezionabili e tutti i dispositivi sono avviati.}
+  \addrow{Postcondizione}{L'utente è munito di penna specifica per interfacciarsi col dispositivo TouchScreen.}
+  \addmulrow{Scelta task}	{\item interfaccia gestione LED
+                             	\item interfaccia monitoraggio sensori
+				\item interfaccia di debug}
+
+  \addmulrow{Esecuzione task}	{\item accendere o spegnere luci
+                             	\item controllo sensori
+				\item attività di debug}
+
+  \addmulrow{Osserva valori}	{\item valutazione valori mostrati dalla GUI}
+
+\end{usecase}
+
+\begin{usecase}
+
+  \addheading{Attore}{Master} 
+  \addrow{Precondizione}{Il sistema è avviato.}
+  \addrow{Postcondizione}{L'utente esegue scelte.}
+  \addmulrow{Mostra GUI}	{\item mostra schermata principale}
+
+  \addmulrow{Avvia task}	{\item ottieni scelta dall'utente}
+
+  \addmulrow{Invia messaggi}	{\item messaggi di tipo read
+				\item messaggi di tipo write}
+  
+
+\end{usecase}
+
+
+\begin{usecase}
+
+  \addheading{Attore}{Slave} 
+  \addrow{Precondizione}{Il sistema è avviato.}
+  \addrow{Postcondizione}{I sensori rispondono e si ricevono correttamente messaggi Modbus.}
+	\addmulrow{Controllo}	{\item esegue polling sui sensori
+				\item aggiorna il valore dei registri col valore ottenuto dai sensori}
+  \addmulrow{Ricezione}		{\item riceve messaggi Modbus
+				\item invia o setta i registri richiesti }
+
+\end{usecase}
+
+
+\newpage
+
+\section{Sequence Diagram}
+
+Questo diagramma rappresenta una generica interazione tra utente e sistema. Ad ogni scelta dell'utente, visualizzabile come un messaggio (ovviamente non testuale) inviato dall'utente al dispositivo Master, viene trasformata in messaggio Modbus da inviare al corrispondente dispositivo Slave. Il dispositivo Slave, prima di essere interrogato via Modbus, continua ad eseguire polling sui sensori a lui collegati, per tenersi aggiornato sul loro valore. Al momento della richiesta Modbus, il disposivo Slave termina momentaneamente di eseguire polling sui sensori e invia l'ultimo valore acquisito da questi al dispositivo Master. Quest'ultimo, appena riceve i valori, aggiorna l'interfaccia grafica e mostra all'utente il risultato dell'interrogazione. Fatto ciò, il dispositivo Master rimane in attesa di ordini dall'utente, mentre il dispositivo Slave continua a fare polling sui sensori a lui collegati.
+
+
+\begin{figure}[!hb]
+  \centering
+  \begin{sequencediagram}
+
+    \newthread{ut}{:Utente}	%rettangolo sempre attivo
+    \newinst{ms}{:Master}		%solo tratteggiato
+    \newinst{sl}{:Slave}
+
+        \begin{callself}{sl}{PollSensori()}{}
+        \end{callself}
+        \begin{callself}{sl}{PollSensori()}{}
+        \end{callself}
+        \begin{callself}{sl}{PollSensori()}{}
+        \end{callself}
+    
+      	\begin{call}{ut}{EseguiScelta()}{ms}{}
+
+
+
+		\begin{call}{ms}{inviaRichiestaModbus()}{sl}{}
+		\end{call}
+
+		\begin{callself}{ms}{aggiornaGUI()}{}
+		\end{callself}
+
+
+
+      	\end{call}
+
+		\begin{callself}{sl}{PollSensori()}{}
+		\end{callself}
+		\begin{callself}{sl}{PollSensori()}{}
+		\end{callself}
+		\begin{callself}{sl}{PollSensori()}{}
+		\end{callself}
+
+
+  \end{sequencediagram}
+  \caption{Esempio di attività generica con il sistema.}
+\end{figure}
+
+
+\newpage
+
+
+\section{Deploy Diagram}
+
+
+
+
+
 \end{document}
 \endinput
