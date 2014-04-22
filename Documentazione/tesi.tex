@@ -13,12 +13,14 @@
 
 \usepackage[a4paper, total={6in, 9in}]{geometry}
 
+
+
 \begin{document}
 \begin{frontespizio}
 \Universita{Verona}
 \Facolta{Scienze Matematiche, Fisiche e Naturali}
 \Corso[Laurea]{Informatica}
-\Titoletto{Tesi di laurea}
+\Titoletto{Tesi di laurea triennale}
 \Titolo{Sistema domotico a basso costo\\pilotato con protocollo Modbus}
 \Candidato[VR359169]{Enrico Giordano}
 \Relatore{Prof. Graziano Pravadelli}
@@ -244,8 +246,7 @@ L'unico oggetto che non può essere sostituito con qualcosa di meno costoso è i
 
 \section{Altri componenti}
 
-
-\section{Diagramma dei componenti Hardware}
+ANCORA DA SCRIVERE
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -276,18 +277,66 @@ Questo sistema si chiama $\mu EZ$, chiamato così perché dovrebbe ''ispirare`` 
 
 Il sistema offre innanzitutto un HAL piuttosto potente, in quanto permette di trattare ad alto livello la configurazione di tutte le periferiche. Inoltre non è necessario definire il boot di sistema (cosa non banale per questi sistemi). Esiste un porting standard per ogni processore, se non è presente è possibile scriverlo facilmente. Il sistema deve essere compilato in due passaggi: il primo consiste nel compilare $\mu EZ$ per la propria architettura, ottenendo un file di libreria da linkare al proprio progetto, il secondo consiste nello sviluppare il proprio progetto basandosi su questo sistema. È possibile, al tempo di compilazione, decidere quali periferiche utilizzare prima di generare la libreria da linkare, ottimizzando per area il proprio software.
 
+~
 
-
-
-Ciò che ha portato allo sviluppo su questo sistema software è stato, oltre all'astrazione dell'hardware che facilita la programmazione e alla predisposizione da parte del sistema di usare risorse di rete come lo stack di rete lwIP, è stata la capacità di utilizzare una libreria grafica molto importante e potente per i sistemi embedded, la libreria \textbf{emWIN}.
+Ciò che ha portato allo sviluppo su questo sistema software è stato, oltre all'astrazione dell'hardware che facilita la programmazione, alla predisposizione da parte del sistema di usare risorse di rete come lo stack di rete lwIP e alla presenza di sistema operativo FreeRTOS, è stata la capacità di utilizzare una libreria grafica molto importante e potente per i sistemi embedded, la libreria \textbf{emWIN}.
 
 \subsection{emWin}
 
+Questa è una libreria grafica per sistemi embedded molto potente, basata su una grafica molto simile alle prime versioni di Windows (sia per l'estetica sia per la gestione ottimale delle risorse grafiche). Essa offre un HAL ad alto livello molto semplice da utilizzare, con cui è possibile progettare interfacce con oggetti grafici ben noti (bottoni, input text, ecc...) senza dover interfacciarsi direttamente con l'oggetto hardware. Può sembrare una soluzione poco ottimale, visto che tutti gli elementi ad ''alto livello`` nella progettazione di sistemi embedded può essere reputata poco efficiente in ambito di risorse e computazione, in realtà è stata progettata in maniera talmente sofisticata che risulta ancora più efficiente della scrittura ''a mano`` delle stesse librerie.
+
+La gestione dell'interfaccia tramite questa libreria ha un'implementazione molto semplice:
+
+\begin{enumerate}[noitemsep,topsep=18pt,parsep=10pt,partopsep=0pt]
+\item si descrive l'interfaccia implementandola personalmente o tramite appositi programmi di generazione di codice (GUIBuilder incluso nel pacchetto emWin);
+\item si associa al codice corrente l'intefaccia appena creata ricordandosi di usare il comando \textit{ExecDialogBox()} (vedere manuale emWin);
+\item si associa ai widget creati del codice che viene eseguito in base agli eventi creati.
+
+\end{enumerate}
+
+Particolare interesse deve essere prestato al metodo con cui si può interagire con i widget: per modificare o eseguire azioni generiche sul widget, è necessario farsi restituire un puntatore particolare e lavorare su di esso tramite il puntatore. Un esempio di codice:
+
+\begin{verbatim}
+
+#define ID_WIDGET ID_GUI + 0x00
+
+...
+
+EMWIN_WIDGET_TYPE my_widget;
+
+...
+
+WM_HWIN hItem = WM_GetDialogItem(pMsg->hWin, ID_WIDGET);
+my_widget = my_value; 
+
+\end{verbatim}
+
+~
+
+Il porting che è stato fatto di questa libreria per questo processore dipende dalla board di sviluppo che si vuole considerare (soprattutto per il nostro LCD TouchScreen), nel nostro caso dipende in maniera esclusiva da $\mu EZ$. Infatti per questioni di modularità, emWin si appoggia alle API di $\mu EZ$, in modo da sfruttarle senza interfacciarsi direttamente con l'hardware sottostante , essendo già state ottimizzate le API di $\mu EZ$ (quindi emWin nel nostro caso non può funzionare senza di $\mu EZ$).
+ 
+\section{Dispositivi Slave}
+
+Questi dispositivi non hanno una parte software che funge da scheletro per l'applicazione, essenzialmente per due motivi:
+
+\begin{itemize}[noitemsep,topsep=18pt,parsep=10pt,partopsep=0pt]
+
+\item le architetture sono troppo semplici, non è necessario interfacciarsi con l'hardware tramite API visto che i comandi che devono eseguire sono diretti alle diverse periferiche;
+\item non è presente molta memoria e non è garantita molta capacità di calcolo, quindi sarebbe svantaggioso utilizzare qualcosa di più ''astratto`` (e quindi inefficiente) per gestire le operazioni.
+
+\end{itemize}
+
+L'unica eccezione di questo argomento è l'utilizzo, per il dispositivo ARM, di un sistema operativo. Per il dispositivo PIC non è stato possibile inserire il sistema operativo, in quanto non è presente abbastanza memoria e il sistema di calcolo è troppo semplice.
+
+\subsection{FreeRTOS}
+
+Il sistema operativo utilizzato sul dispositivo di tipo ARM Cortex-M3 si chiama FreeRTOS. 
+
+È un sistema operativo di tipo Real Time, ossia  il sistema deve essere ''prevedibile`` o piuttosto ''determinista``, nel senso che nel sistema si possa conoscere il tempismo reale (nei migliori o peggiori dei casi) di un determinato processo o elaborazione. In pratica un sistema real-time deve garantire che una elaborazione (o task) termini entro un dato vincolo temporale o scadenza (detta in gergo deadline). Per garantire questo è richiesto che la schedulazione delle operazioni sia fattibile. Il concetto di fattibilità di schedulazione è alla base della teoria dei sistemi real-time ed è quello che ci permette di dire se un insieme di task sia eseguibile o meno in funzione dei vincoli temporali dati.
+
+Il sistema operativo non è stato utilizzato per utilizzare una HAL per programmare, ma per creare dei task separati per gestire la parte di protocollo e la parte di applicazione, in quanto continui polling sui sensori possono disturbare l'invio della risposta al dispositivo Master.
 
 
-
-
-\section{Diagramma dei componenti Software}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -413,7 +462,124 @@ Questo diagramma rappresenta una generica interazione tra utente e sistema. Ad o
 \end{figure}
 
 
-\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\chapter{Implementazione del sistema}
+
+\section{Protocollo Modbus}
+
+
+Modbus è un protocollo semplice di tipo master-slave, cioè esiste un dispositivo che invia una richiesta e i diversi slave eseguono la richiesta dando una risposta al master.
+
+È stato creato in modo da far comunicare un master con fino a 256 slave, inviando un messaggio in cui si specifica l'indirizzo del destinatario slave. Quando uno slave riceve un messaggio, controlla se gli appartiene, altrimenti lo scarta; questo deve avvenire perché la comunicazione seriale non necessita di apparecchiature che indirizzano il messaggio al giusto indirizzo, ma la comunicazione è garantita
+da "fili" che collegano i diversi dispositivi seriale.
+
+\subsection{Tipi di messaggi}
+
+Il messaggio tipico del protocollo è formato da questi campi:
+
+\begin{enumerate}[noitemsep,topsep=15pt,parsep=10pt,partopsep=0pt]
+
+\item l'indirizzo del dispositivo con cui il master ha stabilito la transazione, l'indirizzo 0 corrisponde ad un messaggio broadcast inviato a tutti i dispositivi slave (1 byte);
+\item il codice della funzione che deve essere o è stata eseguita (1 byte);
+\item i dati che devono essere scambiati tra i due dispositivi (2 byte $\cdot$ n dati);
+\item il controllo d'errore composto secondo l'algoritmo CRC16 (2 byte).
+
+\end{enumerate}
+
+Se un dispositivo individua un errore nel messaggio ricevuto (di formato, di parità o nel CRC16) il messaggio viene considerato non valido e scartato, uno slave che rilevi un errore nel messaggio quindi non eseguirà l'azione e non risponderà alla domanda, cosi come se l'indirizzo non
+corrisponde ad un dispositivo in linea.
+
+
+\subsection{Registri}
+
+Il protocollo Modbus permette la comunicazione tra master e slave tramite diversi tipi di variabili chiamate ''registri``. In base al tipo di registro, sono permesse diverse operazioni:
+
+\begin{itemize}[noitemsep,topsep=15pt,parsep=10pt,partopsep=0pt]
+
+\item i registri di ''input`` discreti rappresentano dei booleani (registri a bit singolo) che possono essere solo letti, quindi in questi può essere eseguita una funzione di tipo read;
+\item i registri di ''input discreti`` hanno lo stesso funzionamento, in generale il master può solo leggere i registri di questo tipo;
+\item i registri di ''input`` (diversi da input discreti) rappresentano una word a 16 bit;
+\item i registri di coil rappresentano un booleano che può essere sia letto che scritto dal master;
+\item i registri holding rappresentano una word di 16 bit che può essere sia letta sia scritta.
+
+\end{itemize}
+
+Ogni registro può essere quindi associato ad una variabile di stessa grandezza o che rappresenta una grandezza simile (facendo un opportuno cast).
+
+\subsection{Tipi di richiesta}
+
+Modbus ha diversi tipi di richiesta, ognuna riguardante un registro specifico:
+
+\begin{itemize}[noitemsep,topsep=15pt,parsep=10pt,partopsep=0pt]
+\item 01 Read Coil Status
+\item 02 Read Input Status
+\item 03 Read Holding Registers
+\item 04 Read Input registers
+\item 05 Force Single Coil
+\item 06 Prese Single register
+\item 07 Read Status
+\item 15 Force multiple Coils
+\item 16 Preset Multiple Registers
+
+\end{itemize}
+
+Viene riportata di seguito la descrizione dettagliata delle funzioni più utilizzate:
+
+\begin{itemize}[noitemsep,topsep=15pt,parsep=10pt,partopsep=0pt]
+\item Read Output Status (01): permette di richiedere lo stato ON o OFF di variabili logiche binarie (registri
+output R/W).
+La modalità broadcast non è permessa.
+\item Read Input Status (02): è operativamente identica alla precedente ma riguarda i registri input.
+\item Read Output Registers (03): permette di richiedere il valore di registri a 16 bit (word) contenenti variabili numeriche (registri output R/W). La modalità broadcast non è permessa.
+\item Read Input Registers (04): è operativamente identica alla precedente ma riguarda i registri Input.
+\item Force Single Coil (05): permette di forzare lo stato di una singola variabile binaria ON o OFF. La modalità broadcast è permessa.
+\item Preset Single Register (06): permette di impostare il valore di un singolo registro a 16 bit. La modalità broadcast è permessa.
+\item Force Multiple Coils (15): permette di forzare lo stato di ciascuna variabile binaria in un blocco consecutivo. La modalità broadcast è permessa.
+Preset Multiple Registers (16): permette di impostare il valore di un blocco consecutivo di registri a 16 bit. La modalità broadcast è permessa.
+
+\end{itemize}
+
+\subsection{CRC16}
+
+Gli ultimi due caratteri del messaggio contengono il codice di ridondanza ciclica (Cyclic
+Redundancy Check) calcolato secondo l'algoritmo CRC16.
+
+Per il calcolo di questi due caratteri il messaggio (indirizzo, codice funzione e dati scartando i bit di
+start, stop e l'eventuale parità) viene considerato come un unico numero binario “continuo” di cui il
+bit più significativo (MSB) viene trasmesso prima.
+La procedura passo-passo per il calcolo del CRC16 è la seguente:
+
+\begin{enumerate}[noitemsep,topsep=15pt,parsep=10pt,partopsep=0pt]
+\item Caricare un registro a 16 bit con FFFFh (tutti i bit a 1).
+\item Fare l'OR esclusivo del primo carattere con il byte superiore del registro , porre il risultato nel registro.
+\item Spostare il registro a destra di un bit.
+\item Se il bit uscito a destra dal registro (flag) è un 1, fare l'OR esclusivo del polinomio generatore 1010000000000001 con il registro.
+\item Ripetere per 8 volte i passi 3 e 4.
+\item Fare l'OR esclusivo del carattere successivo con il byte superiore del registro, porre il risultato nel registro.
+\item Ripetere i passi da 3 a 6 per tutti i caratteri del messaggio.
+\item Il contenuto del registro a 16 bit è il codice di ridondanza CRC che deve essere aggiunto al messaggio
+
+\end{enumerate}
+
+\subsection{Sincronizzazione}
+La sincronizzazione del messaggio tra trasmettitore e ricevitore viene ottenuta interponendo una pausa tra i messaggi pari ad almeno 3.5 volte il tempo di un carattere. Se il dispositivo ricevente non riceve per un tempo di 3,5 caratteri, ritiene completato il messaggio precedente e considera che il successivo byte ricevuto sarà il primo di un nuovo messaggio e quindi un indirizzo.
+
+
+\section{Diagramma dei componenti}
+
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.3]{deploy.png}
+\caption{architettura del sistema uEZ}\label{fig:1}
+\end{figure}
 
 
 
