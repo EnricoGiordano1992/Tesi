@@ -262,7 +262,84 @@ L'unico oggetto che non può essere sostituito con qualcosa di meno costoso è i
 
 \section{Altri componenti}
 
-ANCORA DA SCRIVERE
+Oltre alla parte operativa del sistema, ci sono vari altri oggetti hardware che devono essere pilotati dai dispositivi slave. Questi sono gli oggetti osservabili del sistema da parte degli utenti e controllano l'ambiente permettendo agli slave di osservare la scena o di illuminarla.
+
+\subsection{Sensori}
+
+I sensori di questo sistema sono di due tipi:
+
+\begin{itemize}[noitemsep,topsep=10pt,parsep=23pt,partopsep=0pt]
+
+\item \textbf{attivi}, che hanno una componente hardware/software da alimentare che genera un messaggio o un segnale in base agli avvenimenti che controllano;
+
+\item \textbf{passivi}, che semplicemente generano un segnale in base alle circostanze, senza che debbano essere pilotati da un hardware/software esterno; alcuni non hanno nemmeno bisogno di essere alimentati.
+
+\end{itemize}  
+
+Inoltre possono essere digitali, che generano un segnale digitale per inviare l'analisi al destinatario tramite GPIO, oppure analogici, che generano un segnale analogico che quindi deve essere interpretato tramite ADC dal destinatario.
+
+Questi sensori hanno un costo commerciale molto basso (circa 1 Euro ciascuno) e quindi si adattano benissimo al nostro sistema a basso costo.
+
+
+Di seguito sono riportati i sensori utilizzati.
+
+~
+
+~
+
+
+\begin{tabular}{|c  c  c|}
+\hline
+\multicolumn{1}{|c|}{\textbf {nome}} & \multicolumn{1}{|c|}{\textbf {informazione}} & \multicolumn{1}{c|}{\textbf {funzionamento}} \\
+\hline
+
+sensore di luce			& Analogica	& passivo \\
+sensore di umidità 		& Digitale	& attivo  \\
+sensore di fiamma		& Digitale	& attivo \\
+sensore di distanza		& Digitale	& attivo \\
+sensore di rumore		& Digitale	& attivo \\
+sensore di temperatura		& Digitale	& attivo \\
+ricevitore infrarosso		& Digitale	& attivo \\
+sensore di ostacoli		& Digitale	& attivo \\
+ricevitore laser		& Analogico	& attivo \\
+sensore di vibrazione		& Analogico	& attivo \\
+emettitore infrarosso		& Analogico	& passivo \\
+
+\hline
+
+\textit{\textbf{Totale:}}	& \textbf{11 sensori} & \\
+
+\hline
+\end{tabular}
+
+~
+
+~
+
+Poichè questi sensori sono stati saldati su piccole schede elettriche, per rendere possibile l'allacciamento con i dispositivi slave in maniera semplice è stato creato un piccolo circuito per sfruttare facilmente le loro interfacce hardware.
+Il circuto, semplificato per tre sensori che mandano il loro messaggio alle rispettive GPIO di uno slave, è il seguente.
+
+~
+
+~
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{circuitSensor.png}
+\end{figure}
+
+
+\subsection{Relè}
+
+Poichè sarà necessario pilotare anche luci di abitazioni, gli slave non possono essere in grado di erogare abbastanza corrente per queste. Per risolvere questo problema, è necessario utilizzare un componente hardware chiamato Relè. Questo oggetto consiste in un avvolgimento di rame e una lamina di rame che funge da switch di canale; appena l'avvolgimento viene eccitato con la corrente, genera un campo magnetico che sposta la lamina di rame in modo da deviare la corrente da un canale all'altro. Anche la bobina di rame però necessita di molta corrente per generare un campo magnetico; è presente quindi un relè allo stato solido che riceve in input sia la corrente necessaria alla bobina per generare il campo magnetico sia la corrente dello slave per pilotare via software le luci; in output invierà la corrente necessaria per il relé solo quando lo slave invia il segnale.
+
+Questo oggetto può quindi essere utilizzato come interruttore automatico pilotato dal processore.
+
+
+\subsection{Led a bassa intensità di corrente}
+
+
+\subsection{Luci a led}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

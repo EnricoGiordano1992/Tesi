@@ -1,0 +1,40 @@
+\select@language {italian}
+\contentsline {chapter}{\numberline {1}Il progetto}{7}
+\contentsline {chapter}{\numberline {2}Architettura Hardware}{9}
+\contentsline {section}{\numberline {2.1}LPC1788}{9}
+\contentsline {section}{\numberline {2.2}LPC1768}{10}
+\contentsline {section}{\numberline {2.3}PIC16F77}{10}
+\contentsline {section}{\numberline {2.4}Considerazioni}{11}
+\contentsline {section}{\numberline {2.5}Altri componenti}{11}
+\contentsline {subsection}{\numberline {2.5.1}Sensori}{11}
+\contentsline {subsection}{\numberline {2.5.2}Rel\IeC {\`e}}{12}
+\contentsline {subsection}{\numberline {2.5.3}Led a bassa intensit\IeC {\`a} di corrente}{13}
+\contentsline {subsection}{\numberline {2.5.4}Luci a led}{13}
+\contentsline {chapter}{\numberline {3}Architettura Software}{15}
+\contentsline {section}{\numberline {3.1}Dispositivo Master}{15}
+\contentsline {subsection}{\numberline {3.1.1}uEZ}{15}
+\contentsline {subsection}{\numberline {3.1.2}emWin}{16}
+\contentsline {section}{\numberline {3.2}Dispositivi Slave}{17}
+\contentsline {subsection}{\numberline {3.2.1}FreeRTOS}{17}
+\contentsline {chapter}{\numberline {4}Modello di sistema}{19}
+\contentsline {section}{\numberline {4.1}Use Case Diagram}{20}
+\contentsline {section}{\numberline {4.2}Sequence Diagram}{22}
+\contentsline {chapter}{\numberline {5}Implementazione del sistema}{23}
+\contentsline {section}{\numberline {5.1}Protocollo Modbus}{23}
+\contentsline {subsection}{\numberline {5.1.1}Tipi di messaggi}{23}
+\contentsline {subsection}{\numberline {5.1.2}Registri}{23}
+\contentsline {subsection}{\numberline {5.1.3}Tipi di richiesta}{24}
+\contentsline {subsection}{\numberline {5.1.4}CRC16}{25}
+\contentsline {subsection}{\numberline {5.1.5}Sincronizzazione}{25}
+\contentsline {section}{\numberline {5.2}Implementazione del protocollo Modbus}{25}
+\contentsline {subsection}{\numberline {5.2.1}Master}{26}
+\contentsline {subsection}{\numberline {5.2.2}Slave}{28}
+\contentsline {section}{\numberline {5.3}Interfaccia grafica}{30}
+\contentsline {subsection}{\numberline {5.3.1}Men\IeC {\`u} principale}{30}
+\contentsline {subsection}{\numberline {5.3.2}Controllo Luci}{30}
+\contentsline {subsection}{\numberline {5.3.3}Controllo Sensori}{31}
+\contentsline {subsection}{\numberline {5.3.4}Schermata di Debug}{31}
+\contentsline {section}{\numberline {5.4}Interazione con i componenti hardware}{31}
+\contentsline {section}{\numberline {5.5}Diagramma dei componenti}{31}
+\contentsline {subsection}{\numberline {5.5.1}Architettura Hardware}{31}
+\contentsline {subsection}{\numberline {5.5.2}Architettura Software}{31}
