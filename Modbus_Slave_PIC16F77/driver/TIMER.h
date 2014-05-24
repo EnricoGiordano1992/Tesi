@@ -4,6 +4,7 @@
 #include "../Includes.h"
 
 void timer_settings(void);
-
+void timer_enable();
+void timer_disable();
 
 #endif

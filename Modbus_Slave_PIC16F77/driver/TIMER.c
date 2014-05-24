@@ -1,5 +1,7 @@
 #include "../Includes.h"
 
+
+
 void timer_settings(void)
 {
 	// Impostazione del registro OPTION
@@ -27,5 +29,38 @@ void timer_settings(void)
 
 	TMR0=100; // Imposto Timer0 a 100   (1 tick per 1 ms)
 
+        //disabilito timer
+        TMR0IE = 0;
         //NB: non esiste flag per far on/off del timer!
 	}
+
+
+void timer_enable()
+{
+        // Interrupt su Timer0 attivato
+    TMR0IE = 1;
+
+    // Flag interrupt su Timer0
+    T0IF = 0;
+
+    // Imposto Timer0 a 100   (1 tick per 1 ms)
+    TMR0=100;
+
+
+}
+
+
+void timer_disable()
+{
+
+        // Interrupt su Timer0 disattivato
+    TMR0IE = 0;
+
+    // Flag interrupt su Timer0
+    T0IF = 0;
+
+    // Imposto Timer0 a 100   (1 tick per 1 ms)
+    TMR0=100;
+
+
+}

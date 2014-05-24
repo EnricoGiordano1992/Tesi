@@ -1,15 +1,17 @@
 #include "../Includes.h"
 #include "ISR.h"
-/* ----------------------- Modbus includes ----------------------------------*/
-#include "../mb.h"
-#include "../mbport.h"
 
-unsigned short modbus_time;
-unsigned short actual_time;
+
+
+extern void blink(int j);
+extern void TX_ISR_deactivate();
+extern void uart_rx_interrupt();
+extern void timer_interrupt();
 
 
 void interrupt ISR(void)
 {
+
 
     /***************************************
      ****************************************
@@ -26,18 +28,12 @@ void interrupt ISR(void)
             CREN = 0;
             CREN = 1;
 	}
-
-	prvvUARTRxISR();
+        uart_rx_interrupt();
 
 	RCIF = 0;
     }
 
-    if(TXIF)   // uart tx empty
-    {
-        prvvUARTTxReadyISR();
 
-	TXIF = 0;
-    }
 
 
      /***************************************
@@ -51,12 +47,9 @@ void interrupt ISR(void)
 
      if (T0IF) // timer0 interrupt
      {
-        if(++actual_time == modbus_time)
-        {
-            pxMBPortCBTimerExpired(  );
-            actual_time = 0;
-        }
-        
+
+        timer_interrupt();
+         
         TMR0 = 100; // reset Timer0
         T0IF=0; // Resetto flag interrupt timer 0,
      }

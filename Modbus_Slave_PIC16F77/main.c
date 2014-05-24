@@ -8,43 +8,144 @@
 ===============================================================================
 */
 
+/*----------------------------- Includes ------------------------------------*/
 
+
+#include "stdint.h"
+#include "string.h"
 #include "Includes.h"
+#include "modbus.h"
+#include "driver/ISR.h"
+#include "utils.h"
+
 
 // Config word (fuses)
-__CONFIG(FOSC_HS & WDTE_OFF & PWRTE_ON & BOREN_ON & CP_OFF);
+__CONFIG(FOSC_HS & WDTE_OFF & PWRTE_ON & BOREN_OFF & CP_OFF);
 
 
-/* ----------------------- Modbus includes ----------------------------------*/
-#include "mb.h"
-#include "mbport.h"
+/*----------------------------- Registers -----------------------------------*/
+
+int8_t coils = 0b00000000;
+int8_t inputs = 0b00001001;
+int16_t hold_regs[] = {0x8800,0x7700,0x6600,0x5500,0x4400,0x3300,0x2200,0x1100};
+int16_t input_regs[] = {0x1100,0x2200,0x3300,0x4400,0x5500,0x6600,0x7700,0x8800};
+int16_t event_count = 0;
 
 
-/* ----------------------- Defines ------------------------------------------*/
-
-#define REG_HOLDING_START           1000
-#define REG_HOLDING_NREGS           10
-
-static USHORT   usRegHoldingStart = REG_HOLDING_START;
-static USHORT   usRegHoldingBuf[REG_HOLDING_NREGS];
 
 
 /* ----------------------- Start implementation -----------------------------*/
+
+void modbus_clear_message()
+{
+      modbus_rx.address = 0;
+      modbus_rx.error = 0;
+      modbus_rx.func = 0;
+      modbus_rx.len = 0;
+}
+
+
+void modbus_slave_start()
+{
+      //check address against our address, 0 is broadcast
+      if((modbus_rx.address == MODBUS_ADDRESS) || modbus_rx.address == 0)
+      {
+         switch(modbus_rx.func)
+         {
+            case FUNC_READ_COILS:    //read coils
+            case FUNC_READ_DISCRETE_INPUT:    //read inputs
+               if(modbus_rx.data[0] || modbus_rx.data[2] ||
+                  modbus_rx.data[1] >= 8 || modbus_rx.data[3]+modbus_rx.data[1] > 8)
+                  modbus_exception_rsp(MODBUS_ADDRESS,modbus_rx.func,ILLEGAL_DATA_ADDRESS);
+               else
+               {
+                  int8_t data;
+
+                  if(modbus_rx.func == FUNC_READ_COILS)
+                     data = coils>>(modbus_rx.data[1]);      //move to the starting coil
+                  else
+                     data = inputs>>(modbus_rx.data[1]);      //move to the starting input
+
+                  data = data & (0xFF>>(8-modbus_rx.data[3]));  //0 out values after quantity
+
+                  if(modbus_rx.func == FUNC_READ_COILS)
+                     modbus_read_discrete_input_rsp(MODBUS_ADDRESS, 0x01, &data);
+                  else
+                     modbus_read_discrete_input_rsp(MODBUS_ADDRESS, 0x01, &data);
+
+                  event_count++;
+               }
+               break;
+
+             case FUNC_WRITE_SINGLE_COIL:      //write coil
+               if(modbus_rx.data[0] || modbus_rx.data[3] || modbus_rx.data[1] >= 8)
+                  modbus_exception_rsp(MODBUS_ADDRESS,modbus_rx.func,ILLEGAL_DATA_ADDRESS);
+               else if((modbus_rx.data[2] != 0xFF) && (modbus_rx.data[2] != 0x00))
+                  modbus_exception_rsp(MODBUS_ADDRESS,modbus_rx.func,ILLEGAL_DATA_VALUE);
+               else
+               {
+                  //coils are stored msb->lsb so we must use 7-address
+                  if(modbus_rx.data[2] == 0xFF)
+                     bit_set(coils,modbus_rx.data[1]);
+                  else
+                     bit_clear(coils,modbus_rx.data[1]);
+
+                  modbus_write_single_coil_rsp(MODBUS_ADDRESS,modbus_rx.data[1],((int16_t)(modbus_rx.data[2]))<<8);
+
+                  event_count++;
+               }
+               break;
+ 
+             case FUNC_WRITE_MULTIPLE_COILS:
+               if(modbus_rx.data[0] || modbus_rx.data[2] ||
+                  modbus_rx.data[1] >= 8 || modbus_rx.data[3]+modbus_rx.data[1] > 8)
+                  modbus_exception_rsp(MODBUS_ADDRESS,modbus_rx.func,ILLEGAL_DATA_ADDRESS);
+               else
+               {
+                  int i,j;
+
+                  modbus_rx.data[5] = swap_bits(modbus_rx.data[5]);
+
+                  for(i=modbus_rx.data[1],j=0; i < modbus_rx.data[1]+modbus_rx.data[3]; ++i,++j)
+                  {
+                     if(bit_test(modbus_rx.data[5],j))
+                        bit_set(coils,7-i);
+                     else
+                        bit_clear(coils,7-i);
+                  }
+
+                  modbus_write_multiple_coils_rsp(MODBUS_ADDRESS,
+                                 make16(modbus_rx.data[0],modbus_rx.data[1]),
+                                 make16(modbus_rx.data[2],modbus_rx.data[3]));
+
+                  event_count++;
+               }
+               break;
+
+             default:    //We don't support the function, so return exception
+               modbus_exception_rsp(MODBUS_ADDRESS,modbus_rx.func,ILLEGAL_FUNCTION);
+         }
+
+
+      }
+
+      modbus_clear_message();
+}
+
+
+
+
 int
 main( void )
 {
 
-    eMBErrorCode    eStatus;
+    TRISC1 = 0;
 
-    
-    eStatus = eMBInit( MB_RTU, 0x0A, 0, 38400, MB_PAR_NONE );
+    blink(5);
 
-    /* Initialize the holding register values before starting the
-     * Modbus stack
-     */
 
-    /* Enable the Modbus Protocol Stack. */
-    eStatus = eMBEnable(  );
+   modbus_init();
+
 
     //PEIE, Interrupt di periferica attivato
     //GIE, Gestione Interrupt attiva
@@ -52,92 +153,24 @@ main( void )
     GIE  = 1;  							// Enable global interrupts
     PEIE = 1;  							// Enable Peripheral Interrupts
 
-    while(1)
-    {
-        ( void )eMBPoll(  );
 
-        /* Here we simply count the number of poll cycles. */
+   while(1)
+   {
+      if(modbus_kbhit())
+      {
+          //attendo di ricevere tutto il messaggio
+          delay_us(30);
+          modbus_slave_start();
+      }
 
+      else
+      {
+          if(bit_test(coils, 0))
+              RC1 = 1;
+          else
+              RC1 = 0;
+      }
 
-
-    }
+  }
 }
 
-
-eMBErrorCode
-eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegisterMode eMode )
-{
-/*    ( void )pucRegBuffer;
-    ( void )usAddress;
-    ( void )usNRegs;
-    ( void )eMode;
-*/
-	{
-	    eMBErrorCode    eStatus = MB_ENOERR;
-	    int             iRegIndex;
-
-	    if( ( usAddress >= REG_HOLDING_START ) &&
-	        ( usAddress + usNRegs <= REG_HOLDING_START + REG_HOLDING_NREGS ) )
-	    {
-	        iRegIndex = ( int )( usAddress - usRegHoldingStart );
-	        switch ( eMode )
-	        {
-	            /* Pass current register values to the protocol stack. */
-	        case MB_REG_READ:
-	            while( usNRegs > 0 )
-	            {
-	                *pucRegBuffer++ = ( unsigned char )( usRegHoldingBuf[iRegIndex] >> 8 );
-	                *pucRegBuffer++ = ( unsigned char )( usRegHoldingBuf[iRegIndex] & 0xFF );
-	                iRegIndex++;
-	                usNRegs--;
-	            }
-	            break;
-
-	            /* Update current register values with new values from the
-	             * protocol stack. */
-	        case MB_REG_WRITE:
-	            while( usNRegs > 0 )
-	            {
-	                usRegHoldingBuf[iRegIndex] = *pucRegBuffer++ << 8;
-	                usRegHoldingBuf[iRegIndex] |= *pucRegBuffer++;
-	                iRegIndex++;
-	                usNRegs--;
-	            }
-	        }
-	    }
-	    else
-	    {
-	        eStatus = MB_ENOREG;
-	    }
-	    return eStatus;
-	}
-
-//	return MB_ENOREG;
-}
-
-
-eMBErrorCode
-eMBRegCoilsCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNCoils, eMBRegisterMode eMode )
-{
-    ( void )pucRegBuffer;
-    ( void )usAddress;
-    ( void )usNCoils;
-    ( void )eMode;
-    return MB_ENOREG;
-}
-
-eMBErrorCode
-eMBRegInputCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs )
-{
-        return MB_ENOREG;
-
-}
-
-eMBErrorCode
-eMBRegDiscreteCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNDiscrete )
-{
-    ( void )pucRegBuffer;
-    ( void )usAddress;
-    ( void )usNDiscrete;
-    return MB_ENOREG;
-}

@@ -4,6 +4,8 @@
 
 #include "../Includes.h"
 
+extern void blink(int j);
+
 void InitUART(unsigned long baudrate)
 {
 	TRISC6 = 0;   					// TX Pin , 0 == output
@@ -15,7 +17,8 @@ void InitUART(unsigned long baudrate)
 	SPEN  = 1;						// Enable serial port pins
 	CREN  = 1;						// Enable reception
 	SREN  = 0;						// No effect
-	TXIE  = 1;						// Enable tx interrupts
+        TXIE  = 0;						// Disable tx interrupts
+        TXIF = 0;
 	RCIE  = 1;						// Enable rx interrupts
 	TX9   = 0;						// 8-bit transmission
 	RX9   = 0;						// 8-bit reception
@@ -47,4 +50,20 @@ void SendStringSerially(const unsigned char* st)
 {
 	while(*st)
 		SendByteSerially(*st++);
+}
+
+bit isTXEmpty()
+{
+    return TXIF;
+}
+
+
+void RX_ISR_activate()
+{
+    RCIE = 1;
+}
+
+void RX_ISR_deactivate()
+{
+    RCIE = 0;
 }
