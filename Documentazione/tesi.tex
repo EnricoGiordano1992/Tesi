@@ -2,6 +2,8 @@
 \usepackage{frontespizio}
 \usepackage[italian]{babel}
 \usepackage[utf8]{inputenc}
+\usepackage[linktocpage=true]{hyperref}
+
 \usepackage{usecases}
 
 \usepackage{tikz}
@@ -34,7 +36,7 @@ morekeywords={int8_t, uint8_t, int16_t, uint16_t, function, exception, word, boo
 \begin{document}
 \begin{frontespizio}
 \Universita{Verona}
-\Facolta{Scienze Matematiche, Fisiche e Naturali}
+\Dipartimento{Informatica}
 \Corso[Laurea]{Informatica}
 \Titoletto{Tesi di laurea triennale}
 \Titolo{Sistema domotico a basso costo\\pilotato con protocollo Modbus}
@@ -176,10 +178,9 @@ LCD 					& 20 \\
 Questo è un microprocessore ARM di famiglia Cortex-M3 utilizzato come dispositivo Slave che viene controllato dal Master e interagisce direttamente con i sensori e luci. Anche questo processore è a 32 bit con quasi le stesse caratteristiche del processore precedentemente descritto, però risulta essere meno potente in quanto non possiede GPU integrata e possiede meno memoria (circa la metà). Per questo è stato deciso di usarlo per controllare i sensori e pilotare luci, anche perché il codice del dispositivo Master sarebbe risultato troppo grande e computazionalmente oneroso per questo processore. Possiede un piccolo LCD TouchScreen, che viene utilizzato solo per presentare il firmware e le caratteristiche del settaggio del protocollo per comunicare. Può essere alimentato con $3,3 \sim 5 V$ e assorbe $200 mA$. Di questo processore è stato utilizzato:
 
 \begin{itemize}[noitemsep,topsep=10pt,parsep=23pt,partopsep=0pt]
-\item \textbf{RS232} per la comunicazione seriale con il Master;
+\item \textbf{UART} per la comunicazione seriale con il Master;
 \item \textbf{LCD} per presentare le impostazioni del protocollo;
 \item \textbf{GPIO} per controllare i sensori e le luci;
-\item \textbf{ADC} per convertire i segnali analogici provenienti dai sensori analogici in segnali digitali e trattarli nel sistema.
 \end{itemize}
 
 Il costo associato quindi a questo componente è:
@@ -205,9 +206,8 @@ Questo è un microcontrollore PICMicro di famiglia PIC16 con memoria FLASH. Esse
 Di questo processore è stato utilizzato:
 
 \begin{itemize}[noitemsep,topsep=10pt,parsep=23pt,partopsep=0pt]
-\item \textbf{RS232} per la comunicazione seriale con il Master;
+\item \textbf{UART} per la comunicazione seriale con il Master;
 \item \textbf{GPIO} per controllare i sensori e le luci;
-\item \textbf{ADC} per convertire i segnali analogici provenienti dai sensori analogici in segnali digitali e trattarli nel sistema.
 \end{itemize}
  
 
@@ -293,21 +293,16 @@ Di seguito sono riportati i sensori utilizzati.
 \multicolumn{1}{|c|}{\textbf {nome}} & \multicolumn{1}{|c|}{\textbf {informazione}} & \multicolumn{1}{c|}{\textbf {funzionamento}} \\
 \hline
 
-sensore di luce			& Analogica	& passivo \\
 sensore di umidità 		& Digitale	& attivo  \\
-sensore di fiamma		& Digitale	& attivo \\
+sensore di luminosità		& Digitale	& attivo \\
 sensore di distanza		& Digitale	& attivo \\
-sensore di rumore		& Digitale	& attivo \\
 sensore di temperatura		& Digitale	& attivo \\
-ricevitore infrarosso		& Digitale	& attivo \\
 sensore di ostacoli		& Digitale	& attivo \\
-ricevitore laser		& Analogico	& attivo \\
 sensore di vibrazione		& Analogico	& attivo \\
-emettitore infrarosso		& Analogico	& passivo \\
 
 \hline
 
-\textit{\textbf{Totale:}}	& \textbf{11 sensori} & \\
+\textit{\textbf{Totale:}}	& \textbf{6 sensori} & \\
 
 \hline
 \end{tabular}
@@ -329,17 +324,20 @@ Il circuto, semplificato per tre sensori che mandano il loro messaggio alle risp
 \end{figure}
 
 
+DESCRIZIONE DEI SENSORI CON FOTO
+
 \subsection{Relè}
 
 Poichè sarà necessario pilotare anche luci di abitazioni, gli slave non possono essere in grado di erogare abbastanza corrente per queste. Per risolvere questo problema, è necessario utilizzare un componente hardware chiamato Relè. Questo oggetto consiste in un avvolgimento di rame e una lamina di rame che funge da switch di canale; appena l'avvolgimento viene eccitato con la corrente, genera un campo magnetico che sposta la lamina di rame in modo da deviare la corrente da un canale all'altro. Anche la bobina di rame però necessita di molta corrente per generare un campo magnetico; è presente quindi un relè allo stato solido che riceve in input sia la corrente necessaria alla bobina per generare il campo magnetico sia la corrente dello slave per pilotare via software le luci; in output invierà la corrente necessaria per il relé solo quando lo slave invia il segnale.
 
-Questo oggetto può quindi essere utilizzato come interruttore automatico pilotato dal processore.
+Questo oggetto può quindi essere utilizzato come interruttore automatico pilotato dal processore. È stata utilizzata una scheda per pilotare 8 relè tramite le gpio di uno slave, in modo da accendere o spegnere le luci a led a basso consumo.
 
 
-\subsection{Led a bassa intensità di corrente}
-
+FOTO SCHEDA
 
 \subsection{Luci a led}
+
+PORTARE LUCI
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -699,7 +697,7 @@ Per implementare questo protocollo, sono state prese due vie alternative, rispet
 \begin{itemize}[noitemsep,topsep=15pt,parsep=10pt,partopsep=0pt]
 
 \item Master: è stato implementato il protocollo basandosi sulla descrizione dello standard;
-\item Slave: è stato eseguito un porting di una libreria chiamata FreeModbus.
+\item Slave: è stato eseguito il porting di una libreria chiamata FreeModbus e la creazione di una libreria ridotta MiniModbus.
 
 \end{itemize}
 
@@ -845,9 +843,12 @@ void uart_rx_interrupt(void)
 
 \subsection{Slave}
 
+
 L'implementazione del protocollo di tipo Slave è molto diversa e risulterebbe molto più complessa di quella di un generico Master.
 
-Fortunatamente esiste una libreria embedded per così dire ``portabile'' chiamata \textbf{FreeModbus}, che propone uno stack Modbus completo a patto che si scriva il porting delle funzioni che si interfacciano con il nostro hardware. Queste funzioni riguardano la seriale e il timer, utilizzate per lo stesso motivo del Master, e si trovano nei rispettivi file di porting:
+\subsubsection{FreeModbus}
+
+Esiste una libreria embedded ``portabile'' (dal punto di vista implementativo) chiamata \textbf{FreeModbus}, che propone uno stack Modbus completo a patto che si scriva il porting delle funzioni che si interfacciano con il nostro hardware. Queste funzioni riguardano la seriale e il timer, utilizzate per lo stesso motivo del Master, e si trovano nei rispettivi file di porting:
 
 \begin{itemize}[noitemsep,topsep=15pt,parsep=6pt,partopsep=0pt]
 
@@ -968,6 +969,113 @@ static USHORT   usRegInputBuf[REG_INPUT_NREGS];
 \end{lstlisting}
 
 
+\subsubsection{MiniModbus}
+
+Poichè l'architettura target non sempre offre grande disponibilità di memoria e di stack, è necessario utilizzare una libreria più ottimizzata e performante in modo che possa offrire il protocollo Modbus anche nelle architetture più semplici. Per questo motivo è stata implementata una libreria ``portabile'' (dal punto di vista implementativo) che è stata chiamata MiniModbus. Questa libreria offre le stesse potenzialità della libreria FreeModbus, però risulta più performante per le architetture meno potenti (come i microcontrollori e i microprocessori di fascia bassa).
+
+L'architettura target in questo caso è stata il PIC16F77 che, come è stato descritto, ha $2^8$ spazi di indirizzamento di memoria. FreeModbus necessita di $2^{16}$ spazi di indirizzamento di memoria e quindi risulta troppo grande per il PIC. Inoltre questa architettura permette $2^6$ byte di locazioni di memoria contigua, mentre Modbus vuole una lunghezza di messaggi uguale a 256 byte, quindi $2^8$ byte, quindi la lunghezza del messaggio è stata ridotta a 64 byte. 
+
+~
+
+Per eseguire il porting di questa libreria è necessario modificare il file \textit{modbus\_port.c} riscrivendo il contenuto di queste funzioni (sostituendo al posto dei puntini la rispettiva implementazione):
+
+\begin{lstlisting}
+
+//implementazione del delay per millisecondi
+void delay_us(uint32_t delayInMs)
+{
+    ...
+}
+
+//abilitazione del timer
+void TimersEnable(  )
+{
+    ...
+}
+
+//disabilitazione del timer
+void TimersDisable(  )
+{
+    ...
+}
+
+//attiva ricezione seriale
+void RCV_ON(void)
+{
+    ...
+}
+
+//disabilita ricezione seriale
+void RCV_OFF(void)
+{
+    ...
+}
+
+//abilita il timeout (per il fine messaggio)
+void modbus_enable_timeout(BOOL enable)
+{
+   if (enable) {
+
+    ...
+
+   }
+
+   else
+    ...
+
+}
+
+//scrive un carattere su seriale
+void modbus_serial_putc(int8_t c)
+{
+	Message[indix] = c;
+	indix++;
+
+    ...
+
+}
+
+//interrupt generato dalla ricezione di un byte su seriale
+void uart_rx_interrupt(void)
+{
+   char c = ... //ricezione del carattere dal canale seriale
+
+   //nuovo carattere ricevuto
+   modbus_serial_new = TRUE;
+
+      if(modbus_serial_state == MODBUS_GETADDY)
+      {
+         modbus_serial_crc.d = 0xFFFF;
+         modbus_rx.address = c;
+         modbus_serial_state++;
+         modbus_rx.len = 0;
+         modbus_rx.error=0;
+      }
+      else if(modbus_serial_state == MODBUS_GETFUNC)
+      {
+         modbus_rx.func = c;
+         modbus_serial_state++;
+      }
+      else if(modbus_serial_state == MODBUS_GETDATA)
+      {
+         if (modbus_rx.len>=MODBUS_SERIAL_RX_BUFFER_SIZE) 
+		modbus_rx.len=MODBUS_SERIAL_RX_BUFFER_SIZE-1;
+
+         modbus_rx.data[modbus_rx.len]=c;
+         modbus_rx.len++;
+      }
+
+      Message[indix++] = c;
+
+      modbus_enable_timeout(TRUE);
+
+}
+
+\end{lstlisting}
+
+È importante sostituire solo dove ci sono i puntini le rispettive implementazioni delle funzioni. Una volta eseguito il porting di queste funzioni, si può prendere il codice presente e utilizzarlo per la propria architettura (file \textit{modbus.h, modbus.c, port.c, port.h, modbus\_port.h, modbus\_port.c, utils.c, utils.h}).
+
+
 \section{Interfaccia grafica}
 
 DA SCRIVERE
@@ -982,7 +1090,25 @@ DA SCRIVERE
 DA SCRIVERE
 
 \section{Interazione con i componenti hardware}
-DA SCRIVERE
+
+È stato deciso di dividere la gestione delle componenti hardware come segue.
+
+\subsection{Sensori}
+
+I sensori vengono pilotati e controllati dal processore LPC1768, in quanto offre un'interfaccia semplice per la gestione di questi componenti, oltrechè offre più sicurezza di controllo di questi. Infatti, avendo un sistema operativo, si è in grado di gestire il controllo dei sensori su threads diverse, in modo che non si sprechino risorse e che quindi il processore non riesca a gestire la parte più importante di tutto il sistema, ossia la comunicazione.
+
+~
+
+Per questo motivo questo slave è in grado di interpretare messaggi sia di lettura/scrittura di registri di holding, sia di registri di coil. I registri di holding verranno utilizzati per memorizzare ed inviare i valori ottenuti dal sensore di temperatura e di umidità, mentre i registri di coil per i sensori di vibrazione, di luce, di distanza e di ostacolo.
+
+\subsection{Relè e luci}
+
+I relè, e quindi anche le luci a led, vengono pilotati tramite il microcontrollore PIC16F77, in quanto non è in grado di eseguire operazioni troppo onerose (controllare in polling dei sensori non darebbe la possibilità di comunicare via Modbus) e offre un'interfaccia semplice di invio segnali digitali ai relè. Quando verrà attivato il segnale da parte del PIC, i relè verranno percorsi da corrente, creando quindi il contatto necessario per far ricevere corrente alle luci.
+
+~
+
+Per questo, lo slave è in grado di interpretare solo messaggi di lettura/scrittura coil, poiché rappresentano bene il messaggio di on/off dei relè. Nell'architettura di origine di questo protocollo infatti i registri di coil venivano associati direttamente ai relè collegati al PLC. 
+
 
 \section{Diagramma dei componenti}
 
