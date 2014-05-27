@@ -2,8 +2,9 @@
 <?scdStore version="2"?><scannerInfo id="org.eclipse.cdt.make.core.discoveredScannerInfo">
 <instance id="com.crt.advproject.config.exe.debug.1309017265;com.crt.advproject.config.exe.debug.1309017265.;com.crt.advproject.gcc.exe.debug.602860079;com.crt.advproject.compiler.input.763000907">
 <collector id="org.eclipse.cdt.make.core.PerProjectSICollector">
-<includePath path="/usr/local/lpcxpresso_7.0.2_102/lpcxpresso/tools/redlib/include"/>
-<includePath path="/usr/local/lpcxpresso_7.0.2_102/lpcxpresso/tools/features/include"/>
+<includePath path="/usr/local/lpcxpresso_7.0.2_102/lpcxpresso/tools/lib/gcc/arm-none-eabi/4.8.3/include"/>
+<includePath path="/usr/local/lpcxpresso_7.0.2_102/lpcxpresso/tools/lib/gcc/arm-none-eabi/4.8.3/include-fixed"/>
+<includePath path="/usr/local/lpcxpresso_7.0.2_102/lpcxpresso/tools/arm-none-eabi/include"/>
 <definedSymbol symbol="__STDC__=1"/>
 <definedSymbol symbol="__STDC_HOSTED__=1"/>
 <definedSymbol symbol="__GNUC__=4"/>
@@ -345,8 +346,9 @@
 </instance>
 <instance id="com.crt.advproject.config.exe.debug.1309017265;com.crt.advproject.config.exe.debug.1309017265.;com.crt.advproject.gas.exe.debug.734146025;com.crt.advproject.assembler.input.371833733">
 <collector id="org.eclipse.cdt.make.core.PerProjectSICollector">
-<includePath path="/usr/local/lpcxpresso_7.0.2_102/lpcxpresso/tools/redlib/include"/>
-<includePath path="/usr/local/lpcxpresso_7.0.2_102/lpcxpresso/tools/features/include"/>
+<includePath path="/usr/local/lpcxpresso_7.0.2_102/lpcxpresso/tools/lib/gcc/arm-none-eabi/4.8.3/include"/>
+<includePath path="/usr/local/lpcxpresso_7.0.2_102/lpcxpresso/tools/lib/gcc/arm-none-eabi/4.8.3/include-fixed"/>
+<includePath path="/usr/local/lpcxpresso_7.0.2_102/lpcxpresso/tools/arm-none-eabi/include"/>
 <definedSymbol symbol="__STDC__=1"/>
 <definedSymbol symbol="__STDC_HOSTED__=1"/>
 <definedSymbol symbol="__GNUC__=4"/>
@@ -1374,8 +1376,9 @@
 </instance>
 <instance id="com.crt.advproject.config.exe.debug.1309017265;com.crt.advproject.config.exe.debug.1309017265.src/cr_startup_lpc176x.c;com.crt.advproject.gcc.exe.debug.602860079.1664746331;com.crt.advproject.compiler.input.791671459">
 <collector id="org.eclipse.cdt.make.core.PerProjectSICollector">
-<includePath path="/usr/local/lpcxpresso_7.0.2_102/lpcxpresso/tools/redlib/include"/>
-<includePath path="/usr/local/lpcxpresso_7.0.2_102/lpcxpresso/tools/features/include"/>
+<includePath path="/usr/local/lpcxpresso_7.0.2_102/lpcxpresso/tools/lib/gcc/arm-none-eabi/4.8.3/include"/>
+<includePath path="/usr/local/lpcxpresso_7.0.2_102/lpcxpresso/tools/lib/gcc/arm-none-eabi/4.8.3/include-fixed"/>
+<includePath path="/usr/local/lpcxpresso_7.0.2_102/lpcxpresso/tools/arm-none-eabi/include"/>
 <definedSymbol symbol="__STDC__=1"/>
 <definedSymbol symbol="__STDC_HOSTED__=1"/>
 <definedSymbol symbol="__GNUC__=4"/>

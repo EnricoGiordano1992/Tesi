@@ -38,6 +38,8 @@ void setJoySwitch(void);
 
 void setBeep(void);
 
+void setInput_P2(void);
+
 
 /********************/
 /*FUNZIONI DI AZIONI*/

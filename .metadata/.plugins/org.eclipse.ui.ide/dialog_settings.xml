@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<list key="installedFeatures">
+		<item value="com.crt.lpcxpresso.feature:7.0.2.201403101252"/>
+		<item value="org.eclipse.cdt.gdb:7.2.1.201309180223"/>
+		<item value="org.eclipse.cdt:8.2.1.201309180223"/>
+		<item value="org.eclipse.cvs:1.4.0.v20130911-1000"/>
+		<item value="org.eclipse.emf.common:2.9.1.v20130827-0309"/>
+		<item value="org.eclipse.emf.ecore:2.9.1.v20130827-0309"/>
+		<item value="org.eclipse.help:2.0.1.v20130911-1000"/>
+		<item value="org.eclipse.platform:4.3.1.v20130911-1000"/>
+		<item value="org.eclipse.rcp:4.3.1.v20130911-1000"/>
+	</list>
 	<section name="ExternalProjectImportWizard">
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_NESTED_PROJECTS"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="/home/enrico/TESI/CMSISv2p00_LPC17xx"/>
 			<item value="/home/enrico/TESI/Modbus_Slave_LPC1768"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">

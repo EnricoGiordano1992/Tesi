@@ -171,3 +171,11 @@ int convert_from_ADC_VR(void)
 
 	return val;
 }
+
+void setInput_P2(void)
+{
+	// Configurazione Pin GPIO = P2[0..7] Drive LED
+		LPC_GPIO2->FIODIR &= 0x00;			// P2[0..7] = Input
+
+}
+

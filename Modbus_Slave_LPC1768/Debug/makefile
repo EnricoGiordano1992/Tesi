@@ -23,25 +23,25 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: modbus_Slave.axf
+all: Modbus_Slave_LPC1768.axf
 
 # Tool invocations
-modbus_Slave.axf: $(OBJS) $(USER_OBJS)
+Modbus_Slave_LPC1768.axf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MCU Linker'
-	arm-none-eabi-gcc -nostdlib -L"/home/enrico/LPXworkspace/CMSISv2p00_LPC17xx/Debug" -Xlinker -Map="modbus_Slave.map" -Xlinker --gc-sections -mcpu=cortex-m3 -mthumb -T "modbus_Slave_Debug.ld" -o "modbus_Slave.axf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -nostdlib -L"/home/enrico/TESI/CMSISv2p00_LPC17xx/Debug" -Xlinker -Map="Modbus_Slave_LPC1768.map" -Xlinker --gc-sections -mcpu=cortex-m3 -mthumb -T "modbus_Slave_Debug.ld" -o "Modbus_Slave_LPC1768.axf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	$(MAKE) --no-print-directory post-build
 
 # Other Targets
 clean:
-	-$(RM) $(OBJS)$(C_DEPS)$(EXECUTABLES) modbus_Slave.axf
+	-$(RM) $(OBJS)$(C_DEPS)$(EXECUTABLES) Modbus_Slave_LPC1768.axf
 	-@echo ' '
 
 post-build:
 	-@echo 'Performing post-build steps'
-	-arm-none-eabi-size "modbus_Slave.axf"; # arm-none-eabi-objcopy -O binary "modbus_Slave.axf" "modbus_Slave.bin" ; checksum -p LPC1768 -d "modbus_Slave.bin";
+	-arm-none-eabi-size "Modbus_Slave_LPC1768.axf"; # arm-none-eabi-objcopy -O binary "Modbus_Slave_LPC1768.axf" "Modbus_Slave_LPC1768.bin" ; checksum -p LPC1768 -d "Modbus_Slave_LPC1768.bin";
 	-@echo ' '
 
 .PHONY: all clean dependents

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;Modbus_Slave_LPC1768/CMSISv2p00_LPC17xx&apos;" deleteContents="false" description="Delete resource &apos;Modbus_Slave_LPC1768/CMSISv2p00_LPC17xx&apos;" element1="/Modbus_Slave_LPC1768/CMSISv2p00_LPC17xx" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1401224095938"/>
+</session>
