@@ -159,7 +159,7 @@ main( void )
       if(modbus_kbhit())
       {
           //attendo di ricevere tutto il messaggio
-          delay_us(30);
+          delay_us(15);
           modbus_slave_start();
       }
 
