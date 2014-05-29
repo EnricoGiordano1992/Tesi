@@ -140,6 +140,7 @@ main( void )
 {
 
     TRISC1 = 0;
+    TRISB = 0b0000000;
 
     blink(5);
 
@@ -169,6 +170,42 @@ main( void )
               RC1 = 1;
           else
               RC1 = 0;
+
+          if(bit_test(coils, 1))
+              RB5 = 1;
+          else
+              RB5 = 0;
+
+          if(bit_test(coils, 2))
+          {
+              RC1 = 1;
+              RB4 = 1;
+          }
+          else
+              RB4 = 0;
+
+
+          if(bit_test(coils, 3))
+              RB3 = 1;
+          else
+              RB3 = 0;
+
+
+          if(bit_test(coils, 4))
+              RB2 = 1;
+          else
+              RB2 = 0;
+
+          if(bit_test(coils, 5))
+              RB1 = 1;
+          else
+              RB1 = 0;
+
+          if(bit_test(coils, 6))
+              RB0 = 1;
+          else
+              RB0 = 0;
+
       }
 
   }
