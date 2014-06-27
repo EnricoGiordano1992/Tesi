@@ -70,14 +70,14 @@
 #endif
 
 #define INCLUDE_EMWIN               1
-#define APP_DEMO_EMWIN              INCLUDE_EMWIN
+#define APP_DEMO_EMWIN              0//INCLUDE_EMWIN
 #define APP_DEMO_YOUR_APP           0 //needs to be off if emWin is on
 #define APP_DEMO_COM                0
 #define APP_DEMO_DRAW               0
 #define APP_DEMO_APPS               0
 #define UEZ_ENABLE_USB_HOST_STACK   0
-#define UEZ_ENABLE_TCPIP_STACK      0
-#define UEZ_BASIC_WEB_SERVER        0
+#define UEZ_ENABLE_TCPIP_STACK      1
+#define UEZ_BASIC_WEB_SERVER        1
 #define UEZ_HTTP_SERVER             UEZ_ENABLE_TCPIP_STACK
 #define UEZ_ENABLE_WIRED_NETWORK    UEZ_ENABLE_TCPIP_STACK
 #define INTERRUPT_BASED_EMAC        0

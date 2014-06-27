@@ -22,6 +22,7 @@
  </Memory4>
  <Project>
   <ProjectSessionItem path="DK-TS-LPC1788" name="unnamed" />
+  <ProjectSessionItem path="DK-TS-LPC1788;DK-TS-LPC1788" name="unnamed" />
  </Project>
  <Register1>
   <RegisterWindow openNodes="" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="" decimalNodes="" octalNodes="" asciiNodes="" />
@@ -59,6 +60,7 @@
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/enrico/TESI/uEZDemo/Source/Data_Model/datamodel.h" y="42" path="/home/enrico/TESI/uEZDemo/Source/Data_Model/datamodel.h" left="0" selected="0" name="unnamed" top="18" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/enrico/TESI/uEZDemo/Source/App/DKTSKit/MainMenu.c" y="279" path="/home/enrico/TESI/uEZDemo/Source/App/DKTSKit/MainMenu.c" left="0" selected="0" name="unnamed" top="268" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/enrico/TESI/uEZDemo/Source/App/uEZDemoCommon/UDCImages.h" y="71" path="/home/enrico/TESI/uEZDemo/Source/App/uEZDemoCommon/UDCImages.h" left="0" selected="0" name="unnamed" top="59" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="37" debugPath="/home/enrico/TESI/uEZDemo/Build/FDI/DK-TS-KIT/DK-TS-LPC1788/FDIDemo/CrossWorks 2.1/Config_Build.h" y="72" path="/home/enrico/TESI/uEZDemo/Build/FDI/DK-TS-KIT/DK-TS-LPC1788/FDIDemo/CrossWorks 2.1/Config_Build.h" left="0" selected="1" name="unnamed" top="60" />
  </Files>
  <ARMCrossStudioWindow activeProject="DK-TS-LPC1788" autoConnectTarget="" debugSearchFileMap="" fileDialogInitialDirectory="/home/enrico/TESI/uEZDemo/Source/GUI" fileDialogDefaultFilter="*.c" autoConnectCapabilities="0" debugSearchPath="" buildConfiguration="Debug" />
 </session>
