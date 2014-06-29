@@ -1,1 +1,0 @@
-ImageConverter.exe "C:\FDI\uEZ\SVN\Internal\uEZDemos\Source\App\PictureFame\Graphics\sampleimages" "VSLIDE" "640x480"

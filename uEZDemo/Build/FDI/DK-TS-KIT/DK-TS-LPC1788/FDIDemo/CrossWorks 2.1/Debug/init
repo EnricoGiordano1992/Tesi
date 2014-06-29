@@ -1,2 +1,0 @@
-target remote localhost:3333
-file DK-TS-LPC1788.elf
