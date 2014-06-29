@@ -1715,8 +1715,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>1</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\..\Source\Devices\MassStorage\SDCard\SDCard_MS_driver_MCI.c</PathWithFileName>
       <FilenameWithoutPath>SDCard_MS_driver_MCI.c</FilenameWithoutPath>
@@ -6251,8 +6251,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>59</TopLine>
-      <CurrentLine>31</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\..\Source\Processor\NXP\LPC17xx_40xx\LPC1788_UtilityFuncs.c</PathWithFileName>
       <FilenameWithoutPath>LPC1788_UtilityFuncs.c</FilenameWithoutPath>
@@ -6579,8 +6579,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>12</TopLine>
-      <CurrentLine>38</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\..\Source\RTOS\FreeRTOS-Plus\FreeRTOS-Plus-Trace\trcBase.c</PathWithFileName>
       <FilenameWithoutPath>trcBase.c</FilenameWithoutPath>
@@ -6643,8 +6643,8 @@
       <Focus>0</Focus>
       <ColumnNumber>4</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>591</TopLine>
-      <CurrentLine>608</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\..\Source\RTOS\FreeRTOS-Plus\FreeRTOS-Plus-Trace\trcUser.c</PathWithFileName>
       <FilenameWithoutPath>trcUser.c</FilenameWithoutPath>

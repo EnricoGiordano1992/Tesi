@@ -55,7 +55,7 @@
 
 #define DKTS_BUTTON_SLIDE_SHOW_DEMO        	0 // set to 1 to be able to load emwin or slideshows using buttons
 //#define UEZ_ICONS_SET       				ICONS_SET_UEZ_OPEN_SOURCE
-#define UEZ_ICONS_SET       				ICONS_SET_PROFESSIONAL_ICONS
+#define UEZ_ICONS_SET       				99//ICONS_SET_PROFESSIONAL_ICONS
 //#define UEZ_ICONS_SET                     ICONS_SET_PROFESSIONAL_ICONS_LARGE
 #define SIMPLEUI_DOUBLE_SIZED_ICONS         1 // 2 to 1 icons
 
