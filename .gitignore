@@ -23,3 +23,7 @@
 *.bak
 *.log
 *.aux
+
+Debug
+Release
+
