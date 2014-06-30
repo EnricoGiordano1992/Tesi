@@ -98,6 +98,34 @@ void modbus_task()
 }
 
 
+
+void modbus_led_check()
+{
+	int i,j;
+	//i risultati si trovano su modbus rx [2, modbus_rx.len -3]
+          modbus_read_coils((int8_t) 1,
+                            (int16_t)0,
+                            (int16_t)5);
+	
+	      for(i = 0, j = 2; j < modbus_rx.len - 3; i++, j+=2)
+        modbus_rx.data_converted[i] = modbus_rx.data[j];
+
+}
+
+
+void modbus_led_task(int led, BOOL on)
+{
+		//se è acceso lo spegni
+		if(on)
+			modbus_write_single_coil((int8_t) 1, (int16_t) led, FALSE);
+
+		else
+			modbus_write_single_coil((int8_t) 1, (int16_t) led, TRUE);
+
+}
+
+
+
 void reset_modbus_data()
 {
    int i = 0;

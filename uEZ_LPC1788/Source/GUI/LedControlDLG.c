@@ -19,6 +19,12 @@
 */
 
 // USER START (Optionally insert additional includes)
+
+#include "GUI.h"
+#include "port.h"
+#include "datamodel.h"
+#include "modbus.h"
+
 // USER END
 
 #include "DIALOG.h"
@@ -56,6 +62,10 @@
 */
 
 // USER START (Optionally insert additional static data)
+
+extern _modbus_rx modbus_rx;
+BOOL led_status[6] = {FALSE};
+
 // USER END
 
 /*********************************************************************
@@ -64,7 +74,7 @@
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { FRAMEWIN_CreateIndirect, "LedControl", ID_FRAMEWIN_0, 0, 0, 640, 480, 0, 0x64, 0 },
-  { BUTTON_CreateIndirect, "exit_button", ID_BUTTON_0, 0, 0, 19, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "exit_button", ID_BUTTON_0, 0, 0, 25, 25, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "led1_button", ID_BUTTON_1, 140, 95, 100, 40, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "led2_button", ID_BUTTON_2, 370, 95, 100, 40, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "led3_button", ID_BUTTON_3, 140, 205, 100, 40, 0, 0x0, 0 },
@@ -100,6 +110,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   int     NCode;
   int     Id;
   // USER START (Optionally insert additional variables)
+	
+	int i;
+
   // USER END
 
   switch (pMsg->MsgId) {
@@ -175,6 +188,25 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_5);
     EDIT_SetText(hItem, " 0FF");
     // USER START (Optionally insert additional code for further widget initialization)
+				
+				//all'inizio chiedo allo slave il valore dei coil
+				
+				modbus_led_check();
+				for(i = 0; i < 6; i++)
+					if(modbus_rx.data_converted[i] == 0xff){
+						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0+i);
+								EDIT_SetText(hItem, " 0N");
+								led_status[i] = 0x01;
+					}
+					else{
+						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0+i);
+								EDIT_SetText(hItem, " 0FF");
+								led_status[i] = 0x00;
+						
+					}
+						
+						
+				
     // USER END
     break;
   case WM_NOTIFY_PARENT:
@@ -185,10 +217,21 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+			  PlayAudio(600, 20);				
+        PlayAudio(600, 20);				
+        PlayAudio(200, 20);				
+
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
+			  PlayAudio(900, 20);				
+        PlayAudio(1000, 20);				
+        PlayAudio(1100, 20);				
+
+        hItem = pMsg->hWin;
+        GUI_EndDialog(hItem, 0);
+
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -199,10 +242,26 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+			        PlayAudio(180, 30);				
+
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
+			
+			modbus_led_task(0, led_status[0]);
+			led_status[0] = !led_status[0];
+			
+			if(led_status[0]){
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
+								EDIT_SetText(hItem, " 0N");						
+					}
+					else{
+						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
+								EDIT_SetText(hItem, " 0FF");						
+					}
+
+			
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -213,11 +272,26 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+						        PlayAudio(180, 30);				
+
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-        // USER END
+ 			
+			modbus_led_task(1, led_status[1]);
+			led_status[1] = !led_status[1];
+
+			if(led_status[1]){
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
+								EDIT_SetText(hItem, " 0N");						
+					}
+					else{
+						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
+								EDIT_SetText(hItem, " 0FF");						
+					}
+			
+       // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
       // USER END
@@ -227,11 +301,26 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+						        PlayAudio(180, 30);				
+
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-        // USER END
+ 			
+			modbus_led_task(2, led_status[2]);
+			led_status[2] = !led_status[2];
+
+			if(led_status[2]){
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
+								EDIT_SetText(hItem, " 0N");						
+					}
+					else{
+						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
+								EDIT_SetText(hItem, " 0FF");						
+					}
+			
+       // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
       // USER END
@@ -241,10 +330,25 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+						        PlayAudio(180, 30);				
+
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
+			
+			modbus_led_task(3, led_status[3]);
+			led_status[3] = !led_status[3];
+
+			if(led_status[3]){
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
+								EDIT_SetText(hItem, " 0N");						
+					}
+					else{
+						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
+								EDIT_SetText(hItem, " 0FF");						
+					}
+			
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -255,11 +359,26 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+						        PlayAudio(180, 30);				
+
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-        // USER END
+ 			
+			modbus_led_task(4, led_status[4]);
+			led_status[4] = !led_status[4];
+	
+			if(led_status[4]){
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_4);
+								EDIT_SetText(hItem, " 0N");						
+					}
+					else{
+						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_4);
+								EDIT_SetText(hItem, " 0FF");						
+					}
+			
+       // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
       // USER END
@@ -269,10 +388,25 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+						        PlayAudio(180, 30);				
+
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
+			
+			modbus_led_task(5, led_status[5]);
+			led_status[5] = !led_status[5];
+	
+			if(led_status[5]){
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_5);
+								EDIT_SetText(hItem, " 0N");						
+					}
+					else{
+						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_5);
+								EDIT_SetText(hItem, " 0FF");						
+					}
+			
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -418,6 +552,14 @@ WM_HWIN CreateLedControl(void) {
 }
 
 // USER START (Optionally insert additional public code)
-// USER END
 
+
+WM_HWIN ExecLedControl(void);
+WM_HWIN ExecLedControl(void) {
+
+  WM_HWIN hWin = GUI_ExecDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
+  return hWin;
+}
+
+// USER END
 /*************************** End of file ****************************/
