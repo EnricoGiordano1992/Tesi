@@ -103,12 +103,11 @@ void modbus_led_check()
 {
 	int i,j;
 	//i risultati si trovano su modbus rx [2, modbus_rx.len -3]
-          modbus_read_coils((int8_t) 1,
-                            (int16_t)0,
-                            (int16_t)5);
+  modbus_read_coils((int8_t) 1,
+		(int16_t)1,
+		(int16_t)6);
 	
-	      for(i = 0, j = 2; j < modbus_rx.len - 3; i++, j+=2)
-        modbus_rx.data_converted[i] = modbus_rx.data[j];
+		modbus_rx.data_converted[0] = modbus_rx.data[1];
 
 }
 

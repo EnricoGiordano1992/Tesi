@@ -64,7 +64,7 @@
 // USER START (Optionally insert additional static data)
 
 extern _modbus_rx modbus_rx;
-BOOL led_status[6] = {FALSE};
+BOOL led_status[7] = {FALSE};
 
 // USER END
 
@@ -99,6 +99,23 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 */
 
 // USER START (Optionally insert additional static code)
+
+void change_led_status(WM_HWIN *hItem, WM_MESSAGE *pMsg, int led){
+
+	modbus_led_task(led, led_status[led]);
+	
+	led_status[led] = !led_status[led];
+			
+	if(led_status[led]){
+		*hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0 + led - 1);
+		EDIT_SetText(*hItem, " 0N");						
+		}
+	else{
+		*hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0 + led - 1);
+		EDIT_SetText(*hItem, " 0FF");						
+		}	
+
+}
 // USER END
 
 /*********************************************************************
@@ -192,16 +209,16 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 				//all'inizio chiedo allo slave il valore dei coil
 				
 				modbus_led_check();
-				for(i = 0; i < 6; i++)
-					if(modbus_rx.data_converted[i] == 0xff){
-						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0+i);
+				for(i = 0; i < 7; i++)
+					if(bit_test(modbus_rx.data_converted[0],i)){
+						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0 + i);
 								EDIT_SetText(hItem, " 0N");
-								led_status[i] = 0x01;
+								led_status[i+1] = TRUE;
 					}
 					else{
-						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0+i);
+						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0 + i);
 								EDIT_SetText(hItem, " 0FF");
-								led_status[i] = 0x00;
+								led_status[i+1] = FALSE;
 						
 					}
 						
@@ -249,18 +266,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
 			
-			modbus_led_task(0, led_status[0]);
-			led_status[0] = !led_status[0];
-			
-			if(led_status[0]){
-				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
-								EDIT_SetText(hItem, " 0N");						
-					}
-					else{
-						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
-								EDIT_SetText(hItem, " 0FF");						
-					}
-
+				change_led_status(&hItem, pMsg, 1);
 			
         // USER END
         break;
@@ -279,17 +285,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
  			
-			modbus_led_task(1, led_status[1]);
-			led_status[1] = !led_status[1];
-
-			if(led_status[1]){
-				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
-								EDIT_SetText(hItem, " 0N");						
-					}
-					else{
-						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
-								EDIT_SetText(hItem, " 0FF");						
-					}
+				change_led_status(&hItem, pMsg, 2);
 			
        // USER END
         break;
@@ -308,17 +304,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
  			
-			modbus_led_task(2, led_status[2]);
-			led_status[2] = !led_status[2];
-
-			if(led_status[2]){
-				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
-								EDIT_SetText(hItem, " 0N");						
-					}
-					else{
-						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
-								EDIT_SetText(hItem, " 0FF");						
-					}
+				change_led_status(&hItem, pMsg, 3);
 			
        // USER END
         break;
@@ -337,17 +323,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
 			
-			modbus_led_task(3, led_status[3]);
-			led_status[3] = !led_status[3];
-
-			if(led_status[3]){
-				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
-								EDIT_SetText(hItem, " 0N");						
-					}
-					else{
-						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
-								EDIT_SetText(hItem, " 0FF");						
-					}
+				change_led_status(&hItem, pMsg, 4);
 			
         // USER END
         break;
@@ -366,17 +342,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
  			
-			modbus_led_task(4, led_status[4]);
-			led_status[4] = !led_status[4];
-	
-			if(led_status[4]){
-				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_4);
-								EDIT_SetText(hItem, " 0N");						
-					}
-					else{
-						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_4);
-								EDIT_SetText(hItem, " 0FF");						
-					}
+				change_led_status(&hItem, pMsg, 5);
 			
        // USER END
         break;
@@ -395,17 +361,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
 			
-			modbus_led_task(5, led_status[5]);
-			led_status[5] = !led_status[5];
-	
-			if(led_status[5]){
-				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_5);
-								EDIT_SetText(hItem, " 0N");						
-					}
-					else{
-						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_5);
-								EDIT_SetText(hItem, " 0FF");						
-					}
+				change_led_status(&hItem, pMsg, 6);
 			
         // USER END
         break;

@@ -15,7 +15,6 @@
 
 #include "port.h"
 
-
 /*Some defines so we can use identifiers to set things up*/
 #define MODBUS_TYPE_MASTER 99999
 #define MODBUS_TYPE_SLAVE 88888
@@ -46,7 +45,7 @@
 #endif
 
 
-
+#define bit_test(var,pos)       ((var) & (1<<(pos)))
 
 
 
