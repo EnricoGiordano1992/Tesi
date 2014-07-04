@@ -341,7 +341,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>2</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>0</OneElfS>
@@ -665,6 +665,16 @@
               <FileName>modbus_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\..\Source\modbus_lib\modbus_task.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>DataModel</GroupName>
+          <Files>
+            <File>
+              <FileName>datamodel.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\..\Source\Data_Model\datamodel.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1332,6 +1342,16 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>DataModel</GroupName>
+          <Files>
+            <File>
+              <FileName>datamodel.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\..\Source\Data_Model\datamodel.h</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -1993,6 +2013,16 @@
               <FileName>modbus_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\..\Source\modbus_lib\modbus_task.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>DataModel</GroupName>
+          <Files>
+            <File>
+              <FileName>datamodel.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\..\Source\Data_Model\datamodel.h</FilePath>
             </File>
           </Files>
         </Group>
