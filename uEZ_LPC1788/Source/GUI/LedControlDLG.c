@@ -69,6 +69,9 @@ BOOL led_status[7] = {FALSE};
 
 BOOL exit_thread_led_control;
 
+//handler al task modbus
+T_uezTask poll_led_t;
+
 BOOL changed;
 
 // USER END
@@ -163,8 +166,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 	int pos_led;
 	BOOL value;
 	
-	//Led_control_data led_control_data;
-	T_uezTask poll_led_t;
 
   // USER END
 
@@ -281,6 +282,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
 			
+				UEZTaskDelete(poll_led_t);
 			  exit_thread_led_control = TRUE;
 			
 			  PlayAudio(900, 20);				
