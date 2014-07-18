@@ -494,11 +494,11 @@ ARM Macro Assembler    Page 8
   354 000000A4                 END
               00000000 
               00000000 
-Command Line: --debug --xref --cpu=Cortex-M3 --apcs=interwork --depend=.\releas
-e\lpc1788_startup.d -o.\release\lpc1788_startup.o -IC:\Keil\ARM\RV31\INC -IC:\K
-eil\ARM\CMSIS\Include -IC:\Keil\ARM\Inc\NXP\LPC177x_8x --predefine="__MICROLIB 
-SETA 1" --list=.\lpc1788_startup.lst ..\..\..\..\..\..\Source\Processor\NXP\LPC
-17xx_40xx\Keil4\LPC1788_startup.s
+Command Line: --debug --xref --cpu=Cortex-M3 --apcs=interwork --depend=.\debug\
+lpc1788_startup.d -o.\debug\lpc1788_startup.o -IC:\Keil\ARM\RV31\INC -IC:\Keil\
+ARM\CMSIS\Include -IC:\Keil\ARM\Inc\NXP\LPC177x_8x --predefine="__MICROLIB SETA
+ 1" --list=.\lpc1788_startup.lst ..\..\..\..\..\..\Source\Processor\NXP\LPC17xx
+_40xx\Keil4\LPC1788_startup.s
 
 
 

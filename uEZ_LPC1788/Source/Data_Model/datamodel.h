@@ -2,6 +2,11 @@
 #define _DATAMODEL_H_
 
 #include "port.h"
+#include "modbus.h"
+#include "GUI.h"
+#include "DIALOG.h"
+
+#define MB_MSG_COIL 8000
 
 
 /*********************
@@ -41,6 +46,7 @@ typedef struct gui{
   radio_value RADIO_value;
 
 }GUI_value;
+
 
 
 

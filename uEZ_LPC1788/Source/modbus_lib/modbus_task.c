@@ -12,18 +12,27 @@
 #include <stdio.h>
 #include "modbus.h"
 
+#ifndef ID_EDIT_0
+#define ID_EDIT_0  (GUI_ID_USER + 0x0A)
+#endif
+
+
+
+
 /***********************************
 *
 * DECLARATION SECTION
 *
 ************************************/
 
+extern void modify_label(WM_MESSAGE *msg);
 extern GUI_value new_GUI_value;
 extern _modbus_rx modbus_rx;
 void modbus_task();
 void reset_modbus_struct();
-
-
+extern void modify_edit_text(int led, BOOL status, char *string);
+extern BOOL changed;
+extern BOOL exit_thread_led_control;
 
 /***********************************
 *
@@ -96,6 +105,64 @@ void modbus_task()
       modbus_rx.len = i;
 
 }
+
+
+
+void modbus_led_check()
+{
+	int i,j;
+	//i risultati si trovano su modbus rx [2, modbus_rx.len -3]
+  modbus_read_coils((int8_t) 1,
+		(int16_t)1,
+		(int16_t)6);
+	
+		modbus_rx.data_converted[0] = modbus_rx.data[1];
+
+}
+
+
+T_uezTaskFunction poll_led_check (T_uezTask aTask, void *aParameters){
+	
+	int i;
+	WM_MESSAGE msg;
+	msg.hWin = (WM_HWIN) aParameters;
+	
+	do{
+		
+		UEZTaskDelay(2000);
+		
+		modbus_led_check();
+
+			for(i = 0; i < 7; i++)
+			if(bit_test(modbus_rx.data_converted[0],i)){
+				
+				msg.MsgId = MB_MSG_COIL;
+				msg.Data.v = ((i+1)*10) + 1;
+				modify_label(&msg);
+			}
+			else{
+				msg.MsgId = MB_MSG_COIL;
+				msg.Data.v = ((i+1)*10) + 0;
+				modify_label(&msg);
+
+			}
+
+	}while(!exit_thread_led_control);
+
+	return 0;	
+}
+
+void modbus_led_task(int led, BOOL on)
+{
+		//se è acceso, lo spegni
+		if(on)
+			modbus_write_single_coil((int8_t) 1, (int16_t) led, FALSE);
+
+		else
+			modbus_write_single_coil((int8_t) 1, (int16_t) led, TRUE);
+
+}
+
 
 
 void reset_modbus_data()
