@@ -8,6 +8,9 @@
 #include "modbus.h"
 #include "init.h"
 #include <FreeRTOS.h>
+#include <task.h>
+#include <portmacro.h>
+#include <uEZ.h>
 /****************************************************************************************************************/
 
 _modbus_rx modbus_rx;
@@ -66,7 +69,7 @@ enum {MODBUS_GETADDY=0, MODBUS_GETFUNC=1, MODBUS_GETDATA=2} modbus_serial_state 
 
 int32_t modbus_serial_wait=MODBUS_SERIAL_TIMEOUT;
 
-BOOL modbus_serial_new= TRUE;
+BOOL modbus_serial_new= FALSE;
 
 BOOL frame_received = FALSE;
 
@@ -93,11 +96,9 @@ union
 *
 ************************************/
 
-
 void delay_us(uint32_t delayInMs)
 {
-	//TIM_Waitms(delayInMs);
-        vTaskDelay(delayInMs / portTICK_RATE_MS);
+		UEZTaskDelay(delayInMs);
 
 }
 
@@ -116,10 +117,10 @@ void MODBUS_SERIAL_WAIT_FOR_RESPONSE()
           //se non ci sono caratteri disponibili, aspetto o vado in timeout
           if(!modbus_kbhit())
             delay_us(1);
-          else
+          else {
           //resetto il timer per 30 ms e mi preparo per aspettare di nuovo
             modbus_serial_wait=30;
-
+					}
         //se non ho letto nulla
         if(frame_received == FALSE)
            //errore!
@@ -323,9 +324,14 @@ void modbus_serial_send_stop()
 BOOL modbus_kbhit()
 {
 
+	BOOL ret;
   if(!modbus_serial_new)
-      return FALSE;
+      ret = FALSE;
 
+	else{
+		   modbus_serial_new=FALSE;
+			ret = TRUE;
+	}
 
    if(modbus_rx.func & 0x80)           //did we receive an error?
    {
@@ -333,9 +339,7 @@ BOOL modbus_kbhit()
       modbus_rx.len = 1;
    }
 
-   modbus_serial_new=FALSE;
-   return TRUE;
-
+		return ret;
 }
 
 

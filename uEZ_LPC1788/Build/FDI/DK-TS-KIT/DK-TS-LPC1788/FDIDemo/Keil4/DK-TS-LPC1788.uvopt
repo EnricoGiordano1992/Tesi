@@ -138,7 +138,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name></Name>
+          <Name>/</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -150,23 +150,7 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>137</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>25006</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\Enrico\Documents\GitHub\Tesi\uEZ_LPC1788\Source\modbus_lib\modbus_task.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>531</LineNumber>
+          <LineNumber>533</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>20226</Address>
           <ByteObject>0</ByteObject>
@@ -175,22 +159,6 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\Enrico\Documents\GitHub\Tesi\uEZ_LPC1788\Source\GUI\LedControlDLG.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>533</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
           <Filename>C:\Users\Enrico\Documents\GitHub\Tesi\uEZ_LPC1788\Source\GUI\LedControlDLG.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
@@ -1333,10 +1301,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>32</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>271</TopLine>
-      <CurrentLine>285</CurrentLine>
+      <TopLine>275</TopLine>
+      <CurrentLine>286</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\..\Source\GUI\LedControlDLG.c</PathWithFileName>
       <FilenameWithoutPath>LedControlDLG.c</FilenameWithoutPath>
@@ -1395,7 +1363,7 @@
 
   <Group>
     <GroupName>Modbus_lib</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1423,8 +1391,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>499</TopLine>
-      <CurrentLine>468</CurrentLine>
+      <TopLine>206</TopLine>
+      <CurrentLine>211</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\..\Source\modbus_lib\modbus_function.c</PathWithFileName>
       <FilenameWithoutPath>modbus_function.c</FilenameWithoutPath>
@@ -1437,13 +1405,29 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>31</ColumnNumber>
+      <ColumnNumber>23</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>133</TopLine>
-      <CurrentLine>145</CurrentLine>
+      <TopLine>6</TopLine>
+      <CurrentLine>132</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\..\Source\modbus_lib\modbus_task.c</PathWithFileName>
       <FilenameWithoutPath>modbus_task.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>39</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\..\..\Source\modbus_lib\modbus.h</PathWithFileName>
+      <FilenameWithoutPath>modbus.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1457,7 +1441,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>39</FileNumber>
+      <FileNumber>40</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
