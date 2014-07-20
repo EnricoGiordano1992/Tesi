@@ -1,0 +1,12 @@
+_timer_interrupt: CODE, 539 0 6
+_InitUART: CODE, 325 0 55
+_ISR: CODE, 419 0 38
+_timer_disable: CODE, 526 0 7
+_main: CODE, 457 0 33
+___lldiv: CODE, 213 0 112
+_timer_settings: CODE, 508 0 11
+_timer_enable: CODE, 519 0 7
+_blink: CODE, 17 0 196
+_uart_rx_interrupt: CODE, 380 0 39
+_ReceiveByteSerially: CODE, 490 0 18
+Total: 522

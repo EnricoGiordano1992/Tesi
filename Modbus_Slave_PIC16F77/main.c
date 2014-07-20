@@ -160,7 +160,7 @@ main( void )
       if(modbus_kbhit())
       {
           //attendo di ricevere tutto il messaggio
-          delay_us(15);
+          delay_us(10);
           modbus_slave_start();
       }
 
@@ -178,7 +178,6 @@ main( void )
 
           if(bit_test(coils, 2))
           {
-              RC1 = 1;
               RB4 = 1;
           }
           else

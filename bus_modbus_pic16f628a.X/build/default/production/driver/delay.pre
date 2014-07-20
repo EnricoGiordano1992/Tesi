@@ -1,0 +1,21 @@
+
+# 1 "driver/delay.c"
+
+# 50 "driver/delay.h"
+void DelayMs(unsigned char);
+
+# 10 "driver/delay.c"
+void
+DelayMs(unsigned char cnt)
+{
+
+# 20
+unsigned char i;
+do {
+i = 4;
+do {
+{ unsigned char _dcnt; _dcnt = (250)*((20*1000L)/(12*1000L)); while(--_dcnt != 0) continue; };
+} while(--i);
+} while(--cnt);
+
+}
