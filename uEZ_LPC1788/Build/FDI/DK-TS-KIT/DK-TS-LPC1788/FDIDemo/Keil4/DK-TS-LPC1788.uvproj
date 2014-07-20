@@ -666,6 +666,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\..\Source\modbus_lib\modbus_task.c</FilePath>
             </File>
+            <File>
+              <FileName>modbus.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\..\Source\modbus_lib\modbus.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1340,6 +1345,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\..\Source\modbus_lib\modbus_task.c</FilePath>
             </File>
+            <File>
+              <FileName>modbus.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\..\Source\modbus_lib\modbus.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2013,6 +2023,11 @@
               <FileName>modbus_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\..\Source\modbus_lib\modbus_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>modbus.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\..\Source\modbus_lib\modbus.h</FilePath>
             </File>
           </Files>
         </Group>

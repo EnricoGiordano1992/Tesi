@@ -33,3 +33,6 @@
 #else
 #define UEZ_REGISTER              1  //Used for registering Queues and Semaphores in the RTOS
 #endif
+
+
+#define INCLUDE_vTaskDelay 1
