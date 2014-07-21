@@ -1243,7 +1243,7 @@
 
   <Group>
     <GroupName>GUI</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1333,10 +1333,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>28</ColumnNumber>
+      <ColumnNumber>6</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>59</TopLine>
-      <CurrentLine>70</CurrentLine>
+      <TopLine>373</TopLine>
+      <CurrentLine>381</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\..\Source\GUI\Modbus_Master_testWindowDLG.c</PathWithFileName>
       <FilenameWithoutPath>Modbus_Master_testWindowDLG.c</FilenameWithoutPath>
@@ -1391,7 +1391,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>206</TopLine>
+      <TopLine>15</TopLine>
       <CurrentLine>211</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\..\Source\modbus_lib\modbus_function.c</PathWithFileName>
@@ -1405,10 +1405,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>23</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>6</TopLine>
-      <CurrentLine>132</CurrentLine>
+      <TopLine>92</TopLine>
+      <CurrentLine>133</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\..\Source\modbus_lib\modbus_task.c</PathWithFileName>
       <FilenameWithoutPath>modbus_task.c</FilenameWithoutPath>

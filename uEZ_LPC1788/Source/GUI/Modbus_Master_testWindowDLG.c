@@ -270,14 +270,68 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
         if (modbus_rx.error != 0)
         {
-          LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_RED);
-          GUI_Delay(100);
-          LISTVIEW_SetItemText(hItem, 0, 0, "No Response");
-        PlayAudio(50, 60);				
-        PlayAudio(0, 20);				
-        PlayAudio(50, 100);				
-        }
+					GUI_Delay(100);
+					modbus_task();
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTVIEW_1);
+					
+					if (modbus_rx.error != 0)
+					{
 
+						LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_RED);
+						GUI_Delay(100);
+						LISTVIEW_SetItemText(hItem, 0, 0, "No Response");
+						PlayAudio(50, 60);				
+						PlayAudio(0, 20);				
+						PlayAudio(50, 100);				
+					}
+					
+					 else if (modbus_rx.func & 0x80)
+					{
+						LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_YELLOW);
+						GUI_Delay(100);
+						LISTVIEW_SetItemText(hItem, 0, 0, "R: Wrong Message");
+						PlayAudio(90, 60);				
+						PlayAudio(90, 20);				
+						PlayAudio(90, 100);				
+
+					}
+
+					else
+					{
+						LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_GREEN);
+						GUI_Delay(100);
+						LISTVIEW_SetItemText(hItem, 0, 0, "R: Message Accepted");
+						PlayAudio(600, 20);				
+						PlayAudio(600, 20);				
+						PlayAudio(200, 20);
+						
+						
+						          //se ho fatto una richiesta read
+						if(new_GUI_value.RADIO_value.radio_selection == 0 || new_GUI_value.RADIO_value.radio_selection == 2 || new_GUI_value.RADIO_value.radio_selection == 4)
+						{
+							if(new_GUI_value.SPINBOX_value.slave_id == 1)
+								slave_column = 1;
+							else
+								slave_column = 2;
+  
+							//scrivo sul listview 0
+							hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTVIEW_0);
+		
+							//mi prendo la sezione dati effettivi
+							for(i = 0; i < modbus_rx.len; i++)
+							{
+								//se leggo holdings
+								if(new_GUI_value.RADIO_value.radio_selection == 0)
+									sprintf(buffer, "%d", i+2000);
+								LISTVIEW_SetItemText(hItem, 0, i, buffer);
+				
+								sprintf(buffer, "%d", modbus_rx.data_converted[i]);
+								LISTVIEW_SetItemText(hItem, slave_column, i, buffer);
+
+							}
+						}
+					}
+				}
         else if (modbus_rx.func & 0x80)
         {
           LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_YELLOW);
@@ -324,7 +378,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
             }
           }
         }
-
+			
 //        reset_modbus_data();
 
         // USER END
