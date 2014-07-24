@@ -1,9 +1,0 @@
-input register:
-
-sudo ./modpoll -m rtu -a 10 -r 1000 -c 4 -t 3 -b 38400 -d 8 -p none /dev/ttyUSB0
-
-holding register:
-
-sudo ./modpoll -m rtu -a 10 -r 1000 -c 4 -t 4 -b 38400 -d 8 -p none /dev/ttyUSB0
-
-
