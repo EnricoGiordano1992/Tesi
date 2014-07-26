@@ -18,6 +18,8 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_NESTED_PROJECTS"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="/home/enrico/TESI/MB_Web_FreeRTOS"/>
+			<item value="/home/enrico/TESI/MMaster_e_web"/>
 			<item value="/home/enrico/LPXworkspace/MB_Web_FreeRTOS"/>
 			<item value="/home/enrico/TESI/CMSISv2p00_LPC17xx"/>
 			<item value="/home/enrico/TESI/Modbus_Slave_LPC1768"/>

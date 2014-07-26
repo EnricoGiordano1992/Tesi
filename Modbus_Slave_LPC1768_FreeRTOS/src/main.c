@@ -22,6 +22,7 @@
 
 #include <cr_section_macros.h>
 #include <NXP/crp.h>
+#include "DHT11.h"
 
 /*
  *
@@ -134,13 +135,25 @@ static void setupHardware(void) {
 
 void ModbusTask(void *pvParameters){
 
-
-
     while(1)
     {
         ( void )eMBPoll(  );
 
     }
+
+}
+
+
+void SensorsTask(void *pvParameters){
+
+	dht11 actual_DHT11;
+
+	while(1){
+
+		actual_DHT11 = test_temperature();
+
+		delay_ms(500);
+	}
 
 }
 
@@ -153,6 +166,7 @@ main( void )
 	setupHardware();
 
 	xTaskCreate( ModbusTask, ( signed portCHAR * ) "ModbusTask", USERTASK_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL );
+	xTaskCreate( SensorsTask, ( signed portCHAR * ) "SensorsTask", USERTASK_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL );
 
 	/*
 		 * Start the scheduler.
