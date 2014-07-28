@@ -24,6 +24,9 @@
 
 dht11 DHT;
 
+#define bit_set(var,pos)       (var |= 1 << pos)
+#define bit_clear(var, pos)    (var &= ~(1 << pos))
+
 
 void pinMode(int mode){
 
@@ -77,89 +80,90 @@ int digitalRead (){
 // DHTLIB_ERROR_TIMEOUT
 int read( )
 {
-        // BUFFER TO RECEIVE
-        uint8_t bits[5];
-        uint8_t cnt = 7;
-        uint8_t idx = 0;
+	// BUFFER TO RECEIVE
+	uint8_t bits[5];
+	uint8_t cnt = 7;
+	uint8_t idx = 0;
 
-        uint8_t data_received[40];
+	uint8_t data_received[40];
 
-        int i;
+	int i;
 
-        // EMPTY BUFFER
-        for (i=0; i< 5; i++) bits[i] = 0;
-        for (i=0; i< 40; i++) data_received[i] = 0;
+	// EMPTY BUFFER
+	for (i=0; i< 5; i++) bits[i] = 0;
+	for (i=0; i< 40; i++) data_received[i] = 0;
 
-        // REQUEST SAMPLE
-        pinMode(OUTPUT);
-        digitalWrite(LOW);
-        Delay(18);
-        digitalWrite(HIGH);
-        delayMicroseconds(40);
-        pinMode(INPUT);
+	// REQUEST SAMPLE
+	pinMode(OUTPUT);
+	digitalWrite(LOW);
+	delay_ms(20);
+	digitalWrite(HIGH);
+	delayMicroseconds(40);
+	pinMode(INPUT);
 
-        // ACKNOWLEDGE or TIMEOUT
-        unsigned int loopCnt = 10000;
-        while(digitalRead() == LOW)
-                if (loopCnt-- == 0) return DHTLIB_ERROR_TIMEOUT;
+	// ACKNOWLEDGE or TIMEOUT
+	unsigned int loopCnt = 10000;
+	while(digitalRead() == LOW)
+		if (loopCnt-- == 0) return DHTLIB_ERROR_TIMEOUT;
 
-        loopCnt = 10000;
-        while(digitalRead() == HIGH)
-                if (loopCnt-- == 0) return DHTLIB_ERROR_TIMEOUT;
+	loopCnt = 10000;
+	while(digitalRead() == HIGH)
+		if (loopCnt-- == 0) return DHTLIB_ERROR_TIMEOUT;
 
-        // READ OUTPUT - 40 BITS => 5 BYTES or TIMEOUT
-        unsigned long t = 0;
-        unsigned long counter = 0;
+	// READ OUTPUT - 40 BITS => 5 BYTES or TIMEOUT
+	unsigned long t = 0;
+	unsigned long counter = 0;
 
-        for (i=0; i<40; i++)
-        {
+	for (i=0; i<40; i++)
+	{
 
-        	//nuova interpretazione
-        	while(digitalRead() != LOW)
-        		if(t++>10000) return DHTLIB_ERROR_TIMEOUT;
-        	t=0;
+		//nuova interpretazione
+		while(digitalRead() == LOW)
+			if(t++>10000) return DHTLIB_ERROR_TIMEOUT;
+		t=0;
 
-        	while(digitalRead() != HIGH)
-        		if(t++>10000) return DHTLIB_ERROR_TIMEOUT;
-        	t=0;
+		while(digitalRead() == HIGH){
+			counter++;
+			if(counter > 10000)
+				break;
+		}
 
-        	while(digitalRead() == HIGH)
-        		counter++;
+		data_received[i] = counter;
 
-        	data_received[i] = counter;
-        	/*if(counter > 33)
-        		data_received[i] = 1;
-        	else
-        		data_received[i] = 0;
-*/
-        	//vale ancora 1? si -> allora è 1
-        	//				 no -> allora è 0
-        	/*if(digitalRead() == HIGH)
-        		bits[idx] |= (1 << cnt--);
-        	else
-        		bits[idx] |= (0 << cnt--);
+		counter = 0;
 
-            if (cnt == 0)   // next byte?
-            {
-                    cnt = 7;    // restart at MSB
-                    idx++;      // next byte!
-            }
-        	 */
+	}
 
-        	counter = 0;
+	pinMode(OUTPUT);
+	digitalWrite(HIGH);
 
-        }
+	DHT.humidity = 0;
+	DHT.temperature = 0;
 
-        // WRITE TO RIGHT VARS
-        // as bits[1] and bits[3] are allways zero they are omitted in formulas.
-        DHT.humidity    = bits[0];
-        DHT.temperature = bits[2];
+	int j = 7;
 
-        uint8_t sum = bits[0] + bits[2];
+	for(i = 0; i < 40; i++){
 
-        if (bits[4] != sum) return DHTLIB_ERROR_CHECKSUM;
-        return DHTLIB_OK;
-}
+		if(data_received[i] > 40)
+			bits[idx] |= (1 << cnt);
+
+		if (cnt == 0)   // next byte?
+		{
+			cnt = 7;    // restart at MSB
+			idx++;      // next byte!
+		}
+		else cnt--;
+	}
+
+	// WRITE TO RIGHT VARS
+	// as bits[1] and bits[3] are allways zero they are omitted in formulas.
+	DHT.humidity    = bits[0];
+	DHT.temperature = bits[2];
+
+	uint8_t sum = bits[0] + bits[1] + bits[2] + bits[3];
+
+	if (bits[4] != sum) return DHTLIB_ERROR_CHECKSUM;
+	return DHTLIB_OK;}
 
 
 
@@ -168,22 +172,22 @@ dht11 test_temperature(){
 
 	int chk;
 
-	 chk = read();    // READ DATA
-	  switch (chk){
-	    case DHTLIB_OK:
-	                //printf("OK,\t");
-	                break;
-	    case DHTLIB_ERROR_CHECKSUM:
-	    	//printf("Checksum error,\t");
-	                break;
-	    case DHTLIB_ERROR_TIMEOUT:
-	    	//      printf("Time out error,\t");
-	                break;
-	    default:
-	    	//      printf("Unknown error,\t");
-	                break;
-	  }
+	chk = read();    // READ DATA
+	switch (chk){
+	case DHTLIB_OK:
+		//printf("OK,\t");
+		break;
+	case DHTLIB_ERROR_CHECKSUM:
+		//printf("Checksum error,\t");
+		break;
+	case DHTLIB_ERROR_TIMEOUT:
+		//      printf("Time out error,\t");
+		break;
+	default:
+		//      printf("Unknown error,\t");
+		break;
+	}
 
-	  return DHT;
+	return DHT;
 
 }

@@ -100,6 +100,12 @@ static void setupHardware(void) {
 
 	setInput_P2();
 
+	ADCInit(ADC_CLK);
+
+	//resetto il termometro
+	pinMode(OUTPUT);
+	digitalWrite(HIGH);
+
 	Initial_Hardware();	//init lcd hardware
 
 	Initial_GLCD_Hor();	//init lcd "software"
@@ -148,11 +154,12 @@ void SensorsTask(void *pvParameters){
 
 	dht11 actual_DHT11;
 
+	Delay(1000000);
 	while(1){
 
 		actual_DHT11 = test_temperature();
 
-		delay_ms(500);
+		Delay(1000000);
 	}
 
 }
@@ -165,8 +172,8 @@ main( void )
 
 	setupHardware();
 
-	xTaskCreate( ModbusTask, ( signed portCHAR * ) "ModbusTask", USERTASK_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL );
-	xTaskCreate( SensorsTask, ( signed portCHAR * ) "SensorsTask", USERTASK_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL );
+	xTaskCreate( ModbusTask, ( signed portCHAR * ) "ModbusTask", USERTASK_STACK_SIZE, NULL, 1, NULL );
+	xTaskCreate( SensorsTask, ( signed portCHAR * ) "SensorsTask", USERTASK_STACK_SIZE, NULL, configMAX_PRIORITIES - 1, NULL );
 
 	/*
 		 * Start the scheduler.

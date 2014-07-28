@@ -32,6 +32,10 @@
 #define LOW 0
 #define HIGH 1
 
+void pinMode(int mode);
+void digitalWrite(int mode);
+
+
 
 int read();
 
