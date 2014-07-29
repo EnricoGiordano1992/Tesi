@@ -3,7 +3,7 @@
 	<extension point="org.eclipse.cdt.core.LanguageSettingsProvider">
 		<provider class="org.eclipse.cdt.managedbuilder.language.settings.providers.GCCBuildCommandParser" id="com.crt.advproject.GCCBuildCommandParser" keep-relative-paths="false" name="MCU GCC Build Output Parser" parameter="(arm-none-eabi-gcc)|(arm-none-eabi-[gc]\+\+)|(gcc)|([gc]\+\+)|(clang)" prefer-non-shared="false">
 			<language id="org.eclipse.cdt.core.gcc">
-				<resource project-relative-path="FreeRTOS_portable/MemMang/heap_2.c">
+				<resource project-relative-path="src/port.c">
 					<entry kind="includePath" name="/${ProjName}/src">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
@@ -22,8 +22,14 @@
 					<entry kind="macro" name="__CODE_RED" value=""/>
 					<entry kind="macro" name="__NEWLIB__" value=""/>
 				</resource>
-				<resource project-relative-path="src/port.c">
+				<resource project-relative-path="Modbus/mbfuncdisc.c">
 					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
 					<entry kind="includePath" name="/${ProjName}/Sensors">
@@ -60,55 +66,6 @@
 					<entry kind="macro" name="__CODE_RED" value=""/>
 					<entry kind="macro" name="__NEWLIB__" value=""/>
 				</resource>
-				<resource project-relative-path="FreeRTOS_portable/MemMang/heap_1.c">
-					<entry kind="includePath" name="/CMSISv2p00_LPC17xx/inc">
-						<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="macro" name="DEBUG" value=""/>
-					<entry kind="macro" name="__CODE_RED" value=""/>
-					<entry kind="macro" name="__NEWLIB__" value=""/>
-					<entry kind="macro" name="__USE_CMSIS" value="CMSISv2p00_LPC17xx"/>
-				</resource>
-				<resource project-relative-path="src/font.c">
-					<entry kind="includePath" name="/${ProjName}/src">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/Sensors">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="macro" name="DEBUG" value=""/>
-					<entry kind="macro" name="GCC_ARMCM3" value=""/>
-					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
-					<entry kind="macro" name="__CODE_RED" value=""/>
-					<entry kind="macro" name="__NEWLIB__" value=""/>
-				</resource>
-				<resource project-relative-path="FreeRTOS_portable/MemMang/heap_3.c">
-					<entry kind="includePath" name="/CMSISv2p00_LPC17xx/inc">
-						<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="macro" name="DEBUG" value=""/>
-					<entry kind="macro" name="__CODE_RED" value=""/>
-					<entry kind="macro" name="__NEWLIB__" value=""/>
-					<entry kind="macro" name="__USE_CMSIS" value="CMSISv2p00_LPC17xx"/>
-				</resource>
 				<resource project-relative-path="src/tcpip.c">
 					<entry kind="includePath" name="/${ProjName}/src">
 						<flag value="VALUE_WORKSPACE_PATH"/>
@@ -125,8 +82,14 @@
 					<entry kind="macro" name="__CODE_RED" value=""/>
 					<entry kind="macro" name="__NEWLIB__" value=""/>
 				</resource>
-				<resource project-relative-path="Sensors/DHT11.c">
+				<resource project-relative-path="Modbus/portevent.c">
 					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
 					<entry kind="includePath" name="/${ProjName}/Sensors">
@@ -144,8 +107,14 @@
 					<entry kind="macro" name="__CODE_RED" value=""/>
 					<entry kind="macro" name="__NEWLIB__" value=""/>
 				</resource>
-				<resource project-relative-path="src/mbascii.c">
+				<resource project-relative-path="Modbus/port.c">
 					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
 					<entry kind="includePath" name="/${ProjName}/Sensors">
@@ -167,23 +136,10 @@
 					<entry kind="includePath" name="/${ProjName}/src">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
-					<entry kind="includePath" name="/${ProjName}/Sensors">
+					<entry kind="includePath" name="/${ProjName}/CM3">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="macro" name="DEBUG" value=""/>
-					<entry kind="macro" name="GCC_ARMCM3" value=""/>
-					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
-					<entry kind="macro" name="__CODE_RED" value=""/>
-					<entry kind="macro" name="__NEWLIB__" value=""/>
-				</resource>
-				<resource project-relative-path="FreeRTOS_src/queue.c">
-					<entry kind="includePath" name="/${ProjName}/src">
+					<entry kind="includePath" name="/${ProjName}/Modbus">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
 					<entry kind="includePath" name="/${ProjName}/Sensors">
@@ -201,46 +157,14 @@
 					<entry kind="macro" name="__CODE_RED" value=""/>
 					<entry kind="macro" name="__NEWLIB__" value=""/>
 				</resource>
-				<resource project-relative-path="src/core_cm3.c">
+				<resource project-relative-path="Modbus/mbutils.c">
 					<entry kind="includePath" name="/${ProjName}/src">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
-					<entry kind="includePath" name="/${ProjName}/Sensors">
+					<entry kind="includePath" name="/${ProjName}/CM3">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="macro" name="DEBUG" value=""/>
-					<entry kind="macro" name="GCC_ARMCM3" value=""/>
-					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
-					<entry kind="macro" name="__CODE_RED" value=""/>
-					<entry kind="macro" name="__NEWLIB__" value=""/>
-				</resource>
-				<resource project-relative-path="FreeRTOS_src/croutine.c">
-					<entry kind="includePath" name="/${ProjName}/src">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/Sensors">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="macro" name="DEBUG" value=""/>
-					<entry kind="macro" name="GCC_ARMCM3" value=""/>
-					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
-					<entry kind="macro" name="__CODE_RED" value=""/>
-					<entry kind="macro" name="__NEWLIB__" value=""/>
-				</resource>
-				<resource project-relative-path="src/mb.c">
-					<entry kind="includePath" name="/${ProjName}/src">
+					<entry kind="includePath" name="/${ProjName}/Modbus">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
 					<entry kind="includePath" name="/${ProjName}/Sensors">
@@ -274,8 +198,14 @@
 					<entry kind="macro" name="__CODE_RED" value=""/>
 					<entry kind="macro" name="__NEWLIB__" value=""/>
 				</resource>
-				<resource project-relative-path="src/mbrtu.c">
+				<resource project-relative-path="CM3/font.c">
 					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
 					<entry kind="includePath" name="/${ProjName}/Sensors">
@@ -293,7 +223,7 @@
 					<entry kind="macro" name="__CODE_RED" value=""/>
 					<entry kind="macro" name="__NEWLIB__" value=""/>
 				</resource>
-				<resource project-relative-path="src/ex_modbus.c">
+				<resource project-relative-path="src/ew_systick.c">
 					<entry kind="includePath" name="/${ProjName}/src">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
@@ -328,7 +258,7 @@
 					<entry kind="macro" name="__CODE_RED" value=""/>
 					<entry kind="macro" name="__NEWLIB__" value=""/>
 				</resource>
-				<resource project-relative-path="src/ew_systick.c">
+				<resource project-relative-path="src/ex_modbus.c">
 					<entry kind="includePath" name="/${ProjName}/src">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
@@ -344,8 +274,17 @@
 					<entry kind="macro" name="__CODE_RED" value=""/>
 					<entry kind="macro" name="__NEWLIB__" value=""/>
 				</resource>
-				<resource project-relative-path="src/ex_modbus_master.c">
+				<resource project-relative-path="Modbus/mbfuncholding.c">
 					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
 					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
@@ -361,6 +300,50 @@
 					<entry kind="macro" name="__NEWLIB__" value=""/>
 				</resource>
 				<resource project-relative-path="src/mbcrc.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="Sensors/sensors.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="src/mbfunccoils.c">
 					<entry kind="includePath" name="/${ProjName}/src">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
@@ -398,7 +381,7 @@
 					<entry kind="macro" name="__CODE_RED" value=""/>
 					<entry kind="macro" name="__NEWLIB__" value=""/>
 				</resource>
-				<resource project-relative-path="src/mbfunccoils.c">
+				<resource project-relative-path="src/mbutils.c">
 					<entry kind="includePath" name="/${ProjName}/src">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
@@ -416,61 +399,17 @@
 					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
 					<entry kind="macro" name="__CODE_RED" value=""/>
 					<entry kind="macro" name="__NEWLIB__" value=""/>
-				</resource>
-				<resource project-relative-path="src/mbfuncinput.c">
-					<entry kind="includePath" name="/${ProjName}/src">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/Sensors">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="macro" name="DEBUG" value=""/>
-					<entry kind="macro" name="GCC_ARMCM3" value=""/>
-					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
-					<entry kind="macro" name="__CODE_RED" value=""/>
-					<entry kind="macro" name="__NEWLIB__" value=""/>
-				</resource>
-				<resource project-relative-path="src/portserial.c">
-					<entry kind="includePath" name="/${ProjName}/src">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/Sensors">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="macro" name="DEBUG" value=""/>
-					<entry kind="macro" name="GCC_ARMCM3" value=""/>
-					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
-					<entry kind="macro" name="__CODE_RED" value=""/>
-					<entry kind="macro" name="__NEWLIB__" value=""/>
-				</resource>
-				<resource project-relative-path="src/cr_startup_lpc176x.c">
-					<entry kind="includePath" name="/${ProjName}/Modbus_Slave_LPC1768/FreeRTOS_portable">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/Modbus_Slave_LPC1768/FreeRTOS_include">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="macro" name="DEBUG" value=""/>
-					<entry kind="macro" name="__CODE_RED" value=""/>
-					<entry kind="macro" name="__NEWLIB__" value=""/>
-					<entry kind="macro" name="__USE_CMSIS" value="CMSISv2p00_LPC17xx"/>
 				</resource>
 				<resource project-relative-path="FreeRTOS_src/list.c">
 					<entry kind="includePath" name="/${ProjName}/src">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
 					<entry kind="includePath" name="/${ProjName}/Sensors">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
@@ -486,8 +425,14 @@
 					<entry kind="macro" name="__CODE_RED" value=""/>
 					<entry kind="macro" name="__NEWLIB__" value=""/>
 				</resource>
-				<resource project-relative-path="src/mbutils.c">
+				<resource project-relative-path="Modbus/mbfuncother.c">
 					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
 					<entry kind="includePath" name="/${ProjName}/Sensors">
@@ -543,8 +488,636 @@
 					<entry kind="macro" name="__CODE_RED" value=""/>
 					<entry kind="macro" name="__NEWLIB__" value=""/>
 				</resource>
+				<resource project-relative-path="src/porttimer.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="CM3/lpc1768.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="CM3/core_cm3.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="MemMang/heap_2.c">
+					<entry kind="includePath" name="/CMSISv2p00_LPC17xx/inc">
+						<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+					<entry kind="macro" name="__USE_CMSIS" value="CMSISv2p00_LPC17xx"/>
+				</resource>
+				<resource project-relative-path="src/system_LPC17xx.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="FreeRTOS_portable/MemMang/heap_2.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="FreeRTOS_portable/MemMang/heap_1.c">
+					<entry kind="includePath" name="/CMSISv2p00_LPC17xx/inc">
+						<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+					<entry kind="macro" name="__USE_CMSIS" value="CMSISv2p00_LPC17xx"/>
+				</resource>
+				<resource project-relative-path="FreeRTOS_portable/MemMang/heap_3.c">
+					<entry kind="includePath" name="/CMSISv2p00_LPC17xx/inc">
+						<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+					<entry kind="macro" name="__USE_CMSIS" value="CMSISv2p00_LPC17xx"/>
+				</resource>
+				<resource project-relative-path="src/font.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="src/mbascii.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="Sensors/DHT11.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="Modbus/porttimer.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="FreeRTOS_src/queue.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="src/core_cm3.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="Modbus/mbfunccoils.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="FreeRTOS_src/croutine.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="src/mb.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="src/mbrtu.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="Modbus/mbrtu.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="Modbus/mbascii.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="Modbus/mbfuncinput.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="src/ex_modbus_master.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="src/mbfuncinput.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="Modbus/portserial.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="src/cr_startup_lpc176x.c">
+					<entry kind="includePath" name="/${ProjName}/Modbus_Slave_LPC1768/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus_Slave_LPC1768/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+					<entry kind="macro" name="__USE_CMSIS" value="CMSISv2p00_LPC17xx"/>
+				</resource>
+				<resource project-relative-path="src/portserial.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="CM3/lcd_horizontal.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="src/ModbusTask.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="Modbus/mb.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
 				<resource project-relative-path="FreeRTOS_src/timers.c">
 					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
 					<entry kind="includePath" name="/${ProjName}/Sensors">
@@ -566,23 +1139,10 @@
 					<entry kind="includePath" name="/${ProjName}/src">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
-					<entry kind="includePath" name="/${ProjName}/Sensors">
+					<entry kind="includePath" name="/${ProjName}/CM3">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
-						<flag value="VALUE_WORKSPACE_PATH"/>
-					</entry>
-					<entry kind="macro" name="DEBUG" value=""/>
-					<entry kind="macro" name="GCC_ARMCM3" value=""/>
-					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
-					<entry kind="macro" name="__CODE_RED" value=""/>
-					<entry kind="macro" name="__NEWLIB__" value=""/>
-				</resource>
-				<resource project-relative-path="src/porttimer.c">
-					<entry kind="includePath" name="/${ProjName}/src">
+					<entry kind="includePath" name="/${ProjName}/Modbus">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
 					<entry kind="includePath" name="/${ProjName}/Sensors">
@@ -623,6 +1183,37 @@
 					<entry kind="includePath" name="/${ProjName}/src">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
+					<entry kind="macro" name="__CODE_RED" value=""/>
+					<entry kind="macro" name="__NEWLIB__" value=""/>
+				</resource>
+				<resource project-relative-path="Modbus/mbcrc.c">
+					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
 					<entry kind="includePath" name="/${ProjName}/Sensors">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
@@ -640,6 +1231,12 @@
 				</resource>
 				<resource project-relative-path="src/cr_startup_lpc17.c">
 					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
 					<entry kind="includePath" name="/${ProjName}/Sensors">
@@ -676,26 +1273,39 @@
 					<entry kind="macro" name="__CODE_RED" value=""/>
 					<entry kind="macro" name="__NEWLIB__" value=""/>
 				</resource>
-				<resource project-relative-path="MemMang/heap_2.c">
-					<entry kind="includePath" name="/CMSISv2p00_LPC17xx/inc">
-						<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
-					</entry>
+				<resource project-relative-path="Modbus/mbfuncdiag.c">
 					<entry kind="includePath" name="/${ProjName}/src">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
-					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Sensors">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
 					<entry kind="includePath" name="/${ProjName}/FreeRTOS_include">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
+					<entry kind="includePath" name="/${ProjName}/FreeRTOS_portable">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
 					<entry kind="macro" name="DEBUG" value=""/>
+					<entry kind="macro" name="GCC_ARMCM3" value=""/>
+					<entry kind="macro" name="PACK_STRUCT_END" value="__attribute\(\(packed\)\)"/>
 					<entry kind="macro" name="__CODE_RED" value=""/>
 					<entry kind="macro" name="__NEWLIB__" value=""/>
-					<entry kind="macro" name="__USE_CMSIS" value="CMSISv2p00_LPC17xx"/>
 				</resource>
-				<resource project-relative-path="src/system_LPC17xx.c">
+				<resource project-relative-path="CM3/system_LPC17xx.c">
 					<entry kind="includePath" name="/${ProjName}/src">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/CM3">
+						<flag value="VALUE_WORKSPACE_PATH"/>
+					</entry>
+					<entry kind="includePath" name="/${ProjName}/Modbus">
 						<flag value="VALUE_WORKSPACE_PATH"/>
 					</entry>
 					<entry kind="includePath" name="/${ProjName}/Sensors">
