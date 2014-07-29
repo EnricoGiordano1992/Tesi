@@ -6,7 +6,7 @@
  Copyright   : Copyright (C) 
  Description : main definition
 ===============================================================================
-*/
+ */
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -87,6 +87,10 @@ static UCHAR 	ucRegCoilBuf[REG_COIL_LOCATIONS] = "\0";
 
 #define USERTASK_STACK_SIZE configMINIMAL_STACK_SIZE
 
+
+xSemaphoreHandle xSemaphore;
+
+
 void __error__(char *pcFilename, unsigned long ulLine) {
 }
 
@@ -115,23 +119,23 @@ static void setupHardware(void) {
 
 	int sto_premendo = 0;
 
-    eMBErrorCode    eStatus;
+	eMBErrorCode    eStatus;
 
-    eStatus = eMBInit( MB_RTU, 0x0A, 0, 38400, MB_PAR_NONE );
+	eStatus = eMBInit( MB_RTU, 0x0A, 0, 38400, MB_PAR_NONE );
 
-    /* Initialize the holding register values before starting the
-     * Modbus stack
-     */
-    int i;
+	/* Initialize the holding register values before starting the
+	 * Modbus stack
+	 */
+	int i;
 
-    for( i = 0; i < REG_HOLDING_NREGS; i++ )
-    {
-        usRegHoldingBuf[i] = ( unsigned short )i;
-    }
+	for( i = 0; i < REG_HOLDING_NREGS; i++ )
+	{
+		usRegHoldingBuf[i] = ( unsigned short )i;
+	}
 
 
-    /* Enable the Modbus Protocol Stack. */
-    eStatus = eMBEnable(  );
+	/* Enable the Modbus Protocol Stack. */
+	eStatus = eMBEnable(  );
 
 
 	// Warning: If you do not initialize the hardware clock, the timings will be inaccurate
@@ -141,11 +145,17 @@ static void setupHardware(void) {
 
 void ModbusTask(void *pvParameters){
 
-    while(1)
-    {
-        ( void )eMBPoll(  );
+	while(1)
+	{
+		// See if we can obtain the semaphore.  If the semaphore is not available
+		// wait 50 ticks to see if it becomes free.
+		if( xSemaphoreTake( xSemaphore,  50 ) == pdTRUE )
+		{
+			( void )eMBPoll(  );
 
-    }
+			xSemaphoreGive( xSemaphore );
+		}
+	}
 
 }
 
@@ -156,9 +166,14 @@ void SensorsTask(void *pvParameters){
 
 	Delay(1000000);
 	while(1){
+		// See if we can obtain the semaphore.  If the semaphore is not available
+		// wait 50 ticks to see if it becomes free.
+		if( xSemaphoreTake( xSemaphore,  50 ) == pdTRUE )
+		{
+			actual_DHT11 = test_temperature();
 
-		actual_DHT11 = test_temperature();
-
+			xSemaphoreGive(xSemaphore);
+		}
 		Delay(1000000);
 	}
 
@@ -172,12 +187,14 @@ main( void )
 
 	setupHardware();
 
+	xSemaphore = xSemaphoreCreateMutex();
+
 	xTaskCreate( ModbusTask, ( signed portCHAR * ) "ModbusTask", USERTASK_STACK_SIZE, NULL, 1, NULL );
 	xTaskCreate( SensorsTask, ( signed portCHAR * ) "SensorsTask", USERTASK_STACK_SIZE, NULL, configMAX_PRIORITIES - 1, NULL );
 
 	/*
-		 * Start the scheduler.
-		 */
+	 * Start the scheduler.
+	 */
 	vTaskStartScheduler();
 
 	return 1;
@@ -195,102 +212,102 @@ eMBErrorCode
 eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegisterMode eMode )
 {
 	{
-	    eMBErrorCode    eStatus = MB_ENOERR;
-	    int             iRegIndex;
+		eMBErrorCode    eStatus = MB_ENOERR;
+		int             iRegIndex;
 
-	    if( ( usAddress >= REG_HOLDING_START ) &&
-	        ( usAddress + usNRegs <= REG_HOLDING_START + REG_HOLDING_NREGS ) )
-	    {
-	        iRegIndex = ( int )( usAddress - usRegHoldingStart );
-	        switch ( eMode )
-	        {
-	            /* Pass current register values to the protocol stack. */
-	        case MB_REG_READ:
-	            while( usNRegs > 0 )
-	            {
-	                *pucRegBuffer++ = ( unsigned char )( usRegHoldingBuf[iRegIndex] >> 8 );
-	                *pucRegBuffer++ = ( unsigned char )( usRegHoldingBuf[iRegIndex] & 0xFF );
-	                iRegIndex++;
-	                usNRegs--;
-	            }
-	            break;
+		if( ( usAddress >= REG_HOLDING_START ) &&
+				( usAddress + usNRegs <= REG_HOLDING_START + REG_HOLDING_NREGS ) )
+		{
+			iRegIndex = ( int )( usAddress - usRegHoldingStart );
+			switch ( eMode )
+			{
+			/* Pass current register values to the protocol stack. */
+			case MB_REG_READ:
+				while( usNRegs > 0 )
+				{
+					*pucRegBuffer++ = ( unsigned char )( usRegHoldingBuf[iRegIndex] >> 8 );
+					*pucRegBuffer++ = ( unsigned char )( usRegHoldingBuf[iRegIndex] & 0xFF );
+					iRegIndex++;
+					usNRegs--;
+				}
+				break;
 
-	            /* Update current register values with new values from the
-	             * protocol stack. */
-	        case MB_REG_WRITE:
-	            while( usNRegs > 0 )
-	            {
-	                usRegHoldingBuf[iRegIndex] = *pucRegBuffer++ << 8;
-	                usRegHoldingBuf[iRegIndex] |= *pucRegBuffer++;
-	                iRegIndex++;
-	                usNRegs--;
-	            }
-	        }
-	    }
-	    else
-	    {
-	        eStatus = MB_ENOREG;
-	    }
-	    return eStatus;
+				/* Update current register values with new values from the
+				 * protocol stack. */
+			case MB_REG_WRITE:
+				while( usNRegs > 0 )
+				{
+					usRegHoldingBuf[iRegIndex] = *pucRegBuffer++ << 8;
+					usRegHoldingBuf[iRegIndex] |= *pucRegBuffer++;
+					iRegIndex++;
+					usNRegs--;
+				}
+			}
+		}
+		else
+		{
+			eStatus = MB_ENOREG;
+		}
+		return eStatus;
 	}
 
-//	return MB_ENOREG;
+	//	return MB_ENOREG;
 }
 
 
 eMBErrorCode
 eMBRegCoilsCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNCoils, eMBRegisterMode eMode )
 {
-    eMBErrorCode eStatus = MB_ENOERR;
-    int iNCoils = (int) usNCoils;
-    USHORT usBitOffset;
+	eMBErrorCode eStatus = MB_ENOERR;
+	int iNCoils = (int) usNCoils;
+	USHORT usBitOffset;
 
-    usAddress--;
+	usAddress--;
 
-    // Check if we have registers mapped at this block
-    if ((usAddress >= REG_COIL_START) && (usAddress + usNCoils <= REG_COIL_START
-            + REG_COILS_SIZE))
-    {
-        usBitOffset = (USHORT) (usAddress - REG_COIL_START);
-        switch (eMode)
-        {
-            // Read current values and pass to protocol stack
-            case MB_REG_READ:
-                while (iNCoils > 0)
-                {
-                    *pucRegBuffer++ = xMBUtilGetBits( ucRegCoilBuf, usBitOffset,
-                            ( unsigned char )( iNCoils > 8 ? 8 : iNCoils ) );
-                    iNCoils -= 8;
-                    usBitOffset += 8;
-                }
-                break;
+	// Check if we have registers mapped at this block
+	if ((usAddress >= REG_COIL_START) && (usAddress + usNCoils <= REG_COIL_START
+			+ REG_COILS_SIZE))
+	{
+		usBitOffset = (USHORT) (usAddress - REG_COIL_START);
+		switch (eMode)
+		{
+		// Read current values and pass to protocol stack
+		case MB_REG_READ:
+			while (iNCoils > 0)
+			{
+				*pucRegBuffer++ = xMBUtilGetBits( ucRegCoilBuf, usBitOffset,
+						( unsigned char )( iNCoils > 8 ? 8 : iNCoils ) );
+				iNCoils -= 8;
+				usBitOffset += 8;
+			}
+			break;
 
-            // Update current register values
-            case MB_REG_WRITE:
-                while (iNCoils > 0)
-                {
-                    xMBUtilSetBits( ucRegCoilBuf, usBitOffset,
-                            ( unsigned char )( iNCoils > 8 ? 8 : iNCoils ),
-                            *pucRegBuffer++ );
-                    iNCoils -= 8;
-                    usBitOffset += 8;
-                }
-                break;
-        }
-    }
-    else
-    {
-        eStatus = MB_ENOREG;
-    }
+			// Update current register values
+		case MB_REG_WRITE:
+			while (iNCoils > 0)
+			{
+				xMBUtilSetBits( ucRegCoilBuf, usBitOffset,
+						( unsigned char )( iNCoils > 8 ? 8 : iNCoils ),
+						*pucRegBuffer++ );
+				iNCoils -= 8;
+				usBitOffset += 8;
+			}
+			break;
+		}
+	}
+	else
+	{
+		eStatus = MB_ENOREG;
+	}
 
-    return eStatus;}
+	return eStatus;}
 
 eMBErrorCode
 eMBRegDiscreteCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNDiscrete )
 {
-    ( void )pucRegBuffer;
-    ( void )usAddress;
-    ( void )usNDiscrete;
-    return MB_ENOREG;
+	( void )pucRegBuffer;
+	( void )usAddress;
+	( void )usNDiscrete;
+	return MB_ENOREG;
 }
 
