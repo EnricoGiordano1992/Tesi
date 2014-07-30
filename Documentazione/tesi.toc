@@ -5,44 +5,46 @@
 \contentsline {section}{\numberline {2.2}LPC1768}{10}{section.2.2}
 \contentsline {section}{\numberline {2.3}PIC16F77}{10}{section.2.3}
 \contentsline {section}{\numberline {2.4}Bus RS232}{11}{section.2.4}
-\contentsline {section}{\numberline {2.5}Considerazioni}{11}{section.2.5}
-\contentsline {section}{\numberline {2.6}Altri componenti}{12}{section.2.6}
-\contentsline {subsection}{\numberline {2.6.1}Sensori}{12}{subsection.2.6.1}
-\contentsline {subsection}{\numberline {2.6.2}Rel\IeC {\`e}}{13}{subsection.2.6.2}
-\contentsline {subsection}{\numberline {2.6.3}Luci a led}{14}{subsection.2.6.3}
-\contentsline {chapter}{\numberline {3}Architettura Software}{15}{chapter.3}
-\contentsline {section}{\numberline {3.1}Dispositivo Master}{15}{section.3.1}
-\contentsline {subsection}{\numberline {3.1.1}uEZ}{15}{subsection.3.1.1}
-\contentsline {subsection}{\numberline {3.1.2}emWin}{16}{subsection.3.1.2}
-\contentsline {section}{\numberline {3.2}Dispositivi Slave}{17}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}FreeRTOS}{17}{subsection.3.2.1}
-\contentsline {chapter}{\numberline {4}Modello di sistema}{19}{chapter.4}
-\contentsline {section}{\numberline {4.1}Use Case Diagram}{20}{section.4.1}
-\contentsline {section}{\numberline {4.2}Sequence Diagram}{22}{section.4.2}
-\contentsline {chapter}{\numberline {5}Implementazione del sistema}{23}{chapter.5}
-\contentsline {section}{\numberline {5.1}Protocollo Modbus}{23}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}Tipi di messaggi}{23}{subsection.5.1.1}
-\contentsline {subsection}{\numberline {5.1.2}Registri}{23}{subsection.5.1.2}
-\contentsline {subsection}{\numberline {5.1.3}Tipi di richiesta}{24}{subsection.5.1.3}
-\contentsline {subsection}{\numberline {5.1.4}CRC16}{25}{subsection.5.1.4}
-\contentsline {subsection}{\numberline {5.1.5}Sincronizzazione}{25}{subsection.5.1.5}
-\contentsline {section}{\numberline {5.2}Implementazione del protocollo Modbus}{25}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Master}{26}{subsection.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}Slave}{28}{subsection.5.2.2}
-\contentsline {subsubsection}{FreeModbus}{28}{section*.3}
-\contentsline {subsubsection}{MiniModbus}{30}{section*.4}
-\contentsline {section}{\numberline {5.3}Interfaccia grafica}{32}{section.5.3}
-\contentsline {subsection}{\numberline {5.3.1}Men\IeC {\`u} principale}{32}{subsection.5.3.1}
-\contentsline {subsection}{\numberline {5.3.2}Controllo Luci}{32}{subsection.5.3.2}
-\contentsline {subsection}{\numberline {5.3.3}Controllo Sensori}{33}{subsection.5.3.3}
-\contentsline {subsection}{\numberline {5.3.4}Schermata di Debug}{33}{subsection.5.3.4}
-\contentsline {section}{\numberline {5.4}Interazione con i componenti hardware}{33}{section.5.4}
-\contentsline {subsection}{\numberline {5.4.1}Sensori}{33}{subsection.5.4.1}
-\contentsline {subsection}{\numberline {5.4.2}Rel\IeC {\`e} e luci}{33}{subsection.5.4.2}
-\contentsline {section}{\numberline {5.5}Diagramma dei componenti}{33}{section.5.5}
-\contentsline {subsection}{\numberline {5.5.1}Architettura Hardware}{33}{subsection.5.5.1}
-\contentsline {subsection}{\numberline {5.5.2}Architettura Software}{33}{subsection.5.5.2}
-\contentsline {chapter}{\numberline {6}Programmi utilizzati}{35}{chapter.6}
-\contentsline {section}{\numberline {6.1}LPC1788}{35}{section.6.1}
-\contentsline {section}{\numberline {6.2}LPC1768}{35}{section.6.2}
-\contentsline {section}{\numberline {6.3}PIC16F77}{35}{section.6.3}
+\contentsline {section}{\numberline {2.5}Considerazioni}{13}{section.2.5}
+\contentsline {section}{\numberline {2.6}Altri componenti}{13}{section.2.6}
+\contentsline {subsection}{\numberline {2.6.1}Sensori}{13}{subsection.2.6.1}
+\contentsline {subsection}{\numberline {2.6.2}DHT11}{15}{subsection.2.6.2}
+\contentsline {subsection}{\numberline {2.6.3}Rel\IeC {\`e}}{16}{subsection.2.6.3}
+\contentsline {subsection}{\numberline {2.6.4}Luci a led}{16}{subsection.2.6.4}
+\contentsline {subsection}{\numberline {2.6.5}Foto del sistema hardware}{16}{subsection.2.6.5}
+\contentsline {chapter}{\numberline {3}Architettura Software}{21}{chapter.3}
+\contentsline {section}{\numberline {3.1}Dispositivo Master}{21}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}uEZ}{21}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}emWin}{22}{subsection.3.1.2}
+\contentsline {section}{\numberline {3.2}Dispositivi Slave}{23}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}FreeRTOS}{23}{subsection.3.2.1}
+\contentsline {chapter}{\numberline {4}Modello di sistema}{25}{chapter.4}
+\contentsline {section}{\numberline {4.1}Use Case Diagram}{26}{section.4.1}
+\contentsline {section}{\numberline {4.2}Sequence Diagram}{28}{section.4.2}
+\contentsline {chapter}{\numberline {5}Implementazione del sistema}{29}{chapter.5}
+\contentsline {section}{\numberline {5.1}Protocollo Modbus}{29}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Tipi di messaggi}{29}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}Registri}{29}{subsection.5.1.2}
+\contentsline {subsection}{\numberline {5.1.3}Tipi di richiesta}{30}{subsection.5.1.3}
+\contentsline {subsection}{\numberline {5.1.4}CRC16}{31}{subsection.5.1.4}
+\contentsline {subsection}{\numberline {5.1.5}Sincronizzazione}{31}{subsection.5.1.5}
+\contentsline {section}{\numberline {5.2}Implementazione del protocollo Modbus}{31}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Master}{32}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Slave}{34}{subsection.5.2.2}
+\contentsline {subsubsection}{FreeModbus}{34}{section*.3}
+\contentsline {subsubsection}{MiniModbus}{36}{section*.4}
+\contentsline {section}{\numberline {5.3}Interfaccia grafica}{38}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Men\IeC {\`u} principale}{38}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}Controllo Luci}{39}{subsection.5.3.2}
+\contentsline {subsection}{\numberline {5.3.3}Controllo Sensori}{39}{subsection.5.3.3}
+\contentsline {subsection}{\numberline {5.3.4}Schermata di Debug}{39}{subsection.5.3.4}
+\contentsline {section}{\numberline {5.4}Interazione con i componenti hardware}{39}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}Sensori}{39}{subsection.5.4.1}
+\contentsline {subsection}{\numberline {5.4.2}Rel\IeC {\`e} e luci}{39}{subsection.5.4.2}
+\contentsline {section}{\numberline {5.5}Diagramma dei componenti}{39}{section.5.5}
+\contentsline {subsection}{\numberline {5.5.1}Architettura Hardware}{39}{subsection.5.5.1}
+\contentsline {subsection}{\numberline {5.5.2}Architettura Software}{39}{subsection.5.5.2}
+\contentsline {chapter}{\numberline {6}Programmi utilizzati}{41}{chapter.6}
+\contentsline {section}{\numberline {6.1}LPC1788}{41}{section.6.1}
+\contentsline {section}{\numberline {6.2}LPC1768}{41}{section.6.2}
+\contentsline {section}{\numberline {6.3}PIC16F77}{41}{section.6.3}

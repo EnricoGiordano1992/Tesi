@@ -144,6 +144,8 @@ Per la realizzazione di questo sistema, sono state scelte 3 tecnologie different
 
 
 \section{LPC1788}
+
+
 Questo è un microprocessore ARM di famiglia Cortex-M3 utilizzato come dispositivo Master che controlla tutti gli altri dispositivi. È un processore a 32 bit, quindi in grado di avere $2^{32}$ spazi di indirizzamento. Le sue periferiche principali sono: GPIO, I2C, UART, USB, EMAC, Ethernet, AUX Stereo, INPUT Mono, PWM a 32 bit, ADC, DAC. Può essere alimentato con $3,3 \sim 5 V$ e assorbe $200 mA$. Possiede $512KB$ di memoria FLASH, $96KB$ di memoria SRAM, $8MB$ di SDRAM (esterna), $1KB$ di memoria sicura EEPROM (esterna) per poter resettare guasti irreparabili (perdita di BIOS, anomalie su codice, ecc...). La grande quantità di memoria FLASH permette di sviluppare un software molto esteso. Poiché al suo interno è stata integrata una GPU, offre maggiori prestazioni grafiche, quindi è stato utilizzato per presentare l'interfaccia grafica per poter interagire con tutto il sistema. Di questo processore sono state utilizate queste periferiche:
 
 \begin{itemize}[noitemsep,topsep=10pt,parsep=23pt,partopsep=0pt]
@@ -175,6 +177,9 @@ LCD 					& 20 \\
  
 
 \section{LPC1768}
+
+
+
 Questo è un microprocessore ARM di famiglia Cortex-M3 utilizzato come dispositivo Slave che viene controllato dal Master e interagisce direttamente con i sensori e luci. Anche questo processore è a 32 bit con quasi le stesse caratteristiche del processore precedentemente descritto, però risulta essere meno potente in quanto non possiede GPU integrata e possiede meno memoria (circa la metà). Per questo è stato deciso di usarlo per controllare i sensori e pilotare luci, anche perché il codice del dispositivo Master sarebbe risultato troppo grande e computazionalmente oneroso per questo processore. Possiede un piccolo LCD TouchScreen, che viene utilizzato solo per presentare il firmware e le caratteristiche del settaggio del protocollo per comunicare. Può essere alimentato con $3,3 \sim 5 V$ e assorbe $200 mA$. Di questo processore è stato utilizzato:
 
 \begin{itemize}[noitemsep,topsep=10pt,parsep=23pt,partopsep=0pt]
@@ -201,6 +206,8 @@ convertitore segnali TTL - RS232 	&  2  \\
 \end{tabular}
 
 \section{PIC16F77}
+
+
 Questo è un microcontrollore PICMicro di famiglia PIC16 con memoria FLASH. Essendo un microcontrollore, è un'architettura diversa da quelle precedentemente descritte, in quanto risulta essere meno potente ma più ottimizzato a livello di costi. È un piccolo sistema a 8 bit, quindi possiede $2^8$ locazioni di indirizzamento; questo significa che è molto meno performante, in quanto sono disponibili poche locazioni e quindi meno memoria contigua utilizzabile. La memoria FLASH è un quarto di quella del microprocessore LPC1768, quindi il codice scritto deve risultare il più piccolo possibile. Le periferiche disponibili sono: UART, PWM, GPIO, DAC, TIMER. Può essere alimentato con $3,3 \sim 5 V$ e assorbe $50 mA$ (quindi consuma molto meno dei sistemi precedenti).
 
 Di questo processore è stato utilizzato:
@@ -210,23 +217,11 @@ Di questo processore è stato utilizzato:
 \item \textbf{GPIO} per controllare i sensori e le luci;
 \end{itemize}
  
-
 ~
-
-~
-
-~
-
-~
-
-~
-
 
 Il costo associato quindi a questo microcontrollore è:
 
 ~
-
-
 
 \begin{tabular}{|l  r|}
 \hline
@@ -245,11 +240,16 @@ convertitore segnali TTL - RS232 	& 2  \\
 
 \section{Bus RS232}
 
-Il problema principale di questo sistema è che i dispositivi LPC1768 e PIC16F77 supportano una comunicazione con protocollo RS232, mentre per altri tipi di comunicazione supportati da LPC1788 (RS485, CAN e Ethernet) sarebbe stato necessario aggiungere hardware (quindi aumentare il costo del progetto). Quindi si è deciso di adottare come protocollo di comunicazione RS232.
 
-RS232 è un protocollo seriale che appartiene alle prime fasi dello sviluppo informatico ed è stato ormai sostituito in ambito dei PC, in quanto la velocità di comunicazione e l'avvento di tecnologie più evolute che supportano dati a pacchetto hanno fatto preferire l'utilizzo di altre tecnologie; è ancora molto utilizzato in ambito industriale in quanto risulta molto sicuro in ambienti con disturbi elettrici. Questo protocollo consiste nell'inviare segnali con una alta differenza di potenziale ($ \frac{+}{-}12V $ ) con una soglia di commutazione di $\frac{+}{-} 3.3V $; quando il segnale è negativo, si interpreta come ``1'' il segnale, altrimenti ``0''. Per identificare ogni byte, si definisce la velocità di comunicazione, ossia il \textit{baudrate} (il massimo baudrate è 112500).
 
-~
+Il problema principale di questo sistema è che i dispositivi LPC1768 e PIC16F77 supportano una comunicazione seriale con protocollo RS232, mentre per altri tipi di comunicazione, supportati da LPC1788 (RS485, CAN e Ethernet), sarebbe stato necessario aggiungere hardware (quindi aumentare il costo del progetto). Quindi si è deciso di adottare come protocollo di comunicazione RS232.
+
+RS232 è un protocollo seriale che appartiene alle prime fasi dello sviluppo informatico ed è stato ormai sostituito in ambito dei PC, in quanto la velocità di comunicazione e la creazione dei dati a pacchetto hanno fatto preferire l'utilizzo di altre tecnologie; è ancora molto utilizzato in ambito industriale in quanto risulta molto sicuro in ambienti con disturbi elettrici. Questo protocollo consiste nell'inviare segnali con una alta differenza di potenziale ($ \frac{+}{}12V $ ) con una soglia di commutazione di $\frac{+}{} 3V $; quando il segnale è negativo, si interpreta come ``1'' il segnale, altrimenti ``0''. Per identificare ogni byte, si definisce la velocità di comunicazione, ossia il \textit{baudrate} (il massimo baudrate è 112500).
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.35]{rs232.jpg}
+\end{figure}
 
 L'aspetto positivo dell'utilizzo di questo protocollo è la facilità di implementazione di comunicazione: si deve semplicemente impostare la porta seriale e inviare i byte tramite l'apposito registro dell'architettura; l'aspetto negativo è invece la proprietà punto-punto di questa: non possono essere collegati più dispositivi alla stessa porta in invio-ricezione.
 
@@ -259,16 +259,28 @@ Questo protocollo però supporta un dispositivo \textit{spy}, ossia un dispositi
 
 Per far comunicare tutti i dispositivi, è stato creato un bus che permettesse di mantenere le proprietà del protocollo RS232 (quindi comunicazione punto-punto) ma che permettesse anche di far comunicare i dispositivi secondo la logica master-slave di Modbus (quindi ad ogni richiesta del Master deve rispondere lo Slave interrogato). Il bus ha quindi una parte esclusivamente hardware, che consiste nel collegamento fisico tra i dispositivi e un Relè che commuta il canale Tx degli Slave verso il Master, e una parte logica programmata, composta dal microcontrollore PIC16F628A. Questo microcontrollore funge da dispositivo spy, in quanto ha il canale della seriale Rx collegato al canale Tx del Master.
 
-Il funzionamento del bus si basa sulla lettura del primo carattere del messaggio Modbus: il Master invia un messaggio a tutti i dispositivi, il cui primo carattere indica l'indirizzo dello Slave che dovrà rispondere; dal momento che il microcontrollore del bus è un dispositivo spy, ha la possibilità di leggere questo carattere per ogni messaggio inviato dal Master. Una volta letto il primo carattere, il microcontrollore commuta il canale Tx del bus, in modo che lo Slave abbia accesso esclusivo al canale Rx del Master. In questo modo, tutti ricevono il messaggio Modbus, ma solo chi dovrà rispondere avrà il canale Tx attivato.
+Il funzionamento del bus si basa sulla lettura del primo carattere del messaggio Modbus: il Master invia un messaggio a tutti i dispositivi, il cui primo carattere indica l'indirizzo dello Slave che dovrà rispondere; dal momento che il microcontrollore del bus è un dispositivo spy, ha la possibilità di leggere il primo carattere per ogni messaggio inviato dal Master. Una volta letto il primo carattere, il microcontrollore commuta il canale Tx del bus, in modo che lo Slave abbia accesso esclusivo al canale Rx del Master. In questo modo, tutti ricevono il messaggio Modbus, ma solo chi dovrà rispondere avrà il canale Tx attivato verso il Master.
+
+Per commutare il canale, è stato utilizzato un relè pilotato dal microcontrollore del bus, in base alla lettura del primo carattere del messaggio del Master.
+
+~
+
+Poichè il microcontrollore PIC16F628A non era provvisto di commutatore di segnali RS232 a TTL, è stato aggiunto un MAX222 in modo da trasformare la logica RS232 proveniente dall'esterno in TTL (comprensibile quindi dal microprocessore).
+
+~
+
+~
+
+Per collegarsi a questo bus, è necessario utilizzare un cavo seriale di tipo cross per il dispositivo Master, mentre per i dispositivi Slave serve un caso dritto.
 
 
 \begin{figure}[!h]
 \centering
-\includegraphics[scale=4]{bus.pdf}
+\includegraphics[scale=4.5]{bus.pdf}
 \caption{Architettura del bus}\label{fig:1}
 \end{figure}
 
-
+\newpage
 \section{Considerazioni}
 
 È stato deciso di sfruttare tecnologie diverse per far capire come questo sistema possa essere versatile, sfruttando la modularità, e quanti limiti possono esserci utilizzando tecnologie sempre più semplici. Ovviamente si potrebbero prediligere periferiche a basso costo, come nel nostro caso il PIC, però come si vedrà di seguito i limiti di progettazione sono talmente vincolanti che è difficile con un singolo PIC gestire tante periferiche quante ne gestisce un Cortex-M3.
@@ -320,12 +332,12 @@ Di seguito sono riportati i sensori utilizzati.
 \multicolumn{1}{|c|}{\textbf {nome}} & \multicolumn{1}{|c|}{\textbf {informazione}} & \multicolumn{1}{c|}{\textbf {funzionamento}} \\
 \hline
 
-sensore di umidità 		& Digitale	& attivo  \\
-sensore di luminosità		& Digitale	& attivo \\
-sensore di distanza		& Digitale	& attivo \\
-sensore di temperatura		& Digitale	& attivo \\
-sensore di ostacoli		& Digitale	& attivo \\
-sensore di vibrazione		& Analogico	& attivo \\
+sensore di umidità e temperatura & Digitale	& attivo  \\
+sensore di luminosità		& Digitale	& passivo \\
+sensore di distanza		& Digitale	& passivo \\
+sensore di rumore		& Digitale	& passivo \\
+sensore di distanza ad infrarossi & Digitale	& passivo \\
+sensore di vibrazione		& Digitale	& passivo \\
 
 \hline
 
@@ -351,7 +363,59 @@ Il circuto, semplificato per tre sensori che mandano il loro messaggio alle risp
 \end{figure}
 
 
-DESCRIZIONE DEI SENSORI CON FOTO
+~
+
+I sensori offrono diversi controlli per l'ambiente esterno al processore, però la maggior parte di essi restituisce un segnale logico, non un segnale analogico (anche se tutti lo supportano). La scelta del segnale logico è stata imposta da alcune restrizioni della demoboard utilizzata per controllare i sensori.
+
+~
+
+Il comportamento dei sensori è il seguente:
+
+\begin{itemize}[noitemsep,topsep=10pt,parsep=23pt,partopsep=0pt]
+
+\item sensore di luminosità: quando si raggiunge la quantità di luce prestabilita, regolabile tramite la resistenza variabile nel circuito, viene inviato un segnale (interpretabile come 1), altrimenti non si invia alcun segnale;
+
+\item sensore di distanza: quando si raggiunge la distanza dal sensore prestabilita, regolabile tramite la resistenza variabile nel circuito, viene inviato un segnale (interpretabile come 1), altrimenti non si invia alcun segnale;
+
+\item sensore di rumore: quando si raggiunge una quantità di rumore prestabilita, regolabile tramite la resistenza variabile nel circuito, viene inviato un segnale (interpretabile come 1), altrimenti non si invia alcun segnale;
+
+\item sensore di distanza ad infrarossi: quando si raggiunge la distanza dal sensore prestabilita, regolabile tramite le due resistenze, una per la sensibilità di controllo infrarosso e l'altra per la frequenza dell'infrarosso emesso, viene inviato un segnale (interpretabile come 1), altrimenti non si invia alcun segnale;
+
+\item sensore di vibrazione: quando viene scosso il sensore, quindi quando la molla interna al sensore crea un contatto con la parete di questo chiudendo il circuito, viene inviato un segnale (interpretabile come 1), altrimenti non si invia alcun segnale.
+
+\end{itemize} 
+
+\subsection{DHT11}
+
+Il sensore temperatura e umidità DHT11 merita particolare attenzione, in quanto utilizza un protocollo di comunicazione standard particolare nonostante sia un sensore piccolo e a basso costo. Questo sensore è in grado di comunicare i dati acquisiti (con aggiornamento di 1 Hz) tramite protocollo \textit{1-Wire}, comunicando in 4 millisecondi il risultato. Per collegare il sensore all'unità di controllo, è necessario realizzare questo piccolo circuito:
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.6]{DHT11_collegamento.png}
+\end{figure}
+
+
+La particolarità del protocollo 1-Wire è la semplicità di implementazione e la capacità di non richiedere un hardware specifico (infatti il protocollo è stato implementato utilizzando una GPIO del processore LPC1768). Il funzionamento è il seguente: 
+
+\begin{enumerate}
+
+\item si esegue un ack, ossia il microprocessore invia un segnale logico basso per 20 millisecondi e alto per 40 microsecondi, il sensore risponde con un segnale basso di 80 microsecondi e alto per 40 microsecondi;
+
+\item il sensore invia il dato, ossia invia un segnale basso per almeno 40 microsecondi, poi alto per un tempo variabile di microsecondi: se il segnale dura più di 30 microsecondi, il segnale deve essere interpretato come ``1'', altrimenti come ``0''.
+
+\end{enumerate}
+
+~
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=1]{1wire.png}
+\end{figure}
+
+~
+
+Questo sensore invia in totale 40 segnali, che corrisponderanno a 40 bit: 8 per l'umidità, 8 per la parte decimale dell'umidità, 8 per la temperatura, 8 per la parte decimale della temperatura, 8 per il CRC, che dovrebbe corrispondere alla somma dei numeri precedenti rappresentati dagli 8 bit interpretati in modulo.
+
 
 \subsection{Relè}
 
@@ -365,6 +429,70 @@ FOTO SCHEDA
 \subsection{Luci a led}
 
 PORTARE LUCI
+
+
+\subsection{Foto del sistema hardware}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=1]{lpc1788.png}
+\caption{LPC1788}
+\end{figure}
+
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=1]{lpc1768.png}
+\caption{LPC1768}
+\end{figure}
+
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.15]{pic16f77.png}
+\caption{PIC16F77}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.12]{bus_foto.png}
+\caption{BUS RS232}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{DHT11.png}
+\caption{Sensore DHT11}
+\end{figure}
+
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{dist1.jpg}
+\caption{Sensore di distanza a infrarossi}
+\end{figure}
+
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{dist2.jpg}
+\caption{Sensore di distanza}
+\end{figure}
+
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.6]{lumi.png}
+\caption{Sensore luminosità}
+\end{figure}
+
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.2]{mic.jpg}
+\caption{Sensore di rumore}
+\end{figure}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -634,7 +762,7 @@ Se un dispositivo individua un errore nel messaggio ricevuto (di formato, di par
 
 \subsection{Registri}
 
-Il protocollo Modbus permette la comunicazione tra master e slave tramite diversi tipi di variabili chiamate ''registri``. In base al tipo di registro, sono permesse diverse operazioni:
+Il protocollo Modbus permette la comunicazione tra master e slave tramite diversi tipi di variabili chiamate ``registri''. In base al tipo di registro, sono permesse diverse operazioni:
 
 \begin{itemize}[noitemsep,topsep=15pt,parsep=10pt,partopsep=0pt]
 
@@ -754,7 +882,7 @@ In questo modo, si semplifica notevolmente il lavoro di interpretazione del mess
 
 Bisogna notare che il campo CRC non è presente, in quanto l'elaborazione di questo non è utilizzata all'esterno del protocollo e deve essere calcolato real time durante la ricezione del messaggio (quindi non serve memorizzarlo).
 
-Bisogna notare inoltre che esiste una sezione \lstinline!data[]! diversa da \lstinline!data_converted[]!, poiché i dati arrivano a coppie di byte (memorizzati in \lstinline!data[]!), in modo da rappresentare non un \lstinline!char! ma una \lstinline!word!; in questo modo si può rappresentare un numero molto più grande, però deve essere convertito shiftando i bit dei due singoli \lstinline!char! in una singola \lstinline!word!. Questo spiega perché vengono rappresentate da variabili di tipo diverso, ossia un \lstinline!int8_t! per il \lstinline!char! e \lstinline!int16_t! per la \lstinline!word!.
+Bisogna notare inoltre che esiste una sezione \textbf{data[]} diversa da \textbf{data\_converted[]}, poiché i dati arrivano a coppie di byte (memorizzati in \textbf{data[]}), in modo da rappresentare non un \textbf{char} ma una \textbf{word}; in questo modo si può rappresentare un numero molto più grande, però deve essere convertito shiftando i bit dei due singoli \textbf{char} in una singola \textbf{word}. Questo spiega perché vengono rappresentate da variabili di tipo diverso, ossia un \textbf{int8\_t} per il \textbf{char} e \textbf{int16\_t} per la \textbf{word}.
 
 ~
 
@@ -1105,7 +1233,11 @@ void uart_rx_interrupt(void)
 
 \section{Interfaccia grafica}
 
-DA SCRIVERE
+Appena il processo principale viene mandato in esecuzione, viene presentata questa schermata iniziale:
+
+FOTOOO
+
+Tramite questa schermata, si può accedere ai vari sottoprogrammi corrispondenti cliccando l'icona corrispondente. Si può accedere quindi alla schermata di controllo luci, di controllo sensori e di debug; questa ultima ha lo scopo di capire, da parte di un tecnico, l'origine di un guasto, quindi se è un problema legato al protocollo, agli slave o alle varie periferiche pilotate dagli Slave. 
 
 \subsection{Menù principale}
 DA SCRIVERE
