@@ -243,6 +243,32 @@ convertitore segnali TTL - RS232 	& 2  \\
 \hline
 \end{tabular}
 
+\section{Bus RS232}
+
+Il problema principale di questo sistema è che i dispositivi LPC1768 e PIC16F77 supportano una comunicazione con protocollo RS232, mentre per altri tipi di comunicazione supportati da LPC1788 (RS485, CAN e Ethernet) sarebbe stato necessario aggiungere hardware (quindi aumentare il costo del progetto). Quindi si è deciso di adottare come protocollo di comunicazione RS232.
+
+RS232 è un protocollo seriale che appartiene alle prime fasi dello sviluppo informatico ed è stato ormai sostituito in ambito dei PC, in quanto la velocità di comunicazione e l'avvento di tecnologie più evolute che supportano dati a pacchetto hanno fatto preferire l'utilizzo di altre tecnologie; è ancora molto utilizzato in ambito industriale in quanto risulta molto sicuro in ambienti con disturbi elettrici. Questo protocollo consiste nell'inviare segnali con una alta differenza di potenziale ($ \frac{+}{-}12V $ ) con una soglia di commutazione di $\frac{+}{-} 3.3V $; quando il segnale è negativo, si interpreta come ``1'' il segnale, altrimenti ``0''. Per identificare ogni byte, si definisce la velocità di comunicazione, ossia il \textit{baudrate} (il massimo baudrate è 112500).
+
+~
+
+L'aspetto positivo dell'utilizzo di questo protocollo è la facilità di implementazione di comunicazione: si deve semplicemente impostare la porta seriale e inviare i byte tramite l'apposito registro dell'architettura; l'aspetto negativo è invece la proprietà punto-punto di questa: non possono essere collegati più dispositivi alla stessa porta in invio-ricezione.
+
+Questo protocollo però supporta un dispositivo \textit{spy}, ossia un dispositivo che sta in ascolto su una linea Tx della seriale; in questo modo può leggere i byte inviati da uno dei due dispositivi. Questa informazione si è dimostrata importantissima per l'implementazione del bus.
+
+~
+
+Per far comunicare tutti i dispositivi, è stato creato un bus che permettesse di mantenere le proprietà del protocollo RS232 (quindi comunicazione punto-punto) ma che permettesse anche di far comunicare i dispositivi secondo la logica master-slave di Modbus (quindi ad ogni richiesta del Master deve rispondere lo Slave interrogato). Il bus ha quindi una parte esclusivamente hardware, che consiste nel collegamento fisico tra i dispositivi e un Relè che commuta il canale Tx degli Slave verso il Master, e una parte logica programmata, composta dal microcontrollore PIC16F628A. Questo microcontrollore funge da dispositivo spy, in quanto ha il canale della seriale Rx collegato al canale Tx del Master.
+
+Il funzionamento del bus si basa sulla lettura del primo carattere del messaggio Modbus: il Master invia un messaggio a tutti i dispositivi, il cui primo carattere indica l'indirizzo dello Slave che dovrà rispondere; dal momento che il microcontrollore del bus è un dispositivo spy, ha la possibilità di leggere questo carattere per ogni messaggio inviato dal Master. Una volta letto il primo carattere, il microcontrollore commuta il canale Tx del bus, in modo che lo Slave abbia accesso esclusivo al canale Rx del Master. In questo modo, tutti ricevono il messaggio Modbus, ma solo chi dovrà rispondere avrà il canale Tx attivato.
+
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=4]{bus.pdf}
+\caption{Architettura del bus}\label{fig:1}
+\end{figure}
+
+
 \section{Considerazioni}
 
 È stato deciso di sfruttare tecnologie diverse per far capire come questo sistema possa essere versatile, sfruttando la modularità, e quanti limiti possono esserci utilizzando tecnologie sempre più semplici. Ovviamente si potrebbero prediligere periferiche a basso costo, come nel nostro caso il PIC, però come si vedrà di seguito i limiti di progettazione sono talmente vincolanti che è difficile con un singolo PIC gestire tante periferiche quante ne gestisce un Cortex-M3.
@@ -258,6 +284,7 @@ Se invece il sistema può essere calato in un contesto statico, in cui i cambiam
 ~
 
 L'unico oggetto che non può essere sostituito con qualcosa di meno costoso è il dispositivo Master, poiché porterebbe a problemi di potenza di calcolo, di rimappatura di tutto il sistema ma soprattutto di costi maggiori di sviluppo software, in quanto il software di questo oggetto è il più complesso di tutto il sistema e di conseguenza riprogettarlo per un'architettura diversa, magari meno potente, porterebbe a dei costi aggiuntivi inutili. 
+
 
 
 \section{Altri componenti}

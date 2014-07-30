@@ -37,6 +37,7 @@ __CRP const unsigned int CRP_WORD = CRP_NO_CRP ;
 
 
 extern void ModbusTask(void *pvParameters);
+extern void SensorsTask(void *pvParameters);
 
 #define USERTASK_STACK_SIZE configMINIMAL_STACK_SIZE
 
@@ -110,36 +111,7 @@ static void setupHardware(void) {
 
 
 
-/**
- *
- * TASK DI CONTROLLO SENSORI
- *
- * mutua esclusione sulla cpu durante l'interrogazione del
- * sensore temperatura
- *
- */
-void SensorsTask(void *pvParameters){
 
-	dht11 actual_DHT11;
-
-	Delay(1000000);
-	while(1){
-		// See if we can obtain the semaphore.  If the semaphore is not available
-		// wait 50 ticks to see if it becomes free.
-		if( xSemaphoreTake( xSemaphore,  50 ) == pdTRUE )
-		{
-			actual_DHT11 = test_temperature();
-
-			xSemaphoreGive(xSemaphore);
-		}
-
-		//controllo sensori
-
-
-
-	}
-
-}
 
 int
 main( void )
