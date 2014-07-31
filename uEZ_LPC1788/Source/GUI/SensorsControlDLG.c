@@ -19,6 +19,11 @@
 */
 
 // USER START (Optionally insert additional includes)
+#include "GUI.h"
+#include "port.h"
+#include "datamodel.h"
+#include "modbus.h"
+#include "UEZ.h"
 // USER END
 
 #include "DIALOG.h"
@@ -107,6 +112,14 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 */
 
 // USER START (Optionally insert additional static code)
+
+//handler al task modbus
+T_uezTask poll_sensor_t;
+
+extern T_uezTaskFunction poll_sensor_check (T_uezTask aTask, void *aParameters);
+extern void modbus_sensor_check();
+extern _modbus_rx modbus_rx;
+
 // USER END
 
 /*********************************************************************
@@ -118,6 +131,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   int     NCode;
   int     Id;
   // USER START (Optionally insert additional variables)
+	
+	int i;
+	char temperature[3] = {'\0'};
+	char humidity[3] = {'\0'};
+	
   // USER END
 
   switch (pMsg->MsgId) {
@@ -228,7 +246,23 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_8);
     TEXT_SetText(hItem, "max temperature:");
     // USER START (Optionally insert additional code for further widget initialization)
-    // USER END
+
+		//all'inizio aggiorno i valori
+		 modbus_sensor_check();
+
+		//estrazione della temperatura
+		sprintf("%d", temperature, modbus_rx.data_converted[0]);
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
+		EDIT_SetText(hItem, temperature);
+
+		//estrazione dell'umidita'
+		sprintf("%d", humidity, modbus_rx.data_converted[1]);
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
+		EDIT_SetText(hItem, humidity);
+
+//TODO: ESEGUI IL CONTROLLO PER GLI ALTRI SENSORI
+
+		// USER END
     break;
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);
@@ -485,6 +519,13 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     }
     break;
   // USER START (Optionally insert additional message handling)
+		
+	case MB_MSG_SENSOR:
+
+		//GESTISCO L'AGGIORNAMENTO DEI LABEL DEI SENSORI
+	
+	break;
+	
   // USER END
   default:
     WM_DefaultProc(pMsg);
@@ -511,6 +552,14 @@ WM_HWIN CreateSensorsControl(void) {
 }
 
 // USER START (Optionally insert additional public code)
+
+
+void modify_label_sensors(WM_MESSAGE *msg){
+	
+	_cbDialog(msg);
+	
+}
+
 
 WM_HWIN ExecSensor_Control(void);
 WM_HWIN ExecSensor_Control(void) {

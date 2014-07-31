@@ -26,6 +26,8 @@
 ************************************/
 
 extern void modify_label(WM_MESSAGE *msg);
+extern void modify_label_sensors(WM_MESSAGE *msg);
+
 extern GUI_value new_GUI_value;
 extern _modbus_rx modbus_rx;
 void modbus_task();
@@ -121,6 +123,35 @@ void modbus_led_check()
 }
 
 
+void modbus_sensor_check(){
+	
+	int i, j;
+	
+	modbus_read_holding_registers(10, 2000, 6);
+	
+	for(i = 0, j = 2; j < modbus_rx.len - 3; i++, j+=2)
+		modbus_rx.data_converted[i] = modbus_rx.data[j+1] << 8 | modbus_rx.data[j];
+
+	modbus_rx.len = i;
+	
+}
+
+
+
+T_uezTaskFunction poll_sensor_check (T_uezTask aTask, void *aParameters){
+	
+	int i;
+	WM_MESSAGE msg;
+	msg.hWin = (WM_HWIN) aParameters;
+
+	modify_label_sensors(&msg);
+	
+	return 0;
+}
+
+
+
+
 T_uezTaskFunction poll_led_check (T_uezTask aTask, void *aParameters){
 	
 	int i;
@@ -151,6 +182,9 @@ T_uezTaskFunction poll_led_check (T_uezTask aTask, void *aParameters){
 
 	return 0;	
 }
+
+
+
 
 void modbus_led_task(int led, BOOL on)
 {

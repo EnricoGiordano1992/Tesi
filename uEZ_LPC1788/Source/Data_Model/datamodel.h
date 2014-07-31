@@ -8,6 +8,7 @@
 
 #define MB_MSG_COIL 8000
 
+#define MB_MSG_SENSOR 9000
 
 /*********************
 *
