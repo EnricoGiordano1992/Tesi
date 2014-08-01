@@ -646,6 +646,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\..\Source\GUI\sensor_icon.c</FilePath>
             </File>
+            <File>
+              <FileName>SensorsControlDLG.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\..\..\Source\GUI\SensorsControlDLG.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1325,6 +1330,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\..\Source\GUI\sensor_icon.c</FilePath>
             </File>
+            <File>
+              <FileName>SensorsControlDLG.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\..\..\Source\GUI\SensorsControlDLG.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2003,6 +2013,11 @@
               <FileName>sensor_icon.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\..\Source\GUI\sensor_icon.c</FilePath>
+            </File>
+            <File>
+              <FileName>SensorsControlDLG.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\..\..\Source\GUI\SensorsControlDLG.c</FilePath>
             </File>
           </Files>
         </Group>
