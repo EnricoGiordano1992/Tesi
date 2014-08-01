@@ -44,6 +44,14 @@ extern void SensorsTask(void *pvParameters);
 
 xSemaphoreHandle xSemaphore;
 Sensors sensors;
+dht11 actual_DHT11;
+
+
+USHORT   usRegHoldingStart = REG_HOLDING_START;
+USHORT   *usRegHoldingBuf[REG_HOLDING_NREGS];
+
+USHORT 	usRegCoilStart = REG_COIL_START;
+UCHAR 	ucRegCoilBuf[REG_COIL_LOCATIONS] = "\0";
 
 
 void __error__(char *pcFilename, unsigned long ulLine) {
@@ -85,7 +93,7 @@ static void setupHardware(void) {
 
 	for( i = 0; i < REG_HOLDING_NREGS; i++ )
 	{
-		usRegHoldingBuf[i] = ( unsigned short )i;
+		usRegHoldingBuf[i] = 0;
 	}
 
 	sensors.distance1 = 0;
@@ -95,11 +103,14 @@ static void setupHardware(void) {
 	sensors.vibro = 0;
 
 	//associo ai registri holding il valore dei sensori
-	*(usRegHoldingBuf     ) = &sensors.distance1;
-	*(usRegHoldingBuf + 1 ) = &sensors.distance2;
-	*(usRegHoldingBuf + 2 ) = &sensors.lumino;
-	*(usRegHoldingBuf + 3 ) = &sensors.mic;
-	*(usRegHoldingBuf + 4 ) = &sensors.vibro;
+	*(usRegHoldingBuf     ) = (USHORT *) &sensors.distance1;
+	*(usRegHoldingBuf + 1 ) = (USHORT *) &sensors.distance2;
+	*(usRegHoldingBuf + 2 ) = (USHORT *) &sensors.lumino;
+	*(usRegHoldingBuf + 3 ) = (USHORT *) &sensors.mic;
+	*(usRegHoldingBuf + 4 ) = (USHORT *) &sensors.vibro;
+	*(usRegHoldingBuf + 5 ) = (USHORT *) &actual_DHT11.humidity;
+	*(usRegHoldingBuf + 6 ) = (USHORT *) &actual_DHT11.temperature;
+
 
 	/* Enable the Modbus Protocol Stack. */
 	eStatus = eMBEnable(  );
@@ -123,8 +134,8 @@ main( void )
 
 	xSemaphore = xSemaphoreCreateMutex();
 
-	xTaskCreate( ModbusTask, ( signed portCHAR * ) "ModbusTask", USERTASK_STACK_SIZE, NULL, 1, NULL );
-	xTaskCreate( SensorsTask, ( signed portCHAR * ) "SensorsTask", USERTASK_STACK_SIZE, NULL, configMAX_PRIORITIES - 1, NULL );
+	xTaskCreate( ModbusTask, ( signed portCHAR * ) "ModbusTask", USERTASK_STACK_SIZE, NULL, 3, NULL );
+	xTaskCreate( SensorsTask, ( signed portCHAR * ) "SensorsTask", USERTASK_STACK_SIZE, NULL, 3, NULL );
 
 	/*
 	 * Start the scheduler.

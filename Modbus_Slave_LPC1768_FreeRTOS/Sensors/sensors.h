@@ -2,23 +2,24 @@
 #define _SENSORS_H_
 
 #include "LPC17xx.h"
+#include "port.h"
 
 typedef struct sens{
 
-	int mic;
-	int vibro;
-	int distance1;
-	int distance2;
-	int lumino;
+	USHORT  mic;
+	USHORT  vibro;
+	USHORT  distance1;
+	USHORT  distance2;
+	USHORT  lumino;
 
 }Sensors;
 
 Sensors check_all_sensors();
 
-int check_mic();
-int check_vibro();
-int check_distance1();
-int check_distance2();
-int check_lumino();
+USHORT check_mic();
+USHORT check_vibro();
+USHORT check_distance1();
+USHORT check_distance2();
+USHORT check_lumino();
 
 #endif

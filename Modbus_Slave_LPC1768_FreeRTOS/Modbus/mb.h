@@ -44,17 +44,14 @@ PR_BEGIN_EXTERN_C
 /* ----------------------- Defines ------------------------------------------*/
 
 #define REG_HOLDING_START           2000
-#define REG_HOLDING_NREGS           6
+#define REG_HOLDING_NREGS           10
 #define REG_COIL_START				 0
 #define REG_COIL_LOCATIONS			 1
 #define REG_COILS_SIZE          	 8
 
 /* ----------------------- Static variables ---------------------------------*/
-static USHORT   usRegHoldingStart = REG_HOLDING_START;
-static USHORT   usRegHoldingBuf[REG_HOLDING_NREGS];
 
-static USHORT 	usRegCoilStart = REG_COIL_START;
-static UCHAR 	ucRegCoilBuf[REG_COIL_LOCATIONS] = "\0";
+
 
 /*! \defgroup modbus Modbus
  * \code #include "mb.h" \endcode

@@ -19,28 +19,28 @@ Sensors check_all_sensors(){
 	return sensor;
 }
 
-int check_mic(){
+USHORT check_mic(){
 
 	return (LPC_GPIO2->FIOPIN >> MIC) & 0x01;
 
 }
 
-int check_vibro(){
+USHORT check_vibro(){
 
 	return (LPC_GPIO2->FIOPIN >> VIBRO) & 0x01;
 
 }
-int check_distance1(){
+USHORT check_distance1(){
 
 	return (LPC_GPIO2->FIOPIN >> DIST1) & 0x01;
 
 }
-int check_distance2(){
+USHORT check_distance2(){
 
 	return (LPC_GPIO2->FIOPIN >> DIST2) & 0x01;
 
 }
-int check_lumino(){
+USHORT check_lumino(){
 
 	return (LPC_GPIO2->FIOPIN >> LUM) & 0x01;
 

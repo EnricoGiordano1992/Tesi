@@ -37,6 +37,13 @@
 
 
 
+extern USHORT   usRegHoldingStart;
+extern USHORT   *usRegHoldingBuf[REG_HOLDING_NREGS];
+
+extern USHORT 	usRegCoilStart;
+extern UCHAR 	ucRegCoilBuf[REG_COIL_LOCATIONS];
+
+
 /* ----------------------- Start implementation -----------------------------*/
 
 
@@ -89,8 +96,8 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
 			case MB_REG_READ:
 				while( usNRegs > 0 )
 				{
-					*pucRegBuffer++ = ( unsigned char )( *(usRegHoldingBuf +iRegIndex) >> 8 );
-					*pucRegBuffer++ = ( unsigned char )(*(usRegHoldingBuf +iRegIndex) & 0xFF );
+					*pucRegBuffer++ = ( unsigned char )( **(usRegHoldingBuf +iRegIndex) >> 8 );
+					*pucRegBuffer++ = ( unsigned char )(**(usRegHoldingBuf +iRegIndex) & 0xFF );
 					iRegIndex++;
 					usNRegs--;
 				}
@@ -101,8 +108,8 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
 			case MB_REG_WRITE:
 				while( usNRegs > 0 )
 				{
-					usRegHoldingBuf[iRegIndex] = *pucRegBuffer++ << 8;
-					usRegHoldingBuf[iRegIndex] |= *pucRegBuffer++;
+					 **(usRegHoldingBuf +iRegIndex) = *pucRegBuffer++ << 8;
+					 **(usRegHoldingBuf +iRegIndex) |= *pucRegBuffer++;
 					iRegIndex++;
 					usNRegs--;
 				}

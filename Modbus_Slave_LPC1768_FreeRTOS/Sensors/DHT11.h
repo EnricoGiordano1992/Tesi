@@ -17,6 +17,7 @@
 #define _DHT11_H_
 
 #include <LPC17xx.h>
+#include "port.h"
 
 #define DHT11LIB_VERSION "0.4.1"
 
@@ -40,8 +41,8 @@ void digitalWrite(int mode);
 int read();
 
 typedef struct dht{
-	int humidity;
-	int temperature;
+	USHORT  humidity;
+	USHORT  temperature;
 } dht11;
 
 

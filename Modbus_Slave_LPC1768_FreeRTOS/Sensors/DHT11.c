@@ -178,10 +178,10 @@ dht11 test_temperature(){
 		//printf("OK,\t");
 		break;
 	case DHTLIB_ERROR_CHECKSUM:
-		//printf("Checksum error,\t");
-		break;
 	case DHTLIB_ERROR_TIMEOUT:
-		//      printf("Time out error,\t");
+
+		DHT.humidity = 666;
+		DHT.temperature = 666;
 		break;
 	default:
 		//      printf("Unknown error,\t");
