@@ -115,9 +115,10 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 
 //handler al task modbus
 T_uezTask poll_sensor_t;
+int delay_from_slider = 500;
 
 extern T_uezTaskFunction poll_sensor_check (T_uezTask aTask, void *aParameters);
-extern void modbus_sensor_check();
+
 extern _modbus_rx modbus_rx;
 
 // USER END
@@ -247,20 +248,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     TEXT_SetText(hItem, "max temperature:");
     // USER START (Optionally insert additional code for further widget initialization)
 
-		//all'inizio aggiorno i valori
-		 modbus_sensor_check();
+		//aggiorno i valori, cioè faccio partire il messaggio di richiesta
+		//UEZTaskCreate((T_uezTaskFunction)poll_sensor_check, "_sensor_check", 512,(void *) pMsg->hWin , UEZ_PRIORITY_LOW, &poll_sensor_t);				
 
-		//estrazione della temperatura
-		sprintf("%d", temperature, modbus_rx.data_converted[0]);
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
-		EDIT_SetText(hItem, temperature);
-
-		//estrazione dell'umidita'
-		sprintf("%d", humidity, modbus_rx.data_converted[1]);
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
-		EDIT_SetText(hItem, humidity);
-
-//TODO: ESEGUI IL CONTROLLO PER GLI ALTRI SENSORI
 
 		// USER END
     break;
@@ -285,6 +275,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         PlayAudio(1000, 20);				
         PlayAudio(1100, 20);				
 
+				UEZTaskDelete(poll_sensor_t);
+
         hItem = pMsg->hWin;
         GUI_EndDialog(hItem, 0);
 
@@ -306,6 +298,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
+			
+			PlayAudio(180, 30);				
+
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_SLIDER_0 );
+			delay_from_slider = 500 + SLIDER_GetValue(hItem);
+			
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -442,6 +440,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+						        PlayAudio(180, 30);				
+
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -460,6 +460,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+						        PlayAudio(180, 30);				
+
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -478,6 +480,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+						        PlayAudio(180, 30);				
+
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -496,6 +500,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+						        PlayAudio(180, 30);				
+
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -524,6 +530,76 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
 		//GESTISCO L'AGGIORNAMENTO DEI LABEL DEI SENSORI
 	
+		/** 
+	i sensori sono stati mappati così:
+	
+	*(usRegHoldingBuf     ) = (USHORT *) &sensors.distance1;
+	*(usRegHoldingBuf + 1 ) = (USHORT *) &sensors.distance2;
+	*(usRegHoldingBuf + 2 ) = (USHORT *) &sensors.lumino;
+	*(usRegHoldingBuf + 3 ) = (USHORT *) &sensors.mic;
+	*(usRegHoldingBuf + 4 ) = (USHORT *) &sensors.vibro;
+	*(usRegHoldingBuf + 5 ) = (USHORT *) &actual_DHT11.humidity;
+	*(usRegHoldingBuf + 6 ) = (USHORT *) &actual_DHT11.temperature;
+
+	
+  "temperature_edit", ID_EDIT_0
+  "humidity_edit", ID_EDIT_1
+  "sound_edit", ID_EDIT_2
+  "distance_edit", ID_EDIT_3
+  "presence_edit", ID_EDIT_4
+  "vibration_edit", ID_EDIT_5
+  "light_edit", ID_EDIT_6
+
+			*/
+	
+		//estrazione della temperatura
+		sprintf("%d", temperature, modbus_rx.data_converted[6]);
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
+		EDIT_SetText(hItem, temperature);
+
+		//estrazione dell'umidita'
+		sprintf("%d", humidity, modbus_rx.data_converted[5]);
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
+		EDIT_SetText(hItem, humidity);
+
+		//estrazione suono
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
+		if( modbus_rx.data_converted[3] != 0 )
+			EDIT_SetText(hItem, "NOISE");
+		else
+			EDIT_SetText(hItem, "SILENCE");
+		
+		//estrazione distanza
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
+		if( modbus_rx.data_converted[0] != 0 )
+			EDIT_SetText(hItem, "NEAR");
+		else
+			EDIT_SetText(hItem, "FAR");
+		
+		//estrazione presenza
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_4);
+		if( modbus_rx.data_converted[0] != 0 )
+			EDIT_SetText(hItem, "YES");
+		else
+			EDIT_SetText(hItem, "NO");
+
+		
+		//estrazione vibrazione
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_5);
+		if( modbus_rx.data_converted[4] != 0 )
+			EDIT_SetText(hItem, "YES");
+		else
+			EDIT_SetText(hItem, "NO");
+
+		
+		//estrazione luce
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_6);
+		if( modbus_rx.data_converted[2] != 0 )
+			EDIT_SetText(hItem, "LIGHT");
+		else
+			EDIT_SetText(hItem, "DARK");
+		
+		
 	break;
 	
   // USER END

@@ -35,6 +35,7 @@ void reset_modbus_struct();
 extern void modify_edit_text(int led, BOOL status, char *string);
 extern BOOL changed;
 extern BOOL exit_thread_led_control;
+extern int delay_from_slider;
 
 /***********************************
 *
@@ -137,14 +138,28 @@ void modbus_sensor_check(){
 }
 
 
-
 T_uezTaskFunction poll_sensor_check (T_uezTask aTask, void *aParameters){
 	
 	int i;
+	int j;
 	WM_MESSAGE msg;
+
 	msg.hWin = (WM_HWIN) aParameters;
 
-	modify_label_sensors(&msg);
+	while(1){
+		modbus_read_holding_registers(10, 2000, 6);
+		
+		for(i = 0, j = 2; j < modbus_rx.len - 3; i++, j+=2)
+			modbus_rx.data_converted[i] = modbus_rx.data[j+1] << 8 | modbus_rx.data[j];
+
+		modbus_rx.len = i;
+
+		msg.MsgId = MB_MSG_SENSOR;
+		
+		modify_label_sensors(&msg);
+			
+		UEZTaskDelay(delay_from_slider);
+	}
 	
 	return 0;
 }
