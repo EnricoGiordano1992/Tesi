@@ -173,7 +173,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-			ExecLedControl();
+			//ExecLedControl();
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -211,7 +211,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
 
-        ExecModbus_Master_testWindow();
+        //ExecModbus_Master_testWindow();
         
         // USER END
         break;

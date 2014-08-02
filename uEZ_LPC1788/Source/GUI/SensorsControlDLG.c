@@ -115,7 +115,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 
 //handler al task modbus
 T_uezTask poll_sensor_t;
-int delay_from_slider = 500;
+int delay_from_slider = 50;
 
 extern T_uezTaskFunction poll_sensor_check (T_uezTask aTask, void *aParameters);
 
@@ -249,7 +249,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // USER START (Optionally insert additional code for further widget initialization)
 
 		//aggiorno i valori, cioè faccio partire il messaggio di richiesta
-		//UEZTaskCreate((T_uezTaskFunction)poll_sensor_check, "_sensor_check", 512,(void *) pMsg->hWin , UEZ_PRIORITY_LOW, &poll_sensor_t);				
+		UEZTaskCreate((T_uezTaskFunction)poll_sensor_check, "_sensor_check", 512,(void *) pMsg->hWin , UEZ_PRIORITY_LOW, &poll_sensor_t);				
 
 
 		// USER END
@@ -299,10 +299,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
 			
-			PlayAudio(180, 30);				
-
 			hItem = WM_GetDialogItem(pMsg->hWin, ID_SLIDER_0 );
-			delay_from_slider = 500 + SLIDER_GetValue(hItem);
+			delay_from_slider = 50 + SLIDER_GetValue(hItem);
 			
         // USER END
         break;
@@ -553,18 +551,18 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			*/
 	
 		//estrazione della temperatura
-		sprintf("%d", temperature, modbus_rx.data_converted[6]);
+		sprintf( temperature, "%d", modbus_rx.data_converted[3]);
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
 		EDIT_SetText(hItem, temperature);
 
 		//estrazione dell'umidita'
-		sprintf("%d", humidity, modbus_rx.data_converted[5]);
+		sprintf( humidity, "%d", modbus_rx.data_converted[4]);
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
 		EDIT_SetText(hItem, humidity);
 
 		//estrazione suono
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
-		if( modbus_rx.data_converted[3] != 0 )
+		if( modbus_rx.data_converted[2] != 0 )
 			EDIT_SetText(hItem, "NOISE");
 		else
 			EDIT_SetText(hItem, "SILENCE");
@@ -572,29 +570,29 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		//estrazione distanza
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
 		if( modbus_rx.data_converted[0] != 0 )
-			EDIT_SetText(hItem, "NEAR");
-		else
 			EDIT_SetText(hItem, "FAR");
+		else
+			EDIT_SetText(hItem, "NEAR");
 		
 		//estrazione presenza
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_4);
-		if( modbus_rx.data_converted[0] != 0 )
-			EDIT_SetText(hItem, "YES");
-		else
+		if( modbus_rx.data_converted[3] != 0 )
 			EDIT_SetText(hItem, "NO");
+		else
+			EDIT_SetText(hItem, "YES");
 
 		
 		//estrazione vibrazione
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_5);
 		if( modbus_rx.data_converted[4] != 0 )
-			EDIT_SetText(hItem, "YES");
-		else
 			EDIT_SetText(hItem, "NO");
+		else
+			EDIT_SetText(hItem, "YES");
 
 		
 		//estrazione luce
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_6);
-		if( modbus_rx.data_converted[2] != 0 )
+		if( modbus_rx.data_converted[1] != 0 )
 			EDIT_SetText(hItem, "LIGHT");
 		else
 			EDIT_SetText(hItem, "DARK");

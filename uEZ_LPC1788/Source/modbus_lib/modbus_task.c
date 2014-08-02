@@ -147,11 +147,24 @@ T_uezTaskFunction poll_sensor_check (T_uezTask aTask, void *aParameters){
 	msg.hWin = (WM_HWIN) aParameters;
 
 	while(1){
-		modbus_read_holding_registers(10, 2000, 6);
+		modbus_read_holding_registers(10, 2000, 7);
 		
 		for(i = 0, j = 2; j < modbus_rx.len - 3; i++, j+=2)
 			modbus_rx.data_converted[i] = modbus_rx.data[j+1] << 8 | modbus_rx.data[j];
 
+		modbus_rx.data_converted[0] = modbus_rx.data_converted[0];
+		modbus_rx.data_converted[1] = modbus_rx.data_converted[1];
+		modbus_rx.data_converted[2] = modbus_rx.data_converted[2];
+		modbus_rx.data_converted[3] = modbus_rx.data_converted[3];
+		modbus_rx.data_converted[4] = modbus_rx.data_converted[4];
+		modbus_rx.data_converted[5] = modbus_rx.data_converted[5];
+		modbus_rx.data_converted[6] = modbus_rx.data_converted[6];
+		modbus_rx.data_converted[7] = modbus_rx.data_converted[7];
+		modbus_rx.data_converted[8] = modbus_rx.data_converted[8];
+		modbus_rx.data_converted[9] = modbus_rx.data_converted[9];
+		modbus_rx.data_converted[10] = modbus_rx.data_converted[10];
+		modbus_rx.data_converted[11] = modbus_rx.data_converted[11];
+		
 		modbus_rx.len = i;
 
 		msg.MsgId = MB_MSG_SENSOR;
