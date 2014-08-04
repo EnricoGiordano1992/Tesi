@@ -160,7 +160,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of 'temperature_edit'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
-    EDIT_SetText(hItem, "0");
+    EDIT_SetText(hItem, "");
     //
     // Initialization of 'temp_text'
     //
@@ -175,7 +175,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of 'humidity_edit'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
-    EDIT_SetText(hItem, "0");
+    EDIT_SetText(hItem, "");
     //
     // Initialization of 'sound_text'
     //
@@ -551,15 +551,18 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			*/
 	
 		//estrazione della temperatura
+		if(modbus_rx.data_converted[6] != 0 && modbus_rx.data_converted[6] != 666){
 		sprintf( temperature, "%d", modbus_rx.data_converted[6]);
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
 		EDIT_SetText(hItem, temperature);
-
+		}
 		//estrazione dell'umidita'
+		if(modbus_rx.data_converted[5] != 0 && modbus_rx.data_converted[5] != 666){
 		sprintf( humidity, "%d", modbus_rx.data_converted[5]);
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
 		EDIT_SetText(hItem, humidity);
-
+		}
+		
 		//estrazione suono
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
 		if( modbus_rx.data_converted[3] != 0 )
