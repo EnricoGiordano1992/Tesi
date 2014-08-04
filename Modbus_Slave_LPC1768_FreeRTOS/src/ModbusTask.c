@@ -57,15 +57,15 @@ extern xSemaphoreHandle xSemaphore;
 
 void ModbusTask(void *pvParameters){
 
-	while(1)
+//	while(1)
 	{
 		// See if we can obtain the semaphore.  If the semaphore is not available
 		// wait 50 ticks to see if it becomes free.
-		if( xSemaphoreTake( xSemaphore,  50 ) == pdTRUE )
+	//	if( xSemaphoreTake( xSemaphore,  50 ) == pdTRUE )
 		{
 			( void )eMBPoll(  );
 
-			xSemaphoreGive( xSemaphore );
+		//	xSemaphoreGive( xSemaphore );
 		}
 	}
 

@@ -64,6 +64,8 @@
 static UCHAR    ucMBAddress;
 static eMBMode  eMBCurrentMode;
 
+extern BOOL modbus_is_running;
+
 static enum
 {
     STATE_ENABLED,
@@ -402,6 +404,8 @@ eMBPoll( void )
 
         case EV_FRAME_RECEIVED:
 
+        	modbus_is_running = TRUE;
+
 
             eStatus = peMBFrameReceiveCur( &ucRcvAddress, &ucMBFrame, &usLength );
             if( eStatus == MB_ENOERR )
@@ -452,6 +456,9 @@ eMBPoll( void )
             break;
 
         case EV_FRAME_SENT:
+
+        	modbus_is_running = FALSE;
+
             break;
         }
     }
