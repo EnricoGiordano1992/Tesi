@@ -71,6 +71,21 @@ void setOutput_ADC_Temp(void)
 }
 
 
+void P123ADCInit(){
+
+	LPC_SC->PCONP       |=  (1<<12);         /* Enable power to ADC block */
+
+	  LPC_PINCON->PINSEL1 &= ~(3UL<<14);       /* P1.23 is GPIO */
+	  LPC_PINCON->PINSEL1 |=  (1UL<<14);       /* P1.23 is AD0.0 */
+
+	  LPC_ADC->ADCR        =  (1UL << 0) |    /* select AD0.0 */
+	                          (1 << 8) |  /* ADC clock */
+	                          (1UL << 16) |      /* ADC is in the burst mode */
+	                          (1UL << 21);       /* enable ADC */
+
+}
+
+
 void setBeep(void)
 {
 	LPC_PINCON->PINSEL7 &= ~(3 << 20);
@@ -341,4 +356,5 @@ uint32_t ADCRead( uint8_t channelNum )
 							done inside the handler. so, return channel number */
 #endif
 }
+
 

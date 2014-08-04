@@ -55,6 +55,7 @@ USHORT   *usRegHoldingBuf[REG_HOLDING_NREGS];
 USHORT 	usRegCoilStart = REG_COIL_START;
 UCHAR 	ucRegCoilBuf[REG_COIL_LOCATIONS] = "\0";
 
+int var_prova;
 
 void __error__(char *pcFilename, unsigned long ulLine) {
 }
@@ -147,8 +148,12 @@ main( void )
 
 	while(1){
 
-		if(!modbus_is_running)
+		if(!modbus_is_running){
+			vMBPortSerialEnable(0,0);
 			SensorsTask(0);
+			vMBPortSerialEnable(1,0);
+		}
+
 		ModbusTask(0);
 	}
 

@@ -36,6 +36,10 @@
 #include "port.h"
 #include "LPC17xx.h"
 #include "lcd_horizontal.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "semphr.h"
 
 /* ----------------------- Modbus includes ----------------------------------*/
 #include "mb.h"
@@ -65,6 +69,7 @@ static UCHAR    ucMBAddress;
 static eMBMode  eMBCurrentMode;
 
 extern BOOL modbus_is_running;
+
 
 static enum
 {
