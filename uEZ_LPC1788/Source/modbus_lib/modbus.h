@@ -182,8 +182,8 @@ typedef struct
       int8_t len;                                //number of bytes in the message received
       function func;                           //the function of the message received
       exception error;                         //error recieved, if any
-      int8_t data[MODBUS_SERIAL_RX_BUFFER_SIZE]; //data of the message received
-      int16_t data_converted[125];
+      uint8_t data[MODBUS_SERIAL_RX_BUFFER_SIZE]; //data of the message received
+      uint16_t data_converted[125];
    }_modbus_rx;
 
 

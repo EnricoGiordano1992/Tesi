@@ -56,15 +56,15 @@ void modbus_task()
         //read holding registers
         case 0:
           modbus_read_holding_registers((int8_t)new_GUI_value.SPINBOX_value.slave_id, 
-                                        (int16_t)new_GUI_value.SPINBOX_value.multiple_register_from + 2000,
-                                        (int16_t)new_GUI_value.SPINBOX_value.multiple_register_to + 2 - new_GUI_value.SPINBOX_value.multiple_register_from);
+                                        (int16_t)new_GUI_value.SPINBOX_value.multiple_register_from + 1999,
+                                        (int16_t)new_GUI_value.SPINBOX_value.multiple_register_to + 1 - new_GUI_value.SPINBOX_value.multiple_register_from);
 
         break;
 
         //write single registers
         case 1:
           modbus_write_single_register((int8_t)new_GUI_value.SPINBOX_value.slave_id, 
-                                       (int16_t)new_GUI_value.SPINBOX_value.single_register_number + 2000,
+                                       (int16_t)new_GUI_value.SPINBOX_value.single_register_number + 1999,
                                        (int16_t)new_GUI_value.SPINBOX_value.write_value);
 
         break;
@@ -95,15 +95,15 @@ void modbus_task()
         case 4:
           modbus_read_coils((int8_t)new_GUI_value.SPINBOX_value.slave_id,
                             (int16_t)new_GUI_value.SPINBOX_value.multiple_register_from,
-                            (int16_t)new_GUI_value.SPINBOX_value.multiple_register_to + 2 - new_GUI_value.SPINBOX_value.multiple_register_from);
+                            (int16_t)new_GUI_value.SPINBOX_value.multiple_register_to + 1 - new_GUI_value.SPINBOX_value.multiple_register_from);
 
         default:
         break;
 
       }
 
-      for(i = 0, j = 2; j < modbus_rx.len - 3; i++, j+=2)
-        modbus_rx.data_converted[i] = modbus_rx.data[j+1] << 8 | modbus_rx.data[j];
+		for(i = 0, j = 1; j < modbus_rx.len - 3; i++, j+=2)
+			modbus_rx.data_converted[i] = modbus_rx.data[j+1] | modbus_rx.data[j] << 8 ;
 
       modbus_rx.len = i;
 
@@ -130,8 +130,8 @@ void modbus_sensor_check(){
 	
 	modbus_read_holding_registers(10, 2000, 6);
 	
-	for(i = 0, j = 2; j < modbus_rx.len - 3; i++, j+=2)
-		modbus_rx.data_converted[i] = modbus_rx.data[j+1] << 8 | modbus_rx.data[j];
+		for(i = 0, j = 1; j < modbus_rx.len - 3; i++, j+=2)
+			modbus_rx.data_converted[i] = modbus_rx.data[j+1] | modbus_rx.data[j] << 8 ;
 
 	modbus_rx.len = i;
 	
@@ -147,11 +147,30 @@ T_uezTaskFunction poll_sensor_check (T_uezTask aTask, void *aParameters){
 	msg.hWin = (WM_HWIN) aParameters;
 
 	while(1){
-		modbus_read_holding_registers(10, 2000, 7);
+		modbus_read_holding_registers(10, 1999, 7);
 		
-		for(i = 0, j = 2; j < modbus_rx.len - 3; i++, j+=2)
-			modbus_rx.data_converted[i] = modbus_rx.data[j+1] << 8 | modbus_rx.data[j];
+		for(i = 0, j = 1; j < modbus_rx.len - 3; i++, j+=2)
+			modbus_rx.data_converted[i] = modbus_rx.data[j+1] | modbus_rx.data[j] << 8 ;
 
+		
+		modbus_rx.data[0] = modbus_rx.data[0];
+		modbus_rx.data[1] = modbus_rx.data[1];
+		modbus_rx.data[2] = modbus_rx.data[2];
+		modbus_rx.data[3] = modbus_rx.data[3];
+		modbus_rx.data[4] = modbus_rx.data[4];
+		modbus_rx.data[5] = modbus_rx.data[5];
+		modbus_rx.data[6] = modbus_rx.data[6];
+		modbus_rx.data[7] = modbus_rx.data[7];
+		modbus_rx.data[8] = modbus_rx.data[8];
+		modbus_rx.data[9] = modbus_rx.data[9];
+		modbus_rx.data[10] = modbus_rx.data[10];
+		modbus_rx.data[11] = modbus_rx.data[11];
+		modbus_rx.data[12] = modbus_rx.data[12];
+		modbus_rx.data[13] = modbus_rx.data[13];
+		modbus_rx.data[14] = modbus_rx.data[14];
+		modbus_rx.data[15] = modbus_rx.data[15];
+		modbus_rx.data[16] = modbus_rx.data[16];
+		
 		modbus_rx.data_converted[0] = modbus_rx.data_converted[0];
 		modbus_rx.data_converted[1] = modbus_rx.data_converted[1];
 		modbus_rx.data_converted[2] = modbus_rx.data_converted[2];

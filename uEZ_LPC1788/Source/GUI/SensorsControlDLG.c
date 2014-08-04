@@ -551,18 +551,18 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			*/
 	
 		//estrazione della temperatura
-		sprintf( temperature, "%d", modbus_rx.data_converted[3]);
+		sprintf( temperature, "%d", modbus_rx.data_converted[6]);
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
 		EDIT_SetText(hItem, temperature);
 
 		//estrazione dell'umidita'
-		sprintf( humidity, "%d", modbus_rx.data_converted[4]);
+		sprintf( humidity, "%d", modbus_rx.data_converted[5]);
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
 		EDIT_SetText(hItem, humidity);
 
 		//estrazione suono
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
-		if( modbus_rx.data_converted[2] != 0 )
+		if( modbus_rx.data_converted[3] != 0 )
 			EDIT_SetText(hItem, "NOISE");
 		else
 			EDIT_SetText(hItem, "SILENCE");
@@ -576,7 +576,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		
 		//estrazione presenza
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_4);
-		if( modbus_rx.data_converted[3] != 0 )
+		if( modbus_rx.data_converted[1] != 0 )
 			EDIT_SetText(hItem, "NO");
 		else
 			EDIT_SetText(hItem, "YES");
@@ -592,7 +592,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		
 		//estrazione luce
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_6);
-		if( modbus_rx.data_converted[1] != 0 )
+		if( modbus_rx.data_converted[2] != 0 )
 			EDIT_SetText(hItem, "LIGHT");
 		else
 			EDIT_SetText(hItem, "DARK");
