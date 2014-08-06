@@ -36,6 +36,10 @@
 #include "port.h"
 #include "LPC17xx.h"
 #include "lcd_horizontal.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "semphr.h"
 
 /* ----------------------- Modbus includes ----------------------------------*/
 #include "mb.h"
@@ -63,6 +67,9 @@
 
 static UCHAR    ucMBAddress;
 static eMBMode  eMBCurrentMode;
+
+extern BOOL modbus_is_running;
+
 
 static enum
 {
@@ -402,6 +409,8 @@ eMBPoll( void )
 
         case EV_FRAME_RECEIVED:
 
+        	modbus_is_running = TRUE;
+
 
             eStatus = peMBFrameReceiveCur( &ucRcvAddress, &ucMBFrame, &usLength );
             if( eStatus == MB_ENOERR )
@@ -452,6 +461,9 @@ eMBPoll( void )
             break;
 
         case EV_FRAME_SENT:
+
+        	modbus_is_running = FALSE;
+
             break;
         }
     }

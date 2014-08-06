@@ -46,6 +46,8 @@ xSemaphoreHandle xSemaphore;
 Sensors sensors;
 dht11 actual_DHT11;
 
+BOOL modbus_is_running = FALSE;
+
 
 USHORT   usRegHoldingStart = REG_HOLDING_START;
 USHORT   *usRegHoldingBuf[REG_HOLDING_NREGS];
@@ -53,6 +55,7 @@ USHORT   *usRegHoldingBuf[REG_HOLDING_NREGS];
 USHORT 	usRegCoilStart = REG_COIL_START;
 UCHAR 	ucRegCoilBuf[REG_COIL_LOCATIONS] = "\0";
 
+int var_prova;
 
 void __error__(char *pcFilename, unsigned long ulLine) {
 }
@@ -96,11 +99,13 @@ static void setupHardware(void) {
 		usRegHoldingBuf[i] = 0;
 	}
 
-	sensors.distance1 = 0;
-	sensors.distance2 = 0;
-	sensors.lumino = 0;
-	sensors.mic = 0;
-	sensors.vibro = 0;
+	sensors.distance1 = 1;
+	sensors.distance2 = 2;
+	sensors.lumino = 3;
+	sensors.mic = 4;
+	sensors.vibro = 5;
+	actual_DHT11.humidity = 666;
+	actual_DHT11.temperature = 666;
 
 	//associo ai registri holding il valore dei sensori
 	*(usRegHoldingBuf     ) = (USHORT *) &sensors.distance1;
@@ -134,13 +139,25 @@ main( void )
 
 	xSemaphore = xSemaphoreCreateMutex();
 
-	xTaskCreate( ModbusTask, ( signed portCHAR * ) "ModbusTask", USERTASK_STACK_SIZE, NULL, 3, NULL );
-	xTaskCreate( SensorsTask, ( signed portCHAR * ) "SensorsTask", USERTASK_STACK_SIZE, NULL, 3, NULL );
+	//xTaskCreate( ModbusTask, ( signed portCHAR * ) "ModbusTask", USERTASK_STACK_SIZE, NULL, 3, NULL );
+	//xTaskCreate( SensorsTask, ( signed portCHAR * ) "SensorsTask", USERTASK_STACK_SIZE, NULL, 3, NULL );
 
 	/*
 	 * Start the scheduler.
 	 */
-	vTaskStartScheduler();
+
+	while(1){
+
+		if(!modbus_is_running){
+			vMBPortSerialEnable(0,0);
+			SensorsTask(0);
+			vMBPortSerialEnable(1,0);
+		}
+
+		ModbusTask(0);
+	}
+
+	//vTaskStartScheduler();
 
 	return 1;
 
