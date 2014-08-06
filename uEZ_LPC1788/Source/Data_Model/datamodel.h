@@ -49,6 +49,27 @@ typedef struct gui{
 }GUI_value;
 
 
+typedef struct check_sensor{
+	
+	int light;
+	int alarm;
+	int temperature;
+	
+} Check_Sensor;
 
+
+
+typedef struct sensors{
+	
+	uint16_t temperature;
+	uint16_t humidity;
+	
+	uint16_t light;
+	uint16_t distance;
+	uint16_t presence;
+	uint16_t vibration;
+	uint16_t mic;
+	
+} Sensors;
 
 #endif
