@@ -70,6 +70,8 @@ extern GUI_value new_GUI_value;
 extern _modbus_rx modbus_rx;
 static LISTVIEW_Handle _hListView;
 extern int modbus_data[255];
+
+
 // USER END
 
 /*********************************************************************
@@ -272,114 +274,118 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         {
 					GUI_Delay(100);
 					modbus_task();
+				}
+				
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTVIEW_1);
+					
+				if (modbus_rx.error != 0)
+				{
+
+					LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_RED);
+					GUI_Delay(100);
+					LISTVIEW_SetItemText(hItem, 0, 0, "No Response");
+					PlayAudio(50, 60);				
+					PlayAudio(0, 20);				
+					PlayAudio(50, 100);				
+				}
+					
+				 else if (modbus_rx.func & 0x80)
+				{
+					LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_YELLOW);
+					GUI_Delay(100);
+					LISTVIEW_SetItemText(hItem, 0, 0, "R: Wrong Message");
+					PlayAudio(90, 60);				
+					PlayAudio(90, 20);				
+					PlayAudio(90, 100);				
+
+				}
+
+				else
+				{
+					//cancello vecchi valori
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTVIEW_0);
+					LISTVIEW_DeleteAllRows(hItem);
+					GUI_Delay(100);
+					for (i = 0; i < 60; i++)
+						LISTVIEW_AddRow(hItem, NULL);
+					GUI_Delay(100);
+					
 					hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTVIEW_1);
+
+					LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_GREEN);
+					GUI_Delay(100);
+					LISTVIEW_SetItemText(hItem, 0, 0, "R: Message Accepted");
+					PlayAudio(600, 20);				
+					PlayAudio(600, 20);				
+					PlayAudio(200, 20);
 					
-					if (modbus_rx.error != 0)
-					{
-
-						LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_RED);
-						GUI_Delay(100);
-						LISTVIEW_SetItemText(hItem, 0, 0, "No Response");
-						PlayAudio(50, 60);				
-						PlayAudio(0, 20);				
-						PlayAudio(50, 100);				
-					}
 					
-					 else if (modbus_rx.func & 0x80)
+					//se ho fatto una richiesta read
+					if(new_GUI_value.RADIO_value.radio_selection == 0 || new_GUI_value.RADIO_value.radio_selection == 2 || new_GUI_value.RADIO_value.radio_selection == 4)
 					{
-						LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_YELLOW);
-						GUI_Delay(100);
-						LISTVIEW_SetItemText(hItem, 0, 0, "R: Wrong Message");
-						PlayAudio(90, 60);				
-						PlayAudio(90, 20);				
-						PlayAudio(90, 100);				
+						if(new_GUI_value.SPINBOX_value.slave_id == 1)
+							slave_column = 1;
+						else
+							slave_column = 2;
 
-					}
+						//scrivo sul listview 0
+						hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTVIEW_0);
 
-					else
-					{
-						LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_GREEN);
-						GUI_Delay(100);
-						LISTVIEW_SetItemText(hItem, 0, 0, "R: Message Accepted");
-						PlayAudio(600, 20);				
-						PlayAudio(600, 20);				
-						PlayAudio(200, 20);
 						
-						
-						          //se ho fatto una richiesta read
-						if(new_GUI_value.RADIO_value.radio_selection == 0 || new_GUI_value.RADIO_value.radio_selection == 2 || new_GUI_value.RADIO_value.radio_selection == 4)
-						{
-							if(new_GUI_value.SPINBOX_value.slave_id == 1)
-								slave_column = 1;
-							else
-								slave_column = 2;
-  
-							//scrivo sul listview 0
-							hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTVIEW_0);
-		
-							//mi prendo la sezione dati effettivi
+						//mi prendo la sezione dati effettivi
+
+						//ho chiesto gli holding?
+						if(new_GUI_value.RADIO_value.radio_selection == 0){
 							for(i = 0; i < modbus_rx.len; i++)
 							{
 								//se leggo holdings
-								if(new_GUI_value.RADIO_value.radio_selection == 0)
-									sprintf(buffer, "%d", i+2000);
+								sprintf(buffer, "%d", new_GUI_value.SPINBOX_value.multiple_register_from + i +2000);
+								
 								LISTVIEW_SetItemText(hItem, 0, i, buffer);
 				
 								sprintf(buffer, "%d", modbus_rx.data_converted[i]);
 								LISTVIEW_SetItemText(hItem, slave_column, i, buffer);
 
 							}
+						}							
+
+
+						//ho chiesto i coils?
+						else if(new_GUI_value.RADIO_value.radio_selection == 4 ){
+							for(i = 0; i < modbus_rx.len; i++)
+							{
+								sprintf(buffer, "%d", new_GUI_value.SPINBOX_value.multiple_register_from + i );
+								
+								LISTVIEW_SetItemText(hItem, 0, i, buffer);
+
+								if(modbus_rx.data_converted[i] != 0)
+									sprintf(buffer, "%s", "ON");
+								else
+									sprintf(buffer, "%s", "OFF");
+								
+								LISTVIEW_SetItemText(hItem, slave_column, i, buffer);
+
+							}							
+						}	
+
+						//ho chiesto 1 coil?
+						else if(new_GUI_value.RADIO_value.radio_selection == 2){
+							
+								sprintf(buffer, "%d", new_GUI_value.SPINBOX_value.single_register_number);
+								LISTVIEW_SetItemText(hItem, 0, 0, buffer);
+							
+								if(modbus_rx.data_converted[0] != 0)
+									sprintf(buffer, "%s", "ON");
+								else
+									sprintf(buffer, "%s", "OFF");
+								
+								LISTVIEW_SetItemText(hItem, slave_column, 0, buffer);
+							
+							
 						}
-					}
+						
+					}						
 				}
-        else if (modbus_rx.func & 0x80)
-        {
-          LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_YELLOW);
-          GUI_Delay(100);
-          LISTVIEW_SetItemText(hItem, 0, 0, "R: Wrong Message");
-        PlayAudio(90, 60);				
-        PlayAudio(90, 20);				
-        PlayAudio(90, 100);				
-
-        }
-
-        else
-        {
-          LISTVIEW_SetItemBkColor(hItem, 0,0,0, GUI_GREEN);
-          GUI_Delay(100);
-          LISTVIEW_SetItemText(hItem, 0, 0, "R: Message Accepted");
-        PlayAudio(600, 20);				
-        PlayAudio(600, 20);				
-        PlayAudio(200, 20);				
-          
-          //se ho fatto una richiesta read
-          if(new_GUI_value.RADIO_value.radio_selection == 0 || new_GUI_value.RADIO_value.radio_selection == 2 || new_GUI_value.RADIO_value.radio_selection == 4)
-          {
-            if(new_GUI_value.SPINBOX_value.slave_id == 1)
-              slave_column = 1;
-            else
-              slave_column = 2;
-  
-            //scrivo sul listview 0
-            hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTVIEW_0);
-  
-            //mi prendo la sezione dati effettivi
-            for(i = 0; i < modbus_rx.len; i++)
-            {
-              //se leggo holdings
-              if(new_GUI_value.RADIO_value.radio_selection == 0)
-                sprintf(buffer, "%d", i+2000);
-              LISTVIEW_SetItemText(hItem, 0, i, buffer);
-      
-              sprintf(buffer, "%d", modbus_rx.data_converted[i]);
-              LISTVIEW_SetItemText(hItem, slave_column, i, buffer);
-
-
-            }
-          }
-        }
-			
-//        reset_modbus_data();
 
         // USER END
         break;
