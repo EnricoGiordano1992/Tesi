@@ -21,6 +21,7 @@
 
 #include "DHT11.h"
 #include "lpc1768.h"
+#include "mb.h"
 
 dht11 DHT;
 
@@ -142,9 +143,11 @@ int read( )
 
 	int j = 7;
 
+	data_received[0] = 0;
+
 	for(i = 0; i < 40; i++){
 
-		if(data_received[i] > 40)
+		if(data_received[i] > 80)
 			bits[idx] |= (1 << cnt);
 
 		if (cnt == 0)   // next byte?
@@ -158,10 +161,24 @@ int read( )
 	// WRITE TO RIGHT VARS
 	// as bits[1] and bits[3] are allways zero they are omitted in formulas.
 	DHT.humidity    = bits[0];
-	DHT.temperature = bits[2];
+	DHT.temperature = bits[2] + 10;
 
-	uint8_t sum = bits[0] + bits[1] + bits[2] + bits[3];
+	uint8_t sum = bits[0]  + bits[2] ;
 
+/*	char buffer[4];
+	for(i = 0; i < 40; i++){
+
+		sprintf(buffer, "%d", data_received[i]);
+
+		xMBPortSerialPutByte( buffer[0] );
+		xMBPortSerialPutByte( buffer[1] );
+		xMBPortSerialPutByte( buffer[2] );
+		xMBPortSerialPutByte( buffer[3] );
+
+		xMBPortSerialPutByte(' ' );
+	}
+
+	//delay_ms(1000);*/
 	if (bits[4] != sum) return DHTLIB_ERROR_CHECKSUM;
 	return DHTLIB_OK;}
 
@@ -180,8 +197,8 @@ dht11 test_temperature(){
 	case DHTLIB_ERROR_CHECKSUM:
 	case DHTLIB_ERROR_TIMEOUT:
 
-		DHT.humidity = 666;
-		DHT.temperature = 666;
+//		DHT.humidity = 666;
+//		DHT.temperature = 666;
 		break;
 	default:
 		//      printf("Unknown error,\t");

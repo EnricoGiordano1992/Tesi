@@ -40,11 +40,9 @@ void SensorsTask(void *pvParameters){
 		// See if we can obtain the semaphore.  If the semaphore is not available
 		// wait 50 ticks to see if it becomes free.
 		//if( xSemaphoreTake( xSemaphore,  50 ) == pdTRUE )
-		{
 			actual_DHT11 = test_temperature();
 
 	//		xSemaphoreGive(xSemaphore);
-		}
 
 		//controllo sensori
 		sensors = check_all_sensors();
