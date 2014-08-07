@@ -126,6 +126,21 @@ static void setupHardware(void) {
 
 
 
+void MainTask(void *pvParameters){
+
+	while(1){
+
+		if(!modbus_is_running){
+			vMBPortSerialEnable(0,0);
+			SensorsTask(0);
+			vMBPortSerialEnable(1,0);
+		}
+
+		ModbusTask(0);
+	}
+		
+
+}
 
 
 
@@ -142,22 +157,13 @@ main( void )
 	//xTaskCreate( ModbusTask, ( signed portCHAR * ) "ModbusTask", USERTASK_STACK_SIZE, NULL, 3, NULL );
 	//xTaskCreate( SensorsTask, ( signed portCHAR * ) "SensorsTask", USERTASK_STACK_SIZE, NULL, 3, NULL );
 
+	xTaskCreate( MainTask, ( signed portCHAR * ) "MainTask", USERTASK_STACK_SIZE, NULL, 4, NULL );
+	
 	/*
 	 * Start the scheduler.
 	 */
 
-	while(1){
-
-		if(!modbus_is_running){
-			vMBPortSerialEnable(0,0);
-			SensorsTask(0);
-			vMBPortSerialEnable(1,0);
-		}
-
-		ModbusTask(0);
-	}
-
-	//vTaskStartScheduler();
+	vTaskStartScheduler();
 
 	return 1;
 
