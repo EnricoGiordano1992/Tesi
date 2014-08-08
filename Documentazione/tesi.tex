@@ -17,7 +17,7 @@
 
 \usepackage{listings}
 
-\newcommand{\itema}{\begin{itemize}[noitemsep,topsep=10pt,parsep=23pt,partopsep=0pt]}
+\newcommand{\itema}{\begin{itemize}[noitemsep,topsep=10pt,parsep=5pt,partopsep=10pt]}
 
 \newcommand{\enumera}{\begin{enumerate}[noitemsep,topsep=10pt,parsep=23pt,partopsep=0pt]}
 
@@ -1245,10 +1245,140 @@ void uart_rx_interrupt(void)
 È importante sostituire solo dove ci sono i puntini le rispettive implementazioni delle funzioni. Una volta eseguito il porting di queste funzioni, si può prendere il codice presente e utilizzarlo per la propria architettura (file \textit{modbus.h, modbus.c, port.c, port.h, modbus\_port.h, modbus\_port.c, utils.c, utils.h}).
 
 
+\section{Funzionamento generale di PIC16F77}
+
+Dal momento che questo è un microcontrollore, è stato necessario utilizzare un codice molto ottimizzato, sia per la parte di protocollo sia per la parte di controllo di elementi esterni tramite GPIO.
+
 \section{Funzionamento generale di LPC1768}
 
+La progettazione del software di questo processore si è divisa in due fasi: la prima consisteva nel creare le singole parti del progetto, testarle tramite prototipi e assemblare il prodotto finito, secondo lo schema ingegneristico ``evoluzionista'', per poi passare alla seconda parte in cui è stato ottimizzato tutto il lavoro.
 
-\section{Funzionamento generale di PIC16F77}
+~
+
+È stato eseguito il porting della libreria FreeModbus modificando le API che si interfacciano con l'hardware (UART e Timer), poi è stato creato il software che si occupa del controllo sensori e infine è stato calato il tutto nel contesto di FreeRTOS per eseguire due task separati, uno di controllo sensori e uno di esecuzione del protocollo.
+
+Eseguendo però due task separati, con entrambi una priorità alta, si è notato che la velocità di risposta della comunicazione era veramente lenta, inoltre non si aveva quasi mai la risposta corretta dal sensore DHT11. Per risolvere questo, è stato deciso di utilizzare un semaforo di tipo Mutex sulla risorsa che era condivisa tra i due task, ossia il processore: anche se può sembrare strano, ci si è resi conto che non era possibile eseguire ``contemporaneamente'' il task del controllo sensori e quello della comunicazione, perché entrambi volevano massima priorità di utilizzo del processore. Forzando però il sistema operativo ad eseguire prima un task e poi l'altro, l'esecuzione non era più asincrona ma era diventata sequenziale, quindi utilizzare più thread era praticamente inutile, si occupavano risorse per niente.
+
+Alla fine della progettazione quindi, si è deciso di utilizzare la precisione di calcolo (in ambito di tempistiche) di FreeRTOS: dal momento che questo sistema è real-time, ha la proprietà di garantire la fine di un'operazione in un tempo preciso, quindi è stato creato un unico task con massima priorità (quindi massima velocità di esecuzione), in modo da eseguire sequenzialmente prima il controllo sensori e poi la comunicazione, diminuendo il ritardo sia di risposta dei sensori sia della comunicazione seriale.
+
+\subsection{Main}
+
+Nella funzione di partenza, come vuole lo standard di FreeRTOS, è necessario inizializzare l'hardware e le relative variabili nell'apposita funzione di inizializzazione chiamata \lstinline!static void setupHardware(void)!, poi bisogna creare il task da eseguire tramite l'apposita funzione \textbf{xTaskCreate} che prende in input: il nome della funzione da eseguire come task, la stringa che rappresenta il nome della funzione (utile durante il debug), la dimensione dedicata dello stack per questa, i parametri da passare, la priorità del task e lo handler della funzione (variabile in cui memorizzare l'indirizzo corrispondente). In questo caso è stato impostato come funzione da eseguire quella chiamata ``MainTask'', identificata dalla stringa \lstinline!""MainTask!, impostando uno stack minimo tramite la macro \lstinline!configMINIMAL_STACK_SIZE!, non inviando alcun valore, impostando la massima priorità di esecuzione e non associando alcun handler (perché l'esecuzione del task non doveva essere controllata dall'esterno).
+
+Per inizializzare il protocollo Modbus, si deve utilizzare la funzione \textbf{eMBInit}, i cui parametri indicano, in ordine, il tipo di comunicazione (RTU, ASCII o TCP), l'indirizzo dello Slave, il numero della porta seriale che si vuole utilizzare, il baudrate e il bit di parità.
+In questo caso si è utilizzato come tipo RTU, l'indirizzo 10, la porta UART0, 38400 di baudrate e nessun bit di parità.
+
+\subsection{Modello dei dati}
+
+Per facilitare la comunicazione e l'utilizzo dei dati interni al sistema, sono state create delle \lstinline!struct! che hanno il compito di organizzare i dati.
+
+
+\begin{lstlisting}
+
+typedef struct sens{
+
+	USHORT  mic;
+	USHORT  vibro;
+	USHORT  distance1;
+	USHORT  distance2;
+	USHORT  lumino;
+
+}Sensors;
+
+
+typedef struct dht{
+	USHORT  humidity;
+	USHORT  temperature;
+} dht11;
+
+\end{lstlisting} 
+
+
+La prima struttra dati, chiamata \textbf{Sensors}, è stata utilizzata per memorizzare tutti i dati provenienti dai sensori diversi dal DHT11, mentre la seconda struttura dati, chiamata \textbf{dht11}, è stata utilizzata per memorizzare i due valori provenienti dal sensore temperatura. La scelta di dividere il due strutture dati i valori elaborati dai sensori è stata fatta per organizzare meglio il trattamento dei dati, visto che il controllo effettuato dal DHT11 avviene in tempi diversi rispetto al controllo degli altri sensori. I valori sono memorizzati in zone di memoria di tipo ``unsigned int'', poichè Modbus deve trattare esclusivamente valori di questo tipo.
+
+Nella prima struttura sono stati memorizzati questi valori:
+
+\itema
+
+\item \lstinline!mic! associato al sensore di rumore;
+
+\item \lstinline!vibro! associato al sensore di vibrazione;
+
+\item \lstinline!distance1! associato al sensore di presenza;
+
+\item \lstinline!distance2! associato al sensore di distanza;
+
+\item \lstinline!lumino! associato al sensore di luminosità.
+
+\end{itemize}
+
+
+Nella seconda struttura sono stati memorizzati questi valori:
+
+\itema
+
+\item \lstinline!temperature! in cui si memorizza la temperatura;
+
+\item \lstinline!humidity! in cui si memorizza l'umidità.
+
+\end{itemize}
+
+~
+
+Lato Modbus invece è stato utilizzato un array di puntatori a variabili di tipo ``unsigned int'', dichiarato come segue:
+
+\begin{lstlisting}
+
+USHORT   *usRegHoldingBuf[REG_HOLDING_NREGS];
+
+\end{lstlisting}
+
+La define REG\_HOLDING\_NREGS indica la quantità di registri di tipo Holding che è presente nel sistema. È stato deciso di utilizzare un array di puntatori per definire un binding tra le variabili associate ai sensori e i registri Modbus: in questo modo non è necessario aggiornare in continuazione anche i registri Modbus, ma semplicemente ogni volta che si richiede un registro, si andrà a prendere il valore puntato da quel registro (ottimizzando quindi i tempi). Inoltre questo permette la separazione tra la parte del protocollo e la parte del controllo sensori: il binding si esegue al momento dell'inizializzazione e dopo la parte dedicata al protocollo non utilizzerà mai esplicitamente le variabili associate alla parte del controllo sensori.
+L'inizializzazione è stata resa in questo modo:
+
+\begin{lstlisting}
+
+*(usRegHoldingBuf     ) = (USHORT *) &sensors.distance1;
+*(usRegHoldingBuf + 1 ) = (USHORT *) &sensors.distance2;
+*(usRegHoldingBuf + 2 ) = (USHORT *) &sensors.lumino;
+*(usRegHoldingBuf + 3 ) = (USHORT *) &sensors.mic;
+*(usRegHoldingBuf + 4 ) = (USHORT *) &sensors.vibro;
+*(usRegHoldingBuf + 5 ) = (USHORT *) &actual_DHT11.humidity;
+*(usRegHoldingBuf + 6 ) = (USHORT *) &actual_DHT11.temperature;
+
+\end{lstlisting}
+
+\subsection{MainTask}
+
+La funzione principale esegue prima il controllo sui sensori e dopo esegue la funzione associata al protocollo Modbus. Poiché il controllo sensori non deve interferire durante l'esecuzione della comunicazione, si controlla che non stia avvenendo uno scambio di dati; questo è reso tramite la variabile di tipo BOOL \textit{modbus\_is\_running}, che vale 1 se è in esecuzione uno scambio di dati, altrimenti vale 0. Poiché però nessun interrupt di comunicazione (proveniente dalla seriale) deve interferire sul controllo sensori, è stato deciso di interrompere la ricezione tramite interrupt dei byte provenienti dalla seriale, tramite la funzione \textbf{vMBPortSerialEnable}, che come primo parametro riceve un BOOL per consentire l'attivazione dell'interrupt RX della seriale e come secondo parametro un BOOL per l'attivazione dell'interrupt TX.
+
+~
+
+La funzione \textbf{ModbusTask} esegue la funzione \textbf{eMBPoll()}, che si occupa di controllare se è stato registrato nello stack di eventi Modbus una ricezione di dati o un invio completato.
+
+~
+
+Questo task quindi è stato creato in questo modo:
+
+\begin{lstlisting}
+
+void MainTask(void *pvParameters){
+
+	while(1){
+
+		if(!modbus_is_running){
+			vMBPortSerialEnable(0,0);
+			SensorsTask(0);
+			vMBPortSerialEnable(1,0);
+		}
+
+		ModbusTask(0);
+	}
+		
+
+}
+
+\end{lstlisting}
 
 
 \section{Funzionamento generale di LPC1788}
@@ -1261,7 +1391,7 @@ Appena il processo principale viene mandato in esecuzione, viene presentata la s
 
 \begin{figure}[!h]
 \centering
-\includegraphics[scale=0.1]{menu.jpg}
+\includegraphics[scale=0.6]{menu.jpg}
 \end{figure}
 
 \newpage
@@ -1269,7 +1399,7 @@ Appena il processo principale viene mandato in esecuzione, viene presentata la s
 
 \begin{figure}[!h]
 \centering
-\includegraphics[scale=0.1]{ledgui.jpg}
+\includegraphics[scale=0.6]{ledgui.jpg}
 \end{figure}
 
 \newpage
@@ -1277,7 +1407,7 @@ Appena il processo principale viene mandato in esecuzione, viene presentata la s
 
 \begin{figure}[!h]
 \centering
-\includegraphics[scale=0.1]{sensorgui.jpg}
+\includegraphics[scale=0.6]{sensorgui.jpg}
 \end{figure}
 
 \newpage
@@ -1285,7 +1415,7 @@ Appena il processo principale viene mandato in esecuzione, viene presentata la s
 
 \begin{figure}[!h]
 \centering
-\includegraphics[scale=0.1]{debug.jpg}
+\includegraphics[scale=0.6]{debug.jpg}
 \end{figure}
 
 

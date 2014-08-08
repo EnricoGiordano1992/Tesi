@@ -2,9 +2,9 @@
 \contentsline {chapter}{\numberline {1}Il progetto}{7}{chapter.1}
 \contentsline {chapter}{\numberline {2}Architettura Hardware}{9}{chapter.2}
 \contentsline {section}{\numberline {2.1}LPC1788}{9}{section.2.1}
-\contentsline {section}{\numberline {2.2}LPC1768}{10}{section.2.2}
+\contentsline {section}{\numberline {2.2}LPC1768}{9}{section.2.2}
 \contentsline {section}{\numberline {2.3}PIC16F77}{10}{section.2.3}
-\contentsline {section}{\numberline {2.4}Bus RS232}{11}{section.2.4}
+\contentsline {section}{\numberline {2.4}Bus RS232}{10}{section.2.4}
 \contentsline {section}{\numberline {2.5}Considerazioni}{13}{section.2.5}
 \contentsline {section}{\numberline {2.6}Altri componenti}{13}{section.2.6}
 \contentsline {subsection}{\numberline {2.6.1}Sensori}{13}{subsection.2.6.1}
@@ -28,26 +28,29 @@
 \contentsline {subsection}{\numberline {5.1.3}Tipi di richiesta}{32}{subsection.5.1.3}
 \contentsline {subsection}{\numberline {5.1.4}CRC16}{33}{subsection.5.1.4}
 \contentsline {subsection}{\numberline {5.1.5}Sincronizzazione}{33}{subsection.5.1.5}
-\contentsline {section}{\numberline {5.2}Implementazione del protocollo Modbus}{34}{section.5.2}
+\contentsline {section}{\numberline {5.2}Implementazione del protocollo Modbus}{33}{section.5.2}
 \contentsline {subsection}{\numberline {5.2.1}Master}{34}{subsection.5.2.1}
 \contentsline {subsection}{\numberline {5.2.2}Slave}{37}{subsection.5.2.2}
 \contentsline {subsubsection}{FreeModbus}{37}{section*.3}
 \contentsline {subsubsection}{MiniModbus}{39}{section*.4}
 \contentsline {section}{\numberline {5.3}Funzionamento generale di LPC1768}{41}{section.5.3}
-\contentsline {section}{\numberline {5.4}Funzionamento generale di PIC16F77}{41}{section.5.4}
-\contentsline {section}{\numberline {5.5}Funzionamento generale di LPC1788}{41}{section.5.5}
-\contentsline {section}{\numberline {5.6}Interfaccia grafica}{41}{section.5.6}
-\contentsline {subsection}{\numberline {5.6.1}Men\IeC {\`u} principale}{41}{subsection.5.6.1}
-\contentsline {subsection}{\numberline {5.6.2}Controllo Luci}{42}{subsection.5.6.2}
-\contentsline {subsection}{\numberline {5.6.3}Controllo Sensori}{43}{subsection.5.6.3}
-\contentsline {subsection}{\numberline {5.6.4}Schermata di Debug}{44}{subsection.5.6.4}
-\contentsline {section}{\numberline {5.7}Interazione con i componenti hardware}{44}{section.5.7}
-\contentsline {subsection}{\numberline {5.7.1}Sensori}{44}{subsection.5.7.1}
-\contentsline {subsection}{\numberline {5.7.2}Rel\IeC {\`e} e luci}{44}{subsection.5.7.2}
-\contentsline {section}{\numberline {5.8}Diagramma dei componenti}{44}{section.5.8}
-\contentsline {subsection}{\numberline {5.8.1}Architettura Hardware}{45}{subsection.5.8.1}
-\contentsline {subsection}{\numberline {5.8.2}Architettura Software}{45}{subsection.5.8.2}
-\contentsline {chapter}{\numberline {6}Programmi utilizzati}{47}{chapter.6}
-\contentsline {section}{\numberline {6.1}LPC1788}{47}{section.6.1}
-\contentsline {section}{\numberline {6.2}LPC1768}{47}{section.6.2}
-\contentsline {section}{\numberline {6.3}PIC16F77}{47}{section.6.3}
+\contentsline {subsection}{\numberline {5.3.1}Main}{41}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}Modello dei dati}{41}{subsection.5.3.2}
+\contentsline {subsection}{\numberline {5.3.3}MainTask}{43}{subsection.5.3.3}
+\contentsline {section}{\numberline {5.4}Funzionamento generale di PIC16F77}{43}{section.5.4}
+\contentsline {section}{\numberline {5.5}Funzionamento generale di LPC1788}{43}{section.5.5}
+\contentsline {section}{\numberline {5.6}Interfaccia grafica}{43}{section.5.6}
+\contentsline {subsection}{\numberline {5.6.1}Men\IeC {\`u} principale}{44}{subsection.5.6.1}
+\contentsline {subsection}{\numberline {5.6.2}Controllo Luci}{45}{subsection.5.6.2}
+\contentsline {subsection}{\numberline {5.6.3}Controllo Sensori}{46}{subsection.5.6.3}
+\contentsline {subsection}{\numberline {5.6.4}Schermata di Debug}{47}{subsection.5.6.4}
+\contentsline {section}{\numberline {5.7}Interazione con i componenti hardware}{47}{section.5.7}
+\contentsline {subsection}{\numberline {5.7.1}Sensori}{47}{subsection.5.7.1}
+\contentsline {subsection}{\numberline {5.7.2}Rel\IeC {\`e} e luci}{47}{subsection.5.7.2}
+\contentsline {section}{\numberline {5.8}Diagramma dei componenti}{48}{section.5.8}
+\contentsline {subsection}{\numberline {5.8.1}Architettura Hardware}{48}{subsection.5.8.1}
+\contentsline {subsection}{\numberline {5.8.2}Architettura Software}{48}{subsection.5.8.2}
+\contentsline {chapter}{\numberline {6}Programmi utilizzati}{49}{chapter.6}
+\contentsline {section}{\numberline {6.1}LPC1788}{49}{section.6.1}
+\contentsline {section}{\numberline {6.2}LPC1768}{49}{section.6.2}
+\contentsline {section}{\numberline {6.3}PIC16F77}{49}{section.6.3}
