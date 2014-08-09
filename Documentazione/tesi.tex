@@ -1247,7 +1247,152 @@ void uart_rx_interrupt(void)
 
 \section{Funzionamento generale di PIC16F77}
 
-Dal momento che questo è un microcontrollore, è stato necessario utilizzare un codice molto ottimizzato, sia per la parte di protocollo sia per la parte di controllo di elementi esterni tramite GPIO.
+Dal momento che questo è un microcontrollore, è stato necessario utilizzare un codice molto ottimizzato, sia per la parte di protocollo sia per la parte di controllo di elementi esterni tramite GPIO. È stato quindi progettato un software molto piccolo in cui si cerca di utilizzare per lo più interrupt.
+
+~
+
+Per la comunicazione Modbus, è stata scritta una libreria portabile già descritta sopra (MiniModbus) con un vincolo di lunghezza messaggio di 64 char; questa scelta è stata fatta per questioni architetturali, poiché non era possibile allocare altro spazio contiguo. È stato deciso inoltre di avere solo registri di tipo Coil in quanto questo microcontrollore andrà a pilotare solo 6 Relè.
+
+~
+
+I Relè sono stati associati a 6 input del gruppo delle GPIO B, quindi RB0, RB1, RB2, RB3, RB4, RB5 (``R'' indica che si sta lavorando con un registro); è stata utilizzata un'ulteriore GPIO (RC1) per pilotare un led per funzione di diagnostica.
+
+~
+
+Nei sistemi di tipo Pic, è necessario inizializzare lo hardware prima del codice con una macro, la quale si occupa di impostare dei registri di Boot e di futura programmazione. Questo è stato reso nel codice in questo modo:
+
+\begin{lstlisting}
+
+__CONFIG(FOSC_HS & WDTE_OFF & PWRTE_ON & BOREN_OFF & CP_OFF);
+
+\end{lstlisting}
+
+Le diverse macro hanno questo significato:
+
+\itema
+
+\item \lstinline!FOSC_HS! indica che si sta utilizzando un oscillatore ad alta frequenza al quarzo esterno;
+
+\item \lstinline!WDTE_OFF! disabilita il WatchDog (impostazione che resetta l'esecuzione del firmware in caso di anomalie);
+
+\item \lstinline!PWRTE_ON! abilita l'ingresso MCLR in modo che, quando vale 0, viene resettato il microcontrollore;
+
+\item \lstinline!BOREN_OFF! disabilita la funzione che resetta il Pic quando la tensione scende sotto una certa soglia, non serve perché, nel caso in cui tutti i Relè vengono attivati, può esserci un calo di tensione;
+
+\item \lstinline!CP_OFF! disabilita la protezione di codice, in quanto se si volesse aggiornare il software deve essere possibile la riprogrammazione.
+
+\end{itemize}
+
+\subsection{Main}
+
+Nella funzione principale è stato necessario inizializzare lo hardware impostando i registri associati alle GPIO come output; questo è possibile con il seguente codice:
+
+\begin{lstlisting}
+
+TRISC1 = 0;
+TRISB = 0b0000000;
+
+\end{lstlisting}
+
+Questo significa che si imposta il registro tristato associato alla GPIO RC1 come output e tutti i registri tristato delle GPIO B come output.
+
+Fatto ciò, si inizializza il protocollo Modbus tramite la funzione \lstinline!modbus_init()!, con baudrate a 38400 e con l'id dello Slave posto a 1.
+
+~
+
+Una volta impostati gli interrupt, precedentemente impostati tramite la funzione di inizializzazione Modbus, è necessario attivarli impostando a 1 due registri; in codice:
+
+\begin{lstlisting}
+
+GIE  = 1;	// Enable global interrupts
+PEIE = 1;	// Enable Peripheral Interrupts
+
+\end{lstlisting}
+
+~
+
+Da questo punto, il microcontrollore esegue due parti di codice nel superciclo: la gestione del protocollo Modbus e il controllo dei Relè.
+
+\subsubsection{Gestione Modbus}
+
+In maniera asincrona si ricevono, tramite interrupt, tutti i byte inviati dal Master, inserendoli nella rispettiva locazione della struttura dati che immagazzina il messaggio:
+
+\begin{lstlisting}
+
+  struct
+   {
+      int8_t address;
+      int8_t len;                              	//numero di byte ricevuti
+      function func;                           	//la funzione da eseguire
+      exception error;                         	//errore ricevuto
+      char data[MODBUS_SERIAL_RX_BUFFER_SIZE]; 	//dati del messaggio 
+      						//(quantita' di registri 
+      						//+ valore dei registri
+      						//+ CRC)
+   } modbus_rx;
+
+\end{lstlisting}
+
+Ogni volta che inizia la ricezione del messaggio, la funzione \lstinline!BOOL modbus_kbhit()! restituisce \lstinline!TRUE!, quindi il microcontrollore aspetta, in maniera asincrona durante l'esecuzione del Main, 10 millisecondi per essere sicuro della completa ricezione del messaggio e invia la risposta.
+
+\subsubsection{Controllo Relè}
+
+Quando non esegue la gestione del protocollo, in base al settaggio dei registri Coils, imposta i registri delle GPIO, quindi se un registro di Coil vale 1, la GPIO verrà impostata a 1, altrimenti a 0. Il codice è il seguente:
+
+\begin{lstlisting}
+
+  if(bit_test(coils, 0))
+      RC1 = 1;
+  else
+      RC1 = 0;
+
+  if(bit_test(coils, 1))
+      RB5 = 1;
+  else
+      RB5 = 0;
+
+  if(bit_test(coils, 2))
+  {
+      RB4 = 1;
+  }
+  else
+      RB4 = 0;
+
+
+  if(bit_test(coils, 3))
+      RB3 = 1;
+  else
+      RB3 = 0;
+
+
+  if(bit_test(coils, 4))
+      RB2 = 1;
+  else
+      RB2 = 0;
+
+  if(bit_test(coils, 5))
+      RB1 = 1;
+  else
+      RB1 = 0;
+
+  if(bit_test(coils, 6))
+      RB0 = 1;
+  else
+      RB0 = 0;
+
+\end{lstlisting}
+
+È importante sapere che i registri di Coil saranno sempre multipli di 8 perchè associati ad una o più variabili: questo perché sono i corrispettivi bit di una variabile che vanno impostati a 1 o a 0. Questo è stato deciso per questioni di ottimizzazione di codice, oltre al fatto che le operazioni tra bit sono molto più veloci rispetto a quelle di assegnamento o tra variabili. Per l'accesso ai bit, sono state scritte le seguenti funzioni sotto forma di macro:
+
+\begin{lstlisting}
+
+#define bit_test(var,pos)       ((var) & (1<<(pos)))
+#define bit_set(coil,pos)       (coil |= 1 << pos)
+#define bit_clear(coil, pos)    (coil &= ~(1 << pos))
+
+\end{lstlisting} 
+
+in cui ``var'' e ``coil'' indicano le variabili su cui operare l'estrazione e l'impostazione dei bit e ``pos'' indica la rispettiva posizione del bit all'interno della variabile (da sinistra a destra).
 
 \section{Funzionamento generale di LPC1768}
 
@@ -1380,6 +1525,9 @@ void MainTask(void *pvParameters){
 
 \end{lstlisting}
 
+~
+
+Le GPIO associate ai sensori sono 6, partendo da P2.0 a P2.5; la P2.4, essendo associata al DHT11, deve essere impostata ciclicamente prima come input e poi come output, secondo il protocollo 1Wire, le altre invece, associate in ordine al sensore ostacolo, di luminosità, di distanza, di vibrazione e di rumore, sono tutte impostate come input.
 
 \section{Funzionamento generale di LPC1788}
 
@@ -1470,4 +1618,4 @@ DA SCRIVERE
 
 
 \end{document}
-\endinput
+
