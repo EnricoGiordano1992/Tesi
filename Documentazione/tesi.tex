@@ -21,6 +21,8 @@
 
 \newcommand{\enumera}{\begin{enumerate}[noitemsep,topsep=10pt,parsep=23pt,partopsep=0pt]}
 
+\newcommand{\code}{\lstinline}
+
 \lstset{language=C, basicstyle=\small\ttfamily,
 keywordstyle=\color{red}\bfseries,
 commentstyle=\color{blue},
@@ -1394,6 +1396,12 @@ Quando non esegue la gestione del protocollo, in base al settaggio dei registri 
 
 in cui ``var'' e ``coil'' indicano le variabili su cui operare l'estrazione e l'impostazione dei bit e ``pos'' indica la rispettiva posizione del bit all'interno della variabile (da sinistra a destra).
 
+~
+
+~
+
+Il codice relativo a questo si trova nella cartella ``Modbus\_Slave\_PIC16F77''.
+
 \section{Funzionamento generale di LPC1768}
 
 La progettazione del software di questo processore si è divisa in due fasi: la prima consisteva nel creare le singole parti del progetto, testarle tramite prototipi e assemblare il prodotto finito, secondo lo schema ingegneristico ``evoluzionista'', per poi passare alla seconda parte in cui è stato ottimizzato tutto il lavoro.
@@ -1529,7 +1537,178 @@ void MainTask(void *pvParameters){
 
 Le GPIO associate ai sensori sono 6, partendo da P2.0 a P2.5; la P2.4, essendo associata al DHT11, deve essere impostata ciclicamente prima come input e poi come output, secondo il protocollo 1Wire, le altre invece, associate in ordine al sensore ostacolo, di luminosità, di distanza, di vibrazione e di rumore, sono tutte impostate come input.
 
+~
+
+~
+
+Il codice relativo a questo si trova nella cartella ``Modbus\_Slave\_LPC1768\_FreeRTOS''.
+
+
 \section{Funzionamento generale di LPC1788}
+
+La parte più complessa della progettazione di questo sistema è stata la creazione del software per LPC1788. Essa è stata divisa in 4 fasi:
+
+\itema 
+
+\item adattamento delle API di $\mu EZ$ per le esigenze di progettazione;
+
+\item creazione del protocollo Modbus Master;
+
+\item progettazione dell'interfaccia grafica;
+
+\item creazione del modello dei dati;
+
+\item sviluppo del software associato ad ogni interfaccia.
+
+
+\end{itemize}
+
+È stato deciso di dividere in fasi per due motivi: il primo è l'organizzazione del lavoro migliore, in quanto dividendo in fasi si sa, durante la progettazione, in quale fase ci si trova mentre si sta lavorando e porta ad avere una visione globale di tutta la progettazione (come il modello di sviluppo software di tipo ``Waterfall''); il secondo motivo è la modularità, in quanto rendere il codice modulare, ossia organizzato in ``pezzi'' separati, rende più facile la mantenibilità del codice e il riutilizzo futuro. Tutte le parti di codice separate riusciranno poi a comunicare tra di loro tramite il modello dei dati, noto a tutte le istanze di codice, e popolato dalla parte di codice associata.
+
+\subsection{Adattamento delle API}
+
+Prima di sviluppare un software su piattaforma $\mu EZ$, bisogna compilare il core e linkarlo al momento della compilazione del proprio applicativo. Il core è presente nella cartella ``uEZ''.
+
+Poiché era necessario utilizzare gli interrupt esplicitamente da parte del protocollo Modbus, visto che $\mu EZ$ non dà la possibilità di utilizzarli in maniera esplicita (poiché lo HAL non lo permette), è stato deciso di modificare la parte di codice relativa al trattamento della seriale. È stata commentata la parte dell'ISR relativa all'interrupt della seriale UART0 e all'interrupt del timer TIMER0 e, dopo aver ricompilato il core di $\mu EZ$, è stato aggiunto il codice relativo al comportamento dell'interrupt proveniente dalla seriale. Il codice modificato è presente nella cartella ``CMSIS\_modbus''.
+
+~
+
+Dopo ciò, bisogna configurare la compilazione generale di $\mu EZ$, escludendo le API che non servono e impostando le periferiche da utilizzare. Tutto ciò che si vuole sviluppare su questo sistema deve essere visto come un'applicazione (come nei normali sistemi general purpoise), quindi non deve essere scritto solo il codice del proprio applicativo, ma bisogna importare prima l'ambiente di lavoro della nostra applicazione. In questo caso infatti è stato configurato il task relativo al controllo del touchscreen in modo da poter utilizzare le librerie di emWin.  
+
+~
+
+Tutto questo viene eseguito nella funzione \textbf{MainTask}.
+
+\subsection{Modbus Master}
+
+La progettazione di questo è relativamente più semplice del protocollo di uno Slave, in quanto bisogna solamente creare i messaggi di tipo Modbus, quindi con la corretta formattazione e il codice CRC finale, aspettare la risposta e convertirla in dati utili al proprio utilizzo. I sorgenti relativi a questa sezione si trovano nella cartella ``modbus\_lib''.
+
+Oltre ad implementare il protocollo, è stato utile creare delle funzioni che eseguissero dei task per le diverse funzionalità del sistema; questi task sono:
+
+\itema
+
+\item \lstinline!modbusTask()! che esegue una richiesta Modbus in base alla configurazione scelta nell'interfaccia di debug, ossia il numero della funzione, l'indirizzo di partenza, la quantità di registri da leggere o scrivere e il valore da scrivere all'interno di un registro;
+
+\item \code!poll_sensor_check()! che richiede, in ciclo infinito, il valore attuale dei sensori;
+
+\item \code!poll_led_check()! che richiede, in ciclo infinito, lo stato dei led (accesi o spenti);
+
+\end{itemize}
+
+Ad ogni iterazione del protocollo, viene popolata la struttura dati specifica, ossia \code!_modbus_rx!, che verrà descritta successivamente.
+
+
+\subsection{Progettazione interfaccia grafica}
+
+Poiché il sistema deve offrire dei servizi specifici e utilizzabili facilmente dall'utente, è stata creata un'interfaccia grafica divisa in schermate: ogni schermata si occupa dell'esecuzione di un sottoprogramma specifico, in cui, tramite appositi widget, l'utente è in grado di eseguire richieste e osservare i risultati. Lo scheletro dell'interfaccia è stato costruito tramite un apposito programma chiamato GUIBuilder, specifico per emWin. Questo programma, anche se molto intuitivo e utile poiché genera il codice sorgente dell'interfaccia, non permette di sfruttare al massimo le potenzialità di emWin, infatti molte parti di codice sono state scritte a mano senza l'aiuto di questo. Inoltre anche l'associazione di funzioni ai widget dell'interfaccia deve essere fatta direttamente nei sorgenti, non tramite questo programma. Infine è stato necessario aggiungere ai sorgenti generati la funzione \code!GUI_ExecDialogBox!, che permette la creazione e l'esecuzione istantanea dell'interfaccia descritta nel sorgente, quindi da richiamare al momento dell'effettiva creazione dell'istanza grafica.
+
+~
+
+Da notare che, se si volesse aggiungere un'immagine all'interfaccia, è necessario convertire tale immagine in sorgente di codice, quindi codificarla in un array di caratteri esadecimali, in modo che emWin sia in grado di codificarla. Questo fatto è un po' svantaggioso, perché in questo modo si riempie la zona di memoria dedicata al codice del programma per un'immagine, quindi bisogna ridurre al massimo la risoluzione e la dimensione dell'immagine per non sprecare memoria. Questo ha reso l'interfaccia molto sobria e con pochissime immagini al fine di non sprecare spazio utile alla programmazione.
+
+~
+
+L'intefaccia generale è stata divisa in 4 sottointerfacce: menù principale, interfaccia di controllo luci, di controllo sensori e di debug; queste verranno descritte nel capitolo dedicato.
+
+~
+
+I sorgenti dell'intefaccia si trovano nella cartella ``GUI''.
+
+\subsection{Modello dei dati}
+
+Per la grande quantità di dati presenti nel codice, sono state create delle strutture dati per gestirli e per ottimizzare il lavoro; le strutture dati sono le seguenti:
+
+\begin{lstlisting}
+
+typedef struct spinbox_val{
+
+  int slave_id;
+  int multiple_register_from;
+  int multiple_register_to;
+  int single_register_number;
+  int write_value;
+
+}spinbox_value;
+
+typedef struct button_val{
+
+  BOOL send_button;
+
+}button_value;
+
+
+typedef struct radio_val{
+
+  int radio_selection;
+
+}radio_value;
+
+
+typedef struct gui{
+
+  spinbox_value SPINBOX_value;
+  button_value BUTTON_value;
+  radio_value RADIO_value;
+
+}GUI_value;
+
+
+typedef struct check_sensor{
+	
+	int light;
+	int alarm;
+	int temperature;
+	
+} Check_Sensor;
+
+
+
+typedef struct sensors{
+	
+	uint16_t temperature;
+	uint16_t humidity;
+	
+	uint16_t light;
+	uint16_t distance;
+	uint16_t presence;
+	uint16_t vibration;
+	uint16_t mic;
+	
+} Sensors;
+
+typedef struct
+   {
+      int8_t address;
+      int8_t len;                                
+      function func;                           
+      exception error;                         
+      uint8_t data[MODBUS_SERIAL_RX_BUFFER_SIZE];
+      uint16_t data_converted[125];
+   }_modbus_rx;
+
+\end{lstlisting}
+
+Queste riguardano il protocollo Modbus (\code!_modbus_rx!), l'interfaccia di debug (\code!GUI_value!) e l'interfaccia di controllo sensori (\code!Sensors! e \code!Check_Sensors!).
+
+Per la parte del protocollo, si memorizza:
+
+\itema
+
+\item \code!address! l'indirizzo dello Slave che invia la risposta;
+
+\item \code!len! la lunghezza del messaggio;
+
+\item \code!func! la funzione richiesta;
+
+\item \code!error! l'errore che si può essere verificato;
+
+\item \code!data! i dati ricevuti (quantità di registri + valore dei registri + CRC);
+
+\item \code!data_converted! i dati convertiti in intero dai dati ricevuti.
+
+\end{itemize}
+
+Dal lato applicativo, la parte utile di questa struttura dati è \code!data_converted! e \code!len!, in quanto in queste variabili sono contenuti i valori da utilizzare nell'applicazione. 
 
 \section{Interfaccia grafica}
 
