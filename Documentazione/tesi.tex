@@ -1817,6 +1817,8 @@ La gestione di questa funzionalità, se ben scritta, sarà automatica e la gesti
 
 Appena il processo principale viene mandato in esecuzione, viene presentata la schermata iniziale: tramite questa schermata, si può accedere ai vari sottoprogrammi corrispondenti cliccando l'icona corrispondente. Si può accedere quindi alla schermata di controllo luci, di controllo sensori e di debug; questa ultima ha lo scopo di capire, da parte di un tecnico, l'origine di un guasto, quindi se è un problema legato al protocollo, agli slave o alle varie periferiche pilotate dagli Slave. 
 
+\newpage
+
 \subsection{Menù principale}
 
 \begin{figure}[!h]
@@ -1876,6 +1878,28 @@ Durante l'esecuzione di questa applicazione, viene avviato un task asincrono che
 \includegraphics[scale=0.6]{sensorgui.jpg}
 \end{figure}
 
+Questa schermata è composta da 7 sezioni testuali associate ai vari controlli di sensori (a sinistra di ognuna è presente la descrizione), da uno spinbox che indica la temperatura limite da raggiungere prima di attivare l'allarme, da uno slider che modifica il delay di aggiornamento dello stato dei sensori e 3 checkbox che attivano o disattivano diverse funzionalità.
+
+~
+
+Al momento dell'avvio dell'applicazione, viene inviato un messaggio per richiedere lo stato dei sensori, in modo da inizializzare subito tutta la schermata. Questo è reso possibile da un task asincrono che viene creato al momento dell'avvio dell'applicazione e continua ad inviare richieste di aggiornamento di stato dei sensori al microprocessore LPC1768. Il ritardo del continuo invio richieste è modificabile dallo slider presente in basso a sinistra; questo ha un effetto particolare sul controllo della temperatura, in quanto più tardi si chiede lo stato attuale del sensore e più sarà preciso.
+
+~
+
+I tre checkbox attivano diverse funzionalità che mostrano l'applicazione effettiva di alcuni sensori:
+
+\itema
+
+\item il primo attiva un allarme sonoro al momento del raggiungimento della temperatura scelta, ossia attiva una specie di funzionalità termostato, utile per avvertire un utente quando fa troppo caldo o troppo freddo;
+
+\item il secondo fa accendere tutte le luci quando non c'è abbastanza luce nella stanza, utile come interruttore crepuscolare per la notte;
+
+\item il terzo attiva un allarme sonoro quando è presente un oggetto o una persona vicino al sensore presenza, utile per una funzione di antifurto.
+
+\end{itemize}
+
+Per uscire dall'applicazione, basta premere il bottone in alto a sinistra.
+
 \newpage
 \subsection{Schermata di Debug}
 
@@ -1884,6 +1908,51 @@ Durante l'esecuzione di questa applicazione, viene avviato un task asincrono che
 \includegraphics[scale=0.6]{debug.jpg}
 \end{figure}
 
+Questa è la parte applicativa più complessa dal punto di vista implementativo e ha l'esclusiva funzione di diagnostica di tutto il sistema: tramite questa, si è in grado di stabilire l'origine di un guasto o l'eventuale allacciamento di un nuovo Slave di controllo.
+
+Sono presenti 5 spinbox, con cui si possono scegliere:
+
+\itema
+
+\item id dello Slave da interrogare;
+
+\item l'indirizzo iniziale dei registri richiesti;
+
+\item la quantità di registri richiesti;
+
+\item l'indirizzo del singolo registro richiesto;
+
+\item il valore da inserire in un regstro.
+
+\end{itemize}
+
+Poi è presente una selezione multipla tramite radio button, tramite cui si può scegliere la funzione Modbus da eseguire, quindi la rispettiva richiesta di registri. È presente anche una tabella laterale in cui vengono presentati i registri richiesti e il loro valore, in base alla richiesta eseguita. Inoltre è stata aggiunta una sezione testuale un basso a destra per descrivere l'esito della risposta: 
+
+\itema
+
+\item se lo Slave ha risposto correttamente alla richiesta, verrà scritto ``R: Message Accepted'' su sfondo verde;
+\item se risponde con un CRC errato o si invia una richiesta senza senso per lo Slave (registri fuori dal suo range) verrà scritto ``R: Wrong Message'' su sfondo giallo;
+\item se non si riceve risposta, verrà scritto ``No Response'' su sfondo rosso.
+
+\end{itemize}
+
+Infine è presente un bottone in basso per inviare la richiesta precedentemente composta allo Slave: quando viene premuto, viene inviata una richiesta Modbus; se lo Slave non risponde, viene inviata una seconda risposta con un minimo ritardo, se non risponde ancora viene segnalata la mancata risposta. Dopo la risposta, viene controllato il CRC e il codice funzione: se uno dei due risulta errato, viene segnalato come descritto precedentemente, altrimenti si procede con la conversione dei valori ottenuti e si aggiorna la schermata con i nuovi valori.
+
+~
+
+I valori ottenuti dall'interazione con la schermata vengono memorizzati nella struttura dati chiamata \code!GUI_value! che viene resettata al momento della chiusura di questa applicazione.
+
+Per dedurre un potenziale guasto, si deve eseguire questo controllo:
+
+\itema
+
+\item se lo Slave non risponde, bisogna controllare il collegamento seriale, se il collegamento seriale è corretto, significa che lo Slave non funziona più correttamente;
+
+\item se lo Slave invia una risposta non corretta, bisogna controllare lo stato del filo o se sono presenti dei disturbi tra il Master e lo Slave;
+
+\item se lo Slave funziona e quindi invia una risposta corretta ma i sensori o le luci non cambiano stato in base agli stimoli, significa che questi non funzionano più correttamente.
+
+\end{itemize}
 
 \section{Interazione con i componenti hardware}
 
@@ -1906,18 +1975,24 @@ I relè, e quindi anche le luci a led, vengono pilotati tramite il microcontroll
 Per questo, lo slave è in grado di interpretare solo messaggi di lettura/scrittura coil, poiché rappresentano bene il messaggio di on/off dei relè. Nell'architettura di origine di questo protocollo infatti i registri di coil venivano associati direttamente ai relè collegati al PLC. 
 
 
-\section{Diagramma dei componenti}
+\chapter{Diagramma dei componenti}
 
 Di seguito si riporta l'organizzazione di tutto il progetto
 
 \subsection{Architettura Hardware}
-DA SCRIVERE
 
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=4.5]{archihard.pdf}
+\caption{Architettura del sistema hardware}
+\end{figure}
+
+\newpage
 \subsection{Architettura Software}
 \begin{figure}[!h]
 \centering
-\includegraphics[scale=0.3]{deploy.png}
-\caption{architettura del sistema}
+\includegraphics[scale=0.4]{deploy.png}
+\caption{Architettura del sistema software}
 
 
 
