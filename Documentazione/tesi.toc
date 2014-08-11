@@ -16,7 +16,7 @@
 \contentsline {section}{\numberline {3.1}Dispositivo Master}{23}{section.3.1}
 \contentsline {subsection}{\numberline {3.1.1}uEZ}{23}{subsection.3.1.1}
 \contentsline {subsection}{\numberline {3.1.2}emWin}{24}{subsection.3.1.2}
-\contentsline {section}{\numberline {3.2}Dispositivi Slave}{25}{section.3.2}
+\contentsline {section}{\numberline {3.2}Dispositivi Slave}{24}{section.3.2}
 \contentsline {subsection}{\numberline {3.2.1}FreeRTOS}{25}{subsection.3.2.1}
 \contentsline {chapter}{\numberline {4}Modello di sistema}{27}{chapter.4}
 \contentsline {section}{\numberline {4.1}Use Case Diagram}{27}{section.4.1}
@@ -46,18 +46,21 @@
 \contentsline {subsection}{\numberline {5.5.2}Modbus Master}{47}{subsection.5.5.2}
 \contentsline {subsection}{\numberline {5.5.3}Progettazione interfaccia grafica}{47}{subsection.5.5.3}
 \contentsline {subsection}{\numberline {5.5.4}Modello dei dati}{48}{subsection.5.5.4}
-\contentsline {section}{\numberline {5.6}Interfaccia grafica}{49}{section.5.6}
-\contentsline {subsection}{\numberline {5.6.1}Men\IeC {\`u} principale}{49}{subsection.5.6.1}
-\contentsline {subsection}{\numberline {5.6.2}Controllo Luci}{50}{subsection.5.6.2}
-\contentsline {subsection}{\numberline {5.6.3}Controllo Sensori}{51}{subsection.5.6.3}
-\contentsline {subsection}{\numberline {5.6.4}Schermata di Debug}{52}{subsection.5.6.4}
-\contentsline {section}{\numberline {5.7}Interazione con i componenti hardware}{52}{section.5.7}
-\contentsline {subsection}{\numberline {5.7.1}Sensori}{52}{subsection.5.7.1}
-\contentsline {subsection}{\numberline {5.7.2}Rel\IeC {\`e} e luci}{52}{subsection.5.7.2}
-\contentsline {section}{\numberline {5.8}Diagramma dei componenti}{53}{section.5.8}
-\contentsline {subsection}{\numberline {5.8.1}Architettura Hardware}{53}{subsection.5.8.1}
-\contentsline {subsection}{\numberline {5.8.2}Architettura Software}{53}{subsection.5.8.2}
-\contentsline {chapter}{\numberline {6}Programmi utilizzati}{55}{chapter.6}
-\contentsline {section}{\numberline {6.1}LPC1788}{55}{section.6.1}
-\contentsline {section}{\numberline {6.2}LPC1768}{55}{section.6.2}
-\contentsline {section}{\numberline {6.3}PIC16F77}{55}{section.6.3}
+\contentsline {subsection}{\numberline {5.5.5}Software dell'interfaccia}{50}{subsection.5.5.5}
+\contentsline {subsubsection}{Interazione con i widget}{51}{section*.7}
+\contentsline {subsubsection}{Modifiche esterne}{51}{section*.8}
+\contentsline {section}{\numberline {5.6}Interfaccia grafica}{52}{section.5.6}
+\contentsline {subsection}{\numberline {5.6.1}Men\IeC {\`u} principale}{52}{subsection.5.6.1}
+\contentsline {subsection}{\numberline {5.6.2}Controllo Luci}{54}{subsection.5.6.2}
+\contentsline {subsection}{\numberline {5.6.3}Controllo Sensori}{55}{subsection.5.6.3}
+\contentsline {subsection}{\numberline {5.6.4}Schermata di Debug}{56}{subsection.5.6.4}
+\contentsline {section}{\numberline {5.7}Interazione con i componenti hardware}{56}{section.5.7}
+\contentsline {subsection}{\numberline {5.7.1}Sensori}{56}{subsection.5.7.1}
+\contentsline {subsection}{\numberline {5.7.2}Rel\IeC {\`e} e luci}{56}{subsection.5.7.2}
+\contentsline {section}{\numberline {5.8}Diagramma dei componenti}{57}{section.5.8}
+\contentsline {subsection}{\numberline {5.8.1}Architettura Hardware}{57}{subsection.5.8.1}
+\contentsline {subsection}{\numberline {5.8.2}Architettura Software}{57}{subsection.5.8.2}
+\contentsline {chapter}{\numberline {6}Programmi utilizzati}{59}{chapter.6}
+\contentsline {section}{\numberline {6.1}LPC1788}{59}{section.6.1}
+\contentsline {section}{\numberline {6.2}LPC1768}{59}{section.6.2}
+\contentsline {section}{\numberline {6.3}PIC16F77}{59}{section.6.3}

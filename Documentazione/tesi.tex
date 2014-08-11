@@ -578,24 +578,7 @@ La gestione dell'interfaccia tramite questa libreria ha un'implementazione molto
 
 \end{enumerate}
 
-Particolare interesse deve essere prestato al metodo con cui si può interagire con i widget: per modificare o eseguire azioni generiche sul widget, è necessario farsi restituire un puntatore specifico e lavorare su di esso. Un esempio di codice:
 
-\begin{lstlisting}
-
-#define ID_WIDGET ID_GUI + 0x00
-
-...
-
-EMWIN_WIDGET_TYPE my_widget;
-
-...
-
-WM_HWIN hItem = WM_GetDialogItem(pMsg->hWin, ID_WIDGET);
-my_widget = my_value; 
-
-\end{lstlisting}
-
-~
 
 Il porting che è stato fatto di questa libreria per questo processore dipende dalla board di sviluppo che si vuole considerare (soprattutto per il nostro LCD TouchScreen), nel nostro caso dipende in maniera esclusiva da $\mu EZ$. Infatti per questioni di modularità, emWin si appoggia alle API di $\mu EZ$, in modo da sfruttarle senza interfacciarsi direttamente con l'hardware sottostante , essendo già state ottimizzate le API di $\mu EZ$ (quindi emWin nel nostro caso non può funzionare senza di $\mu EZ$).
  
@@ -1546,7 +1529,7 @@ Il codice relativo a questo si trova nella cartella ``Modbus\_Slave\_LPC1768\_Fr
 
 \section{Funzionamento generale di LPC1788}
 
-La parte più complessa della progettazione di questo sistema è stata la creazione del software per LPC1788. Essa è stata divisa in 4 fasi:
+La parte più complessa della progettazione di questo sistema è stata la creazione del software per LPC1788. Anche se il funzionamento generale è piuttosto semplice, ossia viene presentata la schermata principale e, in base alle scelte dell'utente, si eseguono particolari task, si è dovuta organizzare la progettazione in maniera sofisticata, in quanto si è notato che si sarebbero dovuti gestire molti tipi di istanze software. La progettazione quindi è stata divisa in 4 fasi:
 
 \itema 
 
@@ -1708,7 +1691,127 @@ Per la parte del protocollo, si memorizza:
 
 \end{itemize}
 
-Dal lato applicativo, la parte utile di questa struttura dati è \code!data_converted! e \code!len!, in quanto in queste variabili sono contenuti i valori da utilizzare nell'applicazione. 
+Dal lato applicativo, la parte utile di questa struttura dati è \code!data_converted! e \code!len!, in quanto in queste variabili sono contenuti i valori da utilizzare nell'applicazione.
+
+~
+
+Per la parte dell'interfaccia di debug, si memorizza:
+
+\itema
+
+\item \code!SPINBOX_value! struttura dati che memorizza tutti i valori provenienti dagli spinbox presenti nella schermata (id dello slave, indirizzo iniziale dei registri richiesti, quantità di registri richiesti, singolo registro richiesto, valore da inserire in un registro);
+
+\item \code!BUTTON_value! struttura dati che memorizza tutti i valori provenienti dai bottoni della schermata (invio richiesta);
+
+\item \code!RADIO_value! struttura dati che memorizza tutti i valori provenienti dai radio button della schermata (scelta della funzione Modbus richiesta).
+
+\end{itemize}
+
+~
+
+Per la parte dell'interfaccia di controllo sensori, si memorizza \code!Sensors!, ossia una struttura dati che contiene i valori dei sensori ottenuti tramite richiesta Modbus.
+
+~
+
+Da notare che i valori ottenuti da richieste Modbus devono essere di tipo \code!unsigned short!, poiché derivano da l'unione di due \code!unsigned char! secondo il protocollo. I valori invece provenienti da un'interazione con l'interfaccia devono essere di tipo \code!int!.
+
+\subsection{Software dell'interfaccia}
+
+Dal momento che GUIBuilder si occupa di generare il codice della schermata a livello grafico, bisogna definire successivamente il codice associato ad ogni widget, oltrechè a creare nuovi pezzi dell'interfaccia quando questo programma non è in grado di riprodurli.
+
+Per rendere possibile la modifica di un file generato da GUIBuilder, viene lasciata una parte di codice da modificare, in modo che questo programma riesca a riaprire facilmente il file reinterpretando correttamente la sintassi. Questa parte di codice ha questa sintassi: 
+
+\begin{lstlisting}
+
+// USER START (Optionally insert additional code for ...)
+// USER END
+
+\end{lstlisting}
+
+In questo modo, quando GUIBuilder legge nuovamente il file, quando trova la prima riga appena descritta, salta la lettura del codice e ricomincia a interpretare l'interfaccia appena rilegge la seconda riga descritta. È importante scrivere il proprio codice tra queste due righe se si vuole avere la possibilità di modificare la propria interfaccia tramite GUIBuilder.
+
+~
+
+Il funzionamento di ogni interfaccia, secondo lo standard emWin, prevede l'esecuzione dell'interfaccia grafica tramite l'apposita funzione \code!GUI_ExecDialogBox! che prende in input la funzione di inizializzazione dell'interfaccia, la quantità di interfacce da inizializzare (nel nostro caso sarà sempre una), la funzione associata ad ogni interazione con l'interfaccia e altre 3 variabili opzionali (mai usate). L'intefaccia creata non termina la propria esistenza finchè non viene chiamata la funzione \code!GUI_EndDialog!, che prende in input l'indirizzo della schermata da terminare e il codice di ritorno.
+
+~
+
+Ogni widget ha un proprio id, che serve per identificarlo univocamente rispetto agli altri widget; questo è un indirizzo incrementale la cui partenza è l'indirizzo associato alla macro \code!GUI_ID_USER!. Dall'indirizzo si può definire poi il widget; la definizione è attuabile in due modi:
+
+\itema
+
+\item \textit{maniera diretta}, in cui si crea un oggetto grafico all'interno del codice di inizializzazione, con le sue misure e la sua forma;
+
+\item \textit{maniera indiretta}, utilizzato da GUIBuilder, in cui si popola la struttura dati \code!GUI_WIDGET_CREATE_INFO _aDialogCreate[]! con il nome dei widget da creare, il relativo identificatore, la posizione e la relativa dimensione.
+
+\end{itemize}
+
+~
+
+Particolare interesse deve essere prestato al metodo con cui si può interagire con i widget: per modificare o eseguire azioni generiche sul widget, è necessario farsi restituire il puntatore specifico al widget (tramite la funzione \code!WM_GetDialogItem!) e lavorare su di esso. Un esempio di codice:
+
+\begin{lstlisting}
+
+#define ID_WIDGET ID_GUI + 0x00
+
+...
+
+EMWIN_WIDGET_TYPE my_widget;
+
+...
+
+WM_HWIN hItem = WM_GetDialogItem(pMsg->hWin, ID_WIDGET);
+my_widget = my_value; 
+
+\end{lstlisting}
+
+~
+
+Aspetto importante del funzionamento dell'interfaccia è la possibilità di comunicare con essa tramite messaggi: esiste una struttura dati creata al momento della creazione dell'istanza grafica chiamata \code!WM_MESSAGE * pMsg!, che possiede un campo chiamato \code!MsgId! che deve contenere il tipo del messaggio (definibile anche secondo propria fantasia) e un campo chiamato \code!Data! che deve contenere gli eventuali dati da inviare. Questo è particolarmente utile quando si vuole comunicare qualcosa all'interfaccia dall'esterno o eseguire particolari eventi senza l'interazione con i widget.
+
+Al momento della creazione dell'interfaccia, viene generato un messaggio il cui \code!MsgId! è di tipo \code!WM_INIT_DIALOG!, quindi si esegue quella parte di codice utile a generare l'intera interfaccia.
+
+~
+
+Possono esserci due tipi di funzionalità associate al codice dell'interfaccia: funzioni eseguite con l'interazione con i widget e modifiche esterne all'interfaccia.
+
+\subsubsection{Interazione con i widget}
+
+Al momento della creazione dell'interfaccia, si crea implicitamente un task bloccante che viene riattivato tramite eventi generati dai widget interni alla grafica: appena si ha un'interazione con un widget (per interazione si intende pressione, rilascio, cambiamenti di valori, spostamento) viene generato un evento con il relativo messaggio, composto dall'origine di esso, ossia il widget che lo ha generato, e la sezione dati. Se si esegue del codice in associazione con questi eventi, bisogna sapere che tutta l'interfaccia sarà bloccata fino alla fine dell'esecuzione di questo; se si vuole un'esecuzione asincrona bisogna far partire un task separato.
+
+~
+
+Il riconoscimento dell'origine dell'evento è riconoscibile tramite l'id del widget precedentemente definito e il tipo di evento generato tramite la sezione dati; un esempio di codice tipico è il seguente:
+
+\begin{lstlisting}
+
+  case WM_NOTIFY_PARENT:
+    Id    = WM_GetId(pMsg->hWinSrc);
+    NCode = pMsg->Data.v;
+    switch(Id) {
+    case ID_WIDGET:
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+	...
+      break;
+      }
+      ...
+
+\end{lstlisting} 
+
+In questo caso, la macro \code!WM_NOTIFY_PARENT! significa che è stato generato un evento dalla stessa interfaccia, quindi da un widget presente in essa; bisogna quindi ottenere l'origine specifica che identifica il widget tramite il suo id, tramite il campo della struttura dati \code!pMsg! chiamata \code!hWinSrc!. Appena è stato ottenuto l'id del widget, è necessario capire che tipo di interazione è stata fatta con esso (pressione, rilascio o spostamento) e questo è contenuto nel campo \code!Data! nel sottocampo \code!v!.
+
+\subsubsection{Modifiche esterne}
+
+Poiché i messaggi ricevuti via Modbus devono avere un effetto sull'interfaccia, quindi segnalare all'utente il cambiamento di stato di un sensore o di una luce, deve essere possibile modificare l'interfaccia dall'esterno, quindi fare in modo che un task possa avere accesso alle istanze grafiche.
+
+Per fare ciò, bisogna creare un messaggio di tipo \code!WM_MESSAGE * pMsg! impostando o \code!MsgId! o \code!hWinSrc! in modo che sia possibile riconoscere, in un certo punto del codice, l'origine del messaggio; si può anche passare uno o più dati tramite il campo \code!Data! della stessa struttura dati, ma non è obbligatorio.
+
+Dopo aver creato il messaggio, bisogna chiamare la funzione che si occupa della genstione dell'interfaccia; nel caso di questo progetto, se si utilizza GUIBuilder, la funzione è \newline \code!static void _cbDialog(WM_MESSAGE * pMsg)!\newline a cui si passa \code!WM_MESSAGE * pMsg! precedentemente creato.
+
+~
+
+La gestione di questa funzionalità, se ben scritta, sarà automatica e la gestione dell'istanza grafica sarà gestita in maniera esclusiva dal primo task che la richiede; esiste quindi un sistema di semafori mutex su questa risorsa possibilmente condivisa e questo servizio viene garantito dalle API di emWin.
 
 \section{Interfaccia grafica}
 
@@ -1721,6 +1824,31 @@ Appena il processo principale viene mandato in esecuzione, viene presentata la s
 \includegraphics[scale=0.6]{menu.jpg}
 \end{figure}
 
+Il menù principale è composto da un titolo e da 3 bottoni; a questi bottoni è stata applicata un'icona intuitiva corrispondente alle funzionalità che devono eseguire.
+
+Il primo bottone, la cui icona è un led verde, sottotitolato dalla label ``LEDS CONTROL'', avvia l'applicazione di controllo luci che si interfaccerà con il microcontrollore PIC16F77. Il secondo bottone, la cui icona è un sensore stilizzato bianco su sfondo blu, sottotitolato dalla label ``SENSORS ICON'', avvia l'applicazione di controllo sensori che comunicherà con il microprocessore LPC1768. Il terzo bottone, la cui icona è una riga di comando stilizzata con cornice arancione, sottotitolato dalla label ``MODBUS DEBUG'', avvia la schermata di debug, in cui si può interagire con tutti i dispositivi collegati al sistema.
+
+~
+
+In questa schermata tutti i controlli avvengono dall'interno dell'interfaccia, ovvero non esiste nessun task esterno che modifica l'interfaccia; quando viene eseguita un'applicazione, questa schermata si blocca e attende la sua chiusura prima di ripartire.
+
+Bisogna notare che GUIBuilder non è in grado di applicare delle icone ai bottoni; per fare ciò, è stato necessario convertire le immagini presenti in un array di caratteri esadecimali e aggiungere questo array come icona del pulsante; il codice, per il bottone per l'applicazione del controllo luci, è il seguente:
+
+\begin{lstlisting}
+
+    //ottengo il puntatore al bottone
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);
+    //cancello il testo dentro il bottone
+    BUTTON_SetText( hItem, "");
+    //imposto il colore di sfondo verde
+    BUTTON_SetBkColor (hItem, 0, GUI_GREEN);
+    //imposto il cambio colore al click giallo 
+    BUTTON_SetBkColor (hItem, 1, GUI_YELLOW);
+    //imposto l'immagine
+    BUTTON_SetBitmapEx(hItem, 0, &bmled_icon, 5, 5);
+
+\end{lstlisting} 
+
 \newpage
 \subsection{Controllo Luci}
 
@@ -1728,6 +1856,17 @@ Appena il processo principale viene mandato in esecuzione, viene presentata la s
 \centering
 \includegraphics[scale=0.6]{ledgui.jpg}
 \end{figure}
+
+Questa schermata è composta da 6 bottoni che servono per inviare una richiesta di accensione o spegnimento del rispettivo led. Sotto ogni bottone è presente una sezione testuale in cui si scrive lo stato attuale del led (ON o OFF) e viene modificata dalla pressione dei tasti. Questa schermata si interfaccia esclusivamente con il microcontrollore PIC16F77 che ha lo slave id posto a 1. Per terminare l'esecuzione di questa applicazione, basta semplicemente premere il pulsante in alto a sinistra su cui è posta una ``X''.
+
+~
+
+Al momento dell'avvio di questa applicazione, viene inviata una richiesta al microcontrollore per sapere lo stato attuale delle luci, quindi, sapendo che le luci sono associate ai registri di coil, si farà una richiesta di tutti questi registri al microcontrollore; il risultato ottenuto verrà impostato sia sulla zona testuale sotto i bottoni sia alle variabili associate ai bottoni, in modo che, alla pressione dei pulsanti si invii la corretta richiesta (di accensione o spegnimento luci).
+
+~
+
+Durante l'esecuzione di questa applicazione, viene avviato un task asincrono che esegue continue richieste allo slave per sapere lo stato attuale delle luci; questo è molto utile se avviene un guasto momentaneo al microcontrollore (uno spegnimento improvviso), poiché verrà segnalato impostando ad OFF lo stato di tutte le luci (poiché verranno spente). Esiste quindi un task che modifica dall'esterno l'interfaccia grafica, quindi è possibile notare un cambiamento dell'interfaccia anche se non c'è stata alcuna interazione da parte dell'utente.
+
 
 \newpage
 \subsection{Controllo Sensori}
