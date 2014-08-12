@@ -63,4 +63,4 @@
 \contentsline {chapter}{\numberline {7}Programmi utilizzati}{61}{chapter.7}
 \contentsline {section}{\numberline {7.1}LPC1788}{61}{section.7.1}
 \contentsline {section}{\numberline {7.2}LPC1768}{61}{section.7.2}
-\contentsline {section}{\numberline {7.3}PIC16F77}{61}{section.7.3}
+\contentsline {section}{\numberline {7.3}PIC16F77}{62}{section.7.3}
