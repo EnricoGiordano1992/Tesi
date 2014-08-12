@@ -1,0 +1,193 @@
+//
+//    FILE: dht11.cpp
+// VERSION: 0.4.1
+// PURPOSE: DHT11 Temperature & Humidity Sensor library for Arduino
+// LICENSE: GPL v3 (http://www.gnu.org/licenses/gpl.html)
+//
+// DATASHEET: http://www.micro4you.com/files/sensor/DHT11.pdf
+//
+// HISTORY:
+// George Hadjikyriacou - Original version (??)
+// Mod by SimKard - Version 0.2 (24/11/2010)
+// Mod by Rob Tillaart - Version 0.3 (28/03/2011)
+// + added comments
+// + removed all non DHT11 specific code
+// + added references
+// Mod by Rob Tillaart - Version 0.4 (17/03/2012)
+// + added 1.0 support
+// Mod by Rob Tillaart - Version 0.4.1 (19/05/2012)
+// + added error codes
+//
+
+#include "DHT11.h"
+#include "lpc1768.h"
+
+dht11 DHT;
+
+#define bit_set(var,pos)       (var |= 1 << pos)
+#define bit_clear(var, pos)    (var &= ~(1 << pos))
+
+
+void pinMode(int mode){
+
+	switch(mode){
+
+	case OUTPUT:
+		LPC_GPIO2->FIODIR |= 0b10000;
+		break;
+
+	case INPUT:
+		LPC_GPIO2->FIODIR &= 0b01111;
+		break;
+
+	}
+
+}
+
+
+void digitalWrite(int mode){
+
+	switch(mode){
+
+	case LOW:
+		LPC_GPIO2->FIOCLR = (1<<4);
+		break;
+
+	case HIGH:
+		LPC_GPIO2->FIOSET = (1<<4);
+		break;
+
+	}
+}
+
+
+void delayMicroseconds(int micros){
+
+	//Crystal oscillator: 12 MHz, 1 Machine cycle = 1 microsecond
+	Delay(micros);
+
+}
+
+int digitalRead (){
+
+	return (LPC_GPIO2->FIOPIN >> 4) & 0x01;
+
+}
+
+// Return values:
+// DHTLIB_OK
+// DHTLIB_ERROR_CHECKSUM
+// DHTLIB_ERROR_TIMEOUT
+int read( )
+{
+	// BUFFER TO RECEIVE
+	uint8_t bits[5];
+	uint8_t cnt = 7;
+	uint8_t idx = 0;
+
+	uint8_t data_received[40];
+
+	int i;
+
+	// EMPTY BUFFER
+	for (i=0; i< 5; i++) bits[i] = 0;
+	for (i=0; i< 40; i++) data_received[i] = 0;
+
+	// REQUEST SAMPLE
+	pinMode(OUTPUT);
+	digitalWrite(LOW);
+	delay_ms(20);
+	digitalWrite(HIGH);
+	delayMicroseconds(20);
+	pinMode(INPUT);
+
+	// ACKNOWLEDGE or TIMEOUT
+	unsigned int loopCnt = 10000;
+	while(digitalRead() == LOW)
+		if (loopCnt-- == 0) return DHTLIB_ERROR_TIMEOUT;
+
+	loopCnt = 10000;
+	while(digitalRead() == HIGH)
+		if (loopCnt-- == 0) return DHTLIB_ERROR_TIMEOUT;
+
+	// READ OUTPUT - 40 BITS => 5 BYTES or TIMEOUT
+	unsigned long t = 0;
+	unsigned long counter = 0;
+
+	for (i=0; i<40; i++)
+	{
+
+		//nuova interpretazione
+		while(digitalRead() == LOW)
+			if(t++>10000) return DHTLIB_ERROR_TIMEOUT;
+		t=0;
+
+		while(digitalRead() == HIGH){
+			counter++;
+			if(counter > 10000)
+				break;
+		}
+
+		data_received[i] = counter;
+
+		counter = 0;
+
+	}
+
+	pinMode(OUTPUT);
+	digitalWrite(HIGH);
+
+	DHT.humidity = 0;
+	DHT.temperature = 0;
+
+	int j = 7;
+
+	for(i = 0; i < 40; i++){
+
+		if(data_received[i] > 40)
+			bits[idx] |= (1 << cnt);
+
+		if (cnt == 0)   // next byte?
+		{
+			cnt = 7;    // restart at MSB
+			idx++;      // next byte!
+		}
+		else cnt--;
+	}
+
+	// WRITE TO RIGHT VARS
+	// as bits[1] and bits[3] are allways zero they are omitted in formulas.
+	DHT.humidity    = bits[0];
+	DHT.temperature = bits[2];
+
+	uint8_t sum = bits[0] + bits[1] + bits[2] + bits[3];
+
+	if (bits[4] != sum) return DHTLIB_ERROR_CHECKSUM;
+	return DHTLIB_OK;}
+
+
+
+
+dht11 test_temperature(){
+
+	int chk;
+
+	chk = read();    // READ DATA
+	switch (chk){
+	case DHTLIB_OK:
+		//printf("OK,\t");
+		break;
+	case DHTLIB_ERROR_CHECKSUM:
+	case DHTLIB_ERROR_TIMEOUT:
+
+		DHT.humidity = 666;
+		DHT.temperature = 666;
+		break;
+	default:
+		//      printf("Unknown error,\t");
+		break;
+	}
+
+	return DHT;
+
+}

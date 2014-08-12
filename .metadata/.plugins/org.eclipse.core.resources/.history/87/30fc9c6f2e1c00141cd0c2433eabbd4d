@@ -1,0 +1,163 @@
+/*
+===============================================================================
+ Name        : main.c
+ Author      : Enrico Giordano
+ Version     :
+ Copyright   : Copyright (C) 
+ Description : main definition
+===============================================================================
+ */
+
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "semphr.h"
+
+#include "lcd_horizontal.h"
+#include "lpc1768.h"
+
+#ifdef __USE_CMSIS
+#include "LPC17xx.h"
+#endif
+
+#include <cr_section_macros.h>
+#include <NXP/crp.h>
+#include "DHT11.h"
+#include "mb.h"
+#include "sensors.h"
+
+// Variable to store CRP value in. Will be placed automatically
+// by the linker when "Enable Code Read Protect" selected.
+// See crp.h header for more information
+__CRP const unsigned int CRP_WORD = CRP_NO_CRP ;
+
+// TODO: insert other include files here
+
+// TODO: insert other definitions and declarations here
+
+
+extern void ModbusTask(void *pvParameters);
+extern void SensorsTask(void *pvParameters);
+
+#define USERTASK_STACK_SIZE configMINIMAL_STACK_SIZE
+
+
+xSemaphoreHandle xSemaphore;
+Sensors sensors;
+dht11 actual_DHT11;
+
+BOOL modbus_is_running = FALSE;
+
+
+USHORT   usRegHoldingStart = REG_HOLDING_START;
+USHORT   *usRegHoldingBuf[REG_HOLDING_NREGS];
+
+USHORT 	usRegCoilStart = REG_COIL_START;
+UCHAR 	ucRegCoilBuf[REG_COIL_LOCATIONS] = "\0";
+
+int var_prova;
+
+void __error__(char *pcFilename, unsigned long ulLine) {
+}
+
+
+
+static void setupHardware(void) {
+	// TODO: Put hardware configuration and initialisation in here
+	SystemInit();
+
+	resetGPIO();
+
+	setInput_P2();
+
+	ADCInit(ADC_CLK);
+
+	//resetto il termometro
+	pinMode(OUTPUT);
+	digitalWrite(HIGH);
+
+	Initial_Hardware();	//init lcd hardware
+
+	Initial_GLCD_Hor();	//init lcd "software"
+
+	bg_color(BLACK);
+
+
+	int sto_premendo = 0;
+
+	eMBErrorCode    eStatus;
+
+	eStatus = eMBInit( MB_RTU, 0x0A, 0, 38400, MB_PAR_NONE );
+
+	/* Initialize the holding register values before starting the
+	 * Modbus stack
+	 */
+	int i;
+
+	for( i = 0; i < REG_HOLDING_NREGS; i++ )
+	{
+		usRegHoldingBuf[i] = 0;
+	}
+
+	sensors.distance1 = 1;
+	sensors.distance2 = 2;
+	sensors.lumino = 3;
+	sensors.mic = 4;
+	sensors.vibro = 5;
+	actual_DHT11.humidity = 666;
+	actual_DHT11.temperature = 666;
+
+	//associo ai registri holding il valore dei sensori
+	*(usRegHoldingBuf     ) = (USHORT *) &sensors.distance1;
+	*(usRegHoldingBuf + 1 ) = (USHORT *) &sensors.distance2;
+	*(usRegHoldingBuf + 2 ) = (USHORT *) &sensors.lumino;
+	*(usRegHoldingBuf + 3 ) = (USHORT *) &sensors.mic;
+	*(usRegHoldingBuf + 4 ) = (USHORT *) &sensors.vibro;
+	*(usRegHoldingBuf + 5 ) = (USHORT *) &actual_DHT11.humidity;
+	*(usRegHoldingBuf + 6 ) = (USHORT *) &actual_DHT11.temperature;
+
+
+	/* Enable the Modbus Protocol Stack. */
+	eStatus = eMBEnable(  );
+
+
+	// Warning: If you do not initialize the hardware clock, the timings will be inaccurate
+}
+
+
+
+
+
+
+int
+main( void )
+{
+
+	//initialize all
+
+	setupHardware();
+
+	xSemaphore = xSemaphoreCreateMutex();
+
+	//xTaskCreate( ModbusTask, ( signed portCHAR * ) "ModbusTask", USERTASK_STACK_SIZE, NULL, 3, NULL );
+	//xTaskCreate( SensorsTask, ( signed portCHAR * ) "SensorsTask", USERTASK_STACK_SIZE, NULL, 3, NULL );
+
+	/*
+	 * Start the scheduler.
+	 */
+
+	while(1){
+
+		if(!modbus_is_running)
+			SensorsTask(0);
+
+		ModbusTask(0);
+	}
+
+	//vTaskStartScheduler();
+
+	return 1;
+
+}
+
+
