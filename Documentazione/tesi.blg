@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: tesi.aux
+The style file: acm.bst
+Database file #1: bibliografia.bib.bib
+Repeated entry---line 110 of file bibliografia.bib.bib
+ : @misc{frtos
+ :            ,
+I'm skipping whatever remains of this entry
+You've used 15 entries,
+            2253 wiz_defined-function locations,
+            585 strings with 5118 characters,
+and the built_in function-call counts, 3184 in all, are:
+= -- 281
+> -- 105
+< -- 0
++ -- 45
+- -- 30
+* -- 122
+:= -- 517
+add.period$ -- 43
+call.type$ -- 15
+change.case$ -- 60
+chr.to.int$ -- 0
+cite$ -- 15
+duplicate$ -- 120
+empty$ -- 346
+format.name$ -- 30
+if$ -- 687
+int.to.chr$ -- 0
+int.to.str$ -- 15
+missing$ -- 0
+newline$ -- 76
+num.names$ -- 30
+pop$ -- 135
+preamble$ -- 1
+purify$ -- 45
+quote$ -- 0
+skip$ -- 106
+stack$ -- 0
+substring$ -- 75
+swap$ -- 30
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 60
+warning$ -- 0
+while$ -- 30
+width$ -- 17
+write$ -- 148
+(There was 1 error message)

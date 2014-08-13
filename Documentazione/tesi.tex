@@ -42,13 +42,13 @@ morekeywords={int8_t, uint8_t, int16_t, uint16_t, function, exception, word, boo
 \pagestyle{fancy}
 \fancyhf{} % cancella tutti i campi di intestazione e pi\‘e di pagina
 \fancyhead[LE,RO]{\chaptermark}
-\fancyfoot[LE,RO]{\thepage}
+%\fancyfoot[LE,RO]{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0pt}
 
 \fancypagestyle{plain}{%
 \fancyhf{} % cancella tutti i campi di intestazione e pi\‘e di pagina
-\fancyfoot[LE,RO]{\bfseries \thepage} % tranne il centro
+%\fancyfoot[LE,RO]{\bfseries \thepage} % tranne il centro
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
@@ -67,6 +67,7 @@ morekeywords={int8_t, uint8_t, int16_t, uint16_t, function, exception, word, boo
 \fancyhead[LE,RO]{\nouppercase{\thepage}}
 \fancyhead[LO]{\sc \nouppercase{\rightmark}}
 \fancyhead[RE]{\rm \nouppercase{\leftmark}}
+
 
 
 \begin{document}
@@ -2066,6 +2067,12 @@ Questa architettura è completamente diversa da quelle descritte precedentemente
 ~
 
 Per utilizzare il Pickit3 e compilare il progetto, è necessario utilizzare un IDE apposito chiamato MPLAB. Questo IDE però non offre il compilatore specifico per le famiglie di Pic, poiché bisognerebbe acquistarli. È stato quindi utilizzato un compilatore in versione Lite (non a pagamento ma non offre l'ottimizzazione massima di codice) chiamato XC8. 
+
+
+
+\nocite{*}
+\bibliographystyle{acm} 
+\bibliography{bibliografia.bib}
 
 \end{document}
 

@@ -1,0 +1,81 @@
+\begin{thebibliography}{10}
+
+\bibitem{dht}
+{\sc D-Robotics}.
+\newblock Dht11 humidity \& temperature sensor, 2010.
+\newblock \\http://www.micro4you.com/files/sensor/DHT11.pdf.
+
+\bibitem{fummi}
+{\sc F.~Fummi, M.~sami, C.~S.}
+\newblock Progettazione digitale, 2007.
+
+\bibitem{elettronica}
+{\sc Giuseppe, M.}
+\newblock Imparare l'elettronica partendo da zero, n.a.
+
+\bibitem{picbus}
+{\sc Microchip}.
+\newblock Pic16f627a/628a/648a datasheet, 2007.
+\newblock \\http://web.mit.edu/6.115/www/datasheets/16f628.pdf.
+
+\bibitem{pic}
+{\sc Microchip}.
+\newblock Pic16f7x datasheet, 2007.
+\newblock \\http://ww1.microchip.com/downloads/en/DeviceDoc/30325b.pdf.
+
+\bibitem{modmodicon}
+{\sc Modicon}.
+\newblock Modbus protocol reference guide, 1996.
+\newblock \\http://web.eecs.umich.edu/~modbus/documents/PI\_MBUS\_300.pdf.
+
+\bibitem{lpc1768}
+{\sc NXP}.
+\newblock Lpc1769/68/67/66/65/64/63 datasheet, 2014.
+\newblock
+  \\http://www.nxp.com/documents/data\_sheet/LPC1769\_68\_67\_66\_65\_64\_63.p%
+df.
+
+\bibitem{lpc1788}
+{\sc NXP}.
+\newblock Lpc178x/7x datasheet, 2014.
+\newblock \\http://www.nxp.com/documents/data\_sheet/LPC178X\_7X.pdf.
+
+\bibitem{emwin}
+{\sc Segger}.
+\newblock emwin, 2014.
+\newblock
+  \\http://www.segger.com/admin/uploads/productDocs/UM03001\_emWin5.pdf.
+
+\bibitem{uez}
+{\sc TeamFDI}.
+\newblock $\mu ez$ \copyright v2.05 software user’s guide, 2013.
+\newblock
+  \\http://www.teamfdi.com/uez/files//MA00016\%20uEZ\%20Software\%20User's\%20%
+Guide.pdf.
+
+\bibitem{uart}
+{\sc Wikipedia}.
+\newblock Uart, 2013.
+\newblock \\http://it.wikipedia.org/wiki/UART.
+
+\bibitem{wikidomotica}
+{\sc Wikipedia}.
+\newblock Domotica, 2014.
+\newblock \\http://it.wikipedia.org/wiki/Domotica.
+
+\bibitem{frtos}
+{\sc Wikipedia}.
+\newblock Freertos, 2014.
+\newblock \\http://en.wikipedia.org/wiki/FreeRTOS.
+
+\bibitem{wikimodbus}
+{\sc Wikipedia}.
+\newblock Modbus, 2014.
+\newblock \\http://it.wikipedia.org/wiki/Modbus.
+
+\bibitem{rs232}
+{\sc Wikipedia}.
+\newblock Rs-232, 2014.
+\newblock \\http://en.wikipedia.org/wiki/RS-232.
+
+\end{thebibliography}
