@@ -91,7 +91,7 @@ morekeywords={int8_t, uint8_t, int16_t, uint16_t, function, exception, word, boo
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter*{Introduzione}
-La domotica è una scienza interdisciplinare che si occupa di creare oggetti di automazione utili a migliorare la qualità della vita nella casa e più in generale negli ambienti abitati, favorendo la serenità e facendo risparmiare tempo (e soprattutto denaro) per la gestione delle faccende domestiche. Il termine domotica nasce dal neologismo francese ``domotique'', i quale a sua volta ha origine dalla parola latina ``\textit{domus}'' (casa) e dal neologismo francese ``\textit{telematique}'' (telecomunication-informatique). 
+La domotica è una scienza interdisciplinare che si occupa di creare oggetti di automazione utili a migliorare la qualità della vita nella casa e più in generale negli ambienti abitati, favorendo la serenità e facendo risparmiare tempo (e soprattutto denaro) per la gestione delle faccende domestiche. Il termine domotica nasce dal neologismo francese ``domotique'', il quale a sua volta ha origine dalla parola latina ``\textit{domus}'' (casa) e dal neologismo francese ``\textit{telematique}'' (telecomunication-informatique). 
  
 Con l'avanzare della tecnologia, vengono utilizzati strumenti sempre più complessi, favorendo un sistema \textit{``user friendly''} ma costoso, che dal punto di vista finanziario non è accessibile per la maggior parte delle famiglie. Un fattore che avvicina gli sviluppatori a queste tecnologie è la semplicità di progettazione: più avanzata è l'architettura, quindi definibile \textit{``general purpoise''}, più è facile sviluppare nuovo software e mantenerlo nel tempo. Queste architetture però non sono dedicate esclusivamente all'ambito di utilizzo; questo è un fattore che impreziosisce tutto il progetto nel complesso e di conseguenza fa aumentare il prezzo di mercato del progetto stesso.
 
@@ -151,7 +151,7 @@ Infine il sistema è stato progettato per essere espandibile: seguendo questo do
 
 ~
 
-I sensori utilizzati devono generare un segnale comprensibile ai dispositivi che li devono controllare: devono essere quindi convertitori di condizioni ambientali analogici o digitali, il cui tasso di discretizzazione non deve superare i 16 bit. Questo vincolo è imposto per questioni economiche e di sistema, si vedrà in seguito che l'architettura scelta e il protocollo utilizzato gestiscono al meglio dati a 16 bit.
+I sensori utilizzati devono generare un segnale comprensibile ai dispositivi che li devono controllare: devono essere quindi convertitori di condizioni ambientali analogici o digitali, il cui tasso di discretizzazione non deve superare i 16 bit. Questo vincolo è imposto per questioni economiche e di sistema, si vedrà in seguito che con l'architettura scelta e il protocollo utilizzato si gestiscono al meglio dati a 16 bit.
 
 ~
 
@@ -218,12 +218,12 @@ LCD 					& 20 \\
 
 
 
-Questo è un microprocessore ARM di famiglia Cortex-M3 utilizzato come dispositivo Slave che viene controllato dal Master e interagisce direttamente con i sensori e luci. Anche questo processore è a 32 bit con quasi le stesse caratteristiche del processore precedentemente descritto, però risulta essere meno prestante in quanto non possiede GPU integrata e possiede meno memoria (circa la metà). Per questo è stato deciso di usarlo per controllare i sensori, anche perché il codice del dispositivo Master sarebbe risultato troppo grande e computazionalmente oneroso per questo processore. Possiede un piccolo LCD TouchScreen, che viene utilizzato solo per presentare il firmware e le caratteristiche del settaggio del protocollo per comunicare. Può essere alimentato con $3,3 \sim 5 V$ e assorbe $150 mA$. Di questo processore è stato utilizzato:
+Questo è un microprocessore ARM di famiglia Cortex-M3 utilizzato come dispositivo Slave che viene controllato dal Master e interagisce direttamente con i sensori e luci. Anche questo processore è a 32 bit con quasi le stesse caratteristiche del processore precedentemente descritto, però risulta essere meno prestante in quanto non possiede GPU integrata e possiede meno memoria (circa la metà). Per questo è stato deciso di usarlo per controllare i sensori, anche perché il codice del dispositivo Master sarebbe risultato troppo grande e computazionalmente oneroso per questo processore. È stato utilizzato un piccolo LCD TouchScreen per le caratteristiche del settaggio del protocollo per comunicare. Può essere alimentato con $3,3 \sim 5 V$ e assorbe $150 mA$. Di questo processore è stato utilizzato:
 
 \itema
 
 \item \textbf{UART} per la comunicazione seriale con il Master;
-\item \textbf{LCD} per presentare le impostazioni del protocollo;
+\item \textbf{LCD} per presentare le impostazioni del protocollo (non utile ai fini del progetto finale);
 \item \textbf{GPIO} per controllare i sensori e le luci;
 \end{itemize}
 
@@ -284,7 +284,7 @@ convertitore segnali TTL - RS232 	& 2  \\
 
 Il problema principale di questo sistema è che i dispositivi LPC1768 e PIC16F77 supportano una comunicazione seriale con protocollo RS232, mentre per altri tipi di comunicazione, supportati da LPC1788 (RS485, CAN e Ethernet), sarebbe stato necessario aggiungere hardware (quindi aumentare il costo del progetto). Quindi si è deciso di adottare come protocollo di comunicazione RS232.
 
-RS232 è un protocollo seriale che appartiene alle prime fasi dello sviluppo informatico ed è stato ormai sostituito in ambito dei PC, in quanto la velocità di comunicazione e la creazione dei dati a pacchetto hanno fatto preferire l'utilizzo di altre tecnologie; è ancora molto utilizzato in ambito industriale in quanto risulta molto sicuro in ambienti con disturbi elettrici. Questo protocollo consiste nell'inviare segnali con una alta differenza di potenziale ($ \frac{+}{}12V $ ) con una soglia di commutazione di $\frac{+}{} 3V $; quando il segnale è negativo, si interpreta come ``1'' il segnale, altrimenti ``0''. Per identificare ogni byte, si definisce la velocità di comunicazione, ossia il \textit{baudrate} (il massimo baudrate secondo lo standard è 19200).
+RS232 è un protocollo seriale che appartiene alle prime fasi dello sviluppo informatico ed è stato ormai sostituito in ambito dei PC, in quanto la velocità di comunicazione e la creazione dei dati a pacchetto hanno fatto preferire l'utilizzo di altre tecnologie; è ancora molto utilizzato in ambito industriale in quanto risulta molto sicuro in ambienti con disturbi elettrici. Questo protocollo consiste nell'inviare segnali con un' alta differenza di potenziale ($ \pm12V $ ) e con una soglia di commutazione di $\pm 3V $; quando il segnale è negativo, si interpreta come ``1'' il segnale, altrimenti ``0''. Per identificare ogni byte, si definisce la velocità di comunicazione, ossia il \textit{baudrate} (il massimo baudrate secondo lo standard è 19200).
 
 \begin{figure}[!h]
 \centering
@@ -391,7 +391,7 @@ sensore di vibrazione		& Digitale	& passivo \\
 ~
 
 Poichè questi sensori sono stati saldati su piccole schede elettriche, per rendere possibile l'allacciamento con i dispositivi slave in maniera semplice è stato creato un piccolo circuito per sfruttare facilmente le loro interfacce hardware.
-Il circuto, semplificato per tre sensori che mandano il loro messaggio alle rispettive GPIO di uno slave, è il seguente.
+Il circuito, semplificato per tre sensori che mandano il loro messaggio alle rispettive GPIO di uno slave, è il seguente.
 
 ~
 
@@ -594,11 +594,11 @@ Il sistema offre innanzitutto un HAL completa, in quanto permette di trattare ad
 
 ~
 
-Ciò che ha portato allo sviluppo su questo sistema software è stato, oltre all'astrazione dell'hardware che facilita la programmazione, alla predisposizione da parte del sistema di usare risorse di rete come lo stack di rete lwIP e alla presenza di sistema operativo FreeRTOS, è stata la capacità di utilizzare una libreria grafica per i sistemi embedded, ossia la libreria \textbf{emWIN}.
+Ciò che ha portato alla scelta dello sviluppo software su questo sistema, oltre all'astrazione dell'hardware che facilita la programmazione, alla predisposizione da parte del sistema di usare risorse di rete come lo stack di rete lwIP e alla presenza di sistema operativo FreeRTOS, è stata la capacità di utilizzare una libreria grafica per i sistemi embedded, ossia la libreria \textbf{emWIN}.
 
 \subsection{emWin}
 
-Questa è una libreria grafica per sistemi embedded basata su una grafica molto simile alle prime versioni di Windows (sia per l'estetica sia per la gestione ottimale delle risorse grafiche). Essa offre un HAL ad alto livello molto semplice da utilizzare, con cui è possibile progettare interfacce con oggetti grafici ben noti (bottoni, input text, ecc...) senza dover interfacciarsi direttamente con l'oggetto hardware. Può sembrare una soluzione poco ottimale, visto che tutti gli elementi ad ``alto livello'' nella progettazione di sistemi embedded può essere reputata poco efficiente in ambito di risorse e computazione, in realtà è stata progettata in maniera altamente ottimizzata.
+Questa è una libreria grafica per sistemi embedded basata su un aspetto visivo molto simile alle prime versioni di Windows (sia per l'estetica sia per la gestione ottimale delle risorse grafiche). Essa offre un HAL ad alto livello molto semplice da utilizzare, con cui è possibile progettare interfacce con oggetti grafici ben noti (bottoni, input text, ecc...) senza dover interfacciarsi direttamente con l'oggetto hardware. Può sembrare una soluzione poco ottimale, visto che tutti gli elementi ad ``alto livello'' nella progettazione di sistemi embedded può essere reputata poco efficiente in ambito di risorse e computazione, in realtà è stata progettata in maniera altamente ottimizzata.
 
 La gestione dell'interfaccia tramite questa libreria ha un'implementazione molto semplice:
 
