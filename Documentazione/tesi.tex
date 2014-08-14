@@ -99,7 +99,7 @@ La soluzione a questo problema è progettare un sistema dedicato, \textit{``embe
 
 ~
 
-Questo progetto rappresenta un piccolo sistema domotico con cui si controllano le luci di una casa e i vari sensori che monitorano le stanze, utilizzando un pannello di controllo Master che comunica con le diverse periferiche slave tramite protocollo Modbus.
+Questo progetto rappresenta un piccolo sistema domotico con cui si controllano le luci di una casa e i vari sensori che monitorano le stanze, utilizzando un pannello di controllo Master che comunica con le diverse periferiche Slave tramite protocollo Modbus.
 
 
 \tableofcontents
@@ -286,7 +286,7 @@ Il problema principale di questo sistema è che i dispositivi LPC1768 e PIC16F77
 
 RS232 è un protocollo seriale che appartiene alle prime fasi dello sviluppo informatico ed è stato ormai sostituito in ambito dei PC, in quanto la velocità di comunicazione e la creazione dei dati a pacchetto hanno fatto preferire l'utilizzo di altre tecnologie; è ancora molto utilizzato in ambito industriale in quanto risulta molto sicuro in ambienti con disturbi elettrici. Questo protocollo consiste nell'inviare segnali con un' alta differenza di potenziale ($ \pm12V $ ) e con una soglia di commutazione di $\pm 3V $; quando il segnale è negativo, si interpreta come ``1'' il segnale, altrimenti ``0''. Per identificare ogni byte, si definisce la velocità di comunicazione, ossia il \textit{baudrate} (il massimo baudrate secondo lo standard è 19200).
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.35]{rs232.jpg}
 \end{figure}
@@ -297,7 +297,7 @@ Questo protocollo però supporta un dispositivo \textit{spy}, ossia un dispositi
 
 ~
 
-Per far comunicare tutti i dispositivi, è stato creato un bus che permettesse di mantenere le proprietà del protocollo RS232 (quindi comunicazione punto-punto) ma che permettesse anche di far comunicare i dispositivi secondo la logica master-slave di Modbus (quindi ad ogni richiesta del Master deve rispondere lo Slave interrogato). Il bus ha quindi una parte esclusivamente hardware, che consiste nel collegamento fisico tra i dispositivi e un Relè che commuta il canale Tx degli Slave verso il Master, e una parte logica programmata, composta dal microcontrollore PIC16F628A. Questo microcontrollore funge da dispositivo spy, in quanto ha il canale della seriale Rx collegato al canale Tx del Master.
+Per far comunicare tutti i dispositivi, è stato creato un bus che permettesse di mantenere le proprietà del protocollo RS232 (quindi comunicazione punto-punto) ma che permettesse anche di far comunicare i dispositivi secondo la logica Master-Slave di Modbus (quindi ad ogni richiesta del Master deve rispondere lo Slave interrogato). Il bus ha quindi una parte esclusivamente hardware, che consiste nel collegamento fisico tra i dispositivi e un Relè che commuta il canale Tx degli Slave verso il Master, e una parte logica programmata, composta dal microcontrollore PIC16F628A. Questo microcontrollore funge da dispositivo spy, in quanto ha il canale della seriale Rx collegato al canale Tx del Master.
 
 Il funzionamento del bus si basa sulla lettura del primo carattere del messaggio Modbus: il Master invia un messaggio a tutti i dispositivi, il cui primo carattere indica l'indirizzo dello Slave che dovrà rispondere; dal momento che il microcontrollore del bus è un dispositivo spy, ha la possibilità di leggere il primo carattere per ogni messaggio inviato dal Master. Una volta letto il primo carattere, il microcontrollore commuta il canale Tx del bus, in modo che lo Slave abbia accesso esclusivo al canale Rx del Master. In questo modo, tutti ricevono il messaggio Modbus, ma solo chi dovrà rispondere avrà il canale Tx attivato verso il Master.
 
@@ -314,7 +314,7 @@ Poichè il microcontrollore PIC16F628A non era provvisto di commutatore di segna
 Per collegarsi a questo bus, è necessario utilizzare un cavo seriale di tipo cross per il dispositivo Master, mentre per i dispositivi Slave serve un cavo dritto.
 
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=4.5]{bus.pdf}
 \caption{Architettura del bus}
@@ -341,7 +341,7 @@ L'unico oggetto che non può essere sostituito con qualcosa di meno costoso è i
 
 \section{Altri componenti}
 
-Oltre alla parte operativa del sistema, ci sono vari altri oggetti hardware che devono essere pilotati dai dispositivi slave. Questi sono gli oggetti osservabili del sistema da parte degli utenti e controllano l'ambiente permettendo agli slave di osservare la scena o di illuminarla.
+Oltre alla parte operativa del sistema, ci sono vari altri oggetti hardware che devono essere pilotati dai dispositivi Slave. Questi sono gli oggetti osservabili del sistema da parte degli utenti e controllano l'ambiente permettendo agli Slave di osservare la scena o di illuminarla.
 
 \subsection{Sensori}
 
@@ -390,14 +390,14 @@ sensore di vibrazione		& Digitale	& passivo \\
 
 ~
 
-Poichè questi sensori sono stati saldati su piccole schede elettriche, per rendere possibile l'allacciamento con i dispositivi slave in maniera semplice è stato creato un piccolo circuito per sfruttare facilmente le loro interfacce hardware.
-Il circuito, semplificato per tre sensori che mandano il loro messaggio alle rispettive GPIO di uno slave, è il seguente.
+Poichè questi sensori sono stati saldati su piccole schede elettriche, per rendere possibile l'allacciamento con i dispositivi Slave in maniera semplice è stato creato un piccolo circuito per sfruttare facilmente le loro interfacce hardware.
+Il circuito, semplificato per tre sensori che mandano il loro messaggio alle rispettive GPIO di uno Slave, è il seguente.
 
 ~
 
 ~
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.5]{circuitSensor.png}
 \end{figure}
@@ -432,7 +432,7 @@ Per un corretto funzionamento di questi sensori, è necessario collegare la mass
 
 Il sensore temperatura e umidità DHT11 merita particolare attenzione, in quanto utilizza un protocollo di comunicazione standard particolare nonostante sia un sensore piccolo e a basso costo. Questo sensore è in grado di comunicare i dati acquisiti (con aggiornamento di 1 Hz) tramite protocollo \textit{1-Wire}, comunicando in 4 millisecondi il risultato. Per collegare il sensore all'unità di controllo, è necessario realizzare questo piccolo circuito:
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.6]{DHT11_collegamento.png}
 \end{figure}
@@ -450,7 +450,7 @@ La particolarità del protocollo 1-Wire è la semplicità di implementazione e l
 
 ~
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=1]{1wire.png}
 \end{figure}
@@ -475,9 +475,9 @@ Questi due aspetti sono stati molto importanti durante la progettazione in quant
 
 \subsection{Relè}
 
-Poichè sarà necessario pilotare anche luci di abitazioni, gli slave non possono essere in grado di erogare abbastanza corrente per queste. Per risolvere questo problema, è necessario utilizzare un componente hardware chiamato Relè. Questo oggetto consiste in un avvolgimento di rame e una lamina di rame che funge da switch di canale; appena l'avvolgimento viene eccitato con la corrente, genera un campo magnetico che sposta la lamina di rame in modo da deviare la corrente da un canale all'altro. Anche la bobina di rame però necessita di molta corrente per generare un campo magnetico; è presente quindi un fotocopiatore che riceve in input sia la corrente necessaria alla bobina per generare il campo magnetico sia la corrente dello slave per pilotare via software le luci; in output invierà la corrente necessaria per il relé solo quando lo slave invia il segnale.
+Poichè sarà necessario pilotare anche luci di abitazioni, gli Slave non possono essere in grado di erogare abbastanza corrente per queste. Per risolvere questo problema, è necessario utilizzare un componente hardware chiamato Relè. Questo oggetto consiste in un avvolgimento di rame e una lamina di rame che funge da switch di canale; appena l'avvolgimento viene eccitato con la corrente, genera un campo magnetico che sposta la lamina di rame in modo da deviare la corrente da un canale all'altro. Anche la bobina di rame però necessita di molta corrente per generare un campo magnetico; è presente quindi un fotocopiatore che riceve in input sia la corrente necessaria alla bobina per generare il campo magnetico sia la corrente dello Slave per pilotare via software le luci; in output invierà la corrente necessaria per il relé solo quando lo Slave invia il segnale.
 
-Questo oggetto può quindi essere utilizzato come interruttore automatico pilotato dal processore. È stata utilizzata una scheda per pilotare 8 relè tramite le GPIO di uno slave, in modo da accendere o spegnere le luci a led a basso consumo.
+Questo oggetto può quindi essere utilizzato come interruttore automatico pilotato dal processore. È stata utilizzata una scheda per pilotare 8 relè tramite le GPIO di uno Slave, in modo da accendere o spegnere le luci a led a basso consumo.
 
 ~
 
@@ -489,74 +489,74 @@ Per un corretto funzionamento, è necessario collegare la massa di questo circui
 
 \subsection{Foto del sistema hardware}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=1]{lpc1788.png}
 \caption{LPC1788}
 \end{figure}
 
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=1]{lpc1768.png}
 \caption{LPC1768}
 \end{figure}
 
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.15]{pic16f77.png}
 \caption{PIC16F77}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.12]{bus_foto.png}
 \caption{BUS RS232}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.5]{DHT11.png}
 \caption{Sensore DHT11}
 \end{figure}
 
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.5]{dist1.jpg}
 \caption{Sensore di distanza a infrarossi}
 \end{figure}
 
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.5]{dist2.jpg}
 \caption{Sensore di distanza}
 \end{figure}
 
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.6]{lumi.png}
 \caption{Sensore luminosità}
 \end{figure}
 
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.2]{mic.jpg}
 \caption{Sensore di rumore}
 \end{figure}
 
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.5]{rele.jpg}
 \caption{8 relè}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.5]{led.jpg}
 \caption{Strip led}
@@ -584,7 +584,7 @@ Questo sistema si chiama $\mu EZ$, chiamato così perché dovrebbe ``ispirare'' 
 
 ~
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.7]{uEZ.png}
 \caption{architettura del sistema uEZ}
@@ -632,7 +632,7 @@ Il sistema operativo utilizzato sul dispositivo di tipo ARM Cortex-M3 si chiama 
 
 È un sistema operativo di tipo Real Time, ossia  il sistema deve essere ``prevedibile'' o piuttosto ``determinista'', nel senso che nel sistema si deve conoscere la tempistica reale (nei migliori o peggiori dei casi) di un determinato processo o elaborazione. In pratica un sistema real-time deve garantire che una elaborazione (o task) termini entro un dato vincolo temporale o scadenza (detta in gergo deadline). Per garantire questo è richiesto che la schedulazione delle operazioni sia fattibile. Il concetto di fattibilità di schedulazione è alla base della teoria dei sistemi real-time ed è quello che ci permette di dire se un insieme di task sia eseguibile o meno in funzione dei vincoli temporali dati.
 
-Il sistema operativo non è stato utilizzato per utilizzare una HAL per programmare, ma per creare dei task separati per gestire la parte di protocollo e la parte di applicazione, in quanto continui polling sui sensori possono disturbare l'invio della risposta al dispositivo Master. Alla fine della progettazione però, per i vincoli dettati dal sensore DHT11, si è deciso di creare un unico task che permettesse di sfruttare la velocità di FreeRTOS nell'esecuzione di un task.
+Questo non è stato scelto per utilizzare una HAL utile a programmare più facilmente, ma per creare dei task separati per gestire la parte di protocollo e la parte di applicazione, in quanto continui polling sui sensori possono disturbare l'invio della risposta al dispositivo Master. Alla fine della progettazione però, per i vincoli dettati dal sensore DHT11, si è deciso di creare un unico task che permettesse di sfruttare la velocità di FreeRTOS nell'esecuzione di un task.
 
 
 
@@ -647,8 +647,8 @@ Di seguito si riporta il modello del sistema secondo lo standard ingegneristico,
 
 \itema 
 
-\item\textit{``Use Case Diagram''}, ossia la presentazione ad alto livello dei diversi attori del sistema (nel nostro caso gli attori sono: l'utente, il dispositivo Master e il dispositivo Slave), in modo da rendere chiari i ruoli degli attori e le loro azioni all'interno dello scenario;
-\item\textit{``Sequence Diagram''}, ossia la presentazione ad alto livello dello scambio di ``messaggi'' tra i diversi attori e dispositivi del sistema (vengono identificate le interazioni nel sistema come messaggi).
+\item\textit{``Use Case Diagram''}, ovvero la presentazione ad alto livello dei diversi attori del sistema (nel nostro caso l'attore è l'utente che si interfaccia col sistema), in modo da rendere chiari i ruoli degli attori e le loro azioni all'interno dello scenario;
+\item\textit{``Sequence Diagram''}, ovvero la presentazione ad alto livello dello scambio di ``messaggi'' tra i diversi attori e dispositivi del sistema (vengono identificate le interazioni nel sistema come messaggi).
 
 \end{itemize}
 
@@ -660,9 +660,9 @@ Con questo tipo di diagramma, viene presentata una tabella per ogni attore, cias
 
 L'attore principale, cioè l'utente, ha tre tipi di attività, ossia la scelta del task da far eseguire al sistema, l'avvio di esecuzione di tale task (premendo l'opportuno tasto nell'interfaccia) e l'osservazione dei valori che vengono mostrati nella GUI.
 
-L'altro attore è il dispositivo Master, che ha il compito di mostrare ed aggiornare l'interfaccia grafica e di interrogare il dispositivo Slave in base alla scelta dell'utente. Questo attore ha quindi queste attività: mostrare l'interfaccia grafica, avviare i task scelti dall'utente e inviare i messaggi ai dispositivi Slave.
+Una parte del sistema è il dispositivo Master, che ha il compito di mostrare ed aggiornare l'interfaccia grafica e di interrogare il dispositivo Slave in base alla scelta dell'utente. Questo ha quindi le seguenti attività: mostrare l'interfaccia grafica, avviare i task scelti dall'utente e inviare i messaggi ai dispositivi Slave.
 
-Gli ultimi attori da considerare sono i dispositivi Slave, che hanno il compito di eseguire polling sui sensori a loro associati e di rispondere alle richieste Modbus del dispositivo Master. Le loro attività quindi sono: controllo sensori e ricezione e risposta di messaggi Modbus.
+Le ultime parti del sistema da considerare sono i dispositivi Slave, che hanno il compito di eseguire polling sui sensori a loro associati e di rispondere alle richieste Modbus del dispositivo Master. Le loro attività quindi sono: controllo sensori e ricezione e risposta di messaggi Modbus.
 
 ~
 
@@ -690,7 +690,7 @@ Gli ultimi attori da considerare sono i dispositivi Slave, che hanno il compito 
 
 \section{Sequence Diagram}
 
-Questo diagramma rappresenta una generica interazione tra utente e sistema. Ad ogni scelta dell'utente, visualizzabile come un messaggio (ovviamente non testuale) inviato dall'utente al dispositivo Master, viene trasformata in messaggio Modbus da inviare al corrispondente dispositivo Slave. Il dispositivo Slave, prima di essere interrogato via Modbus, continua ad eseguire polling sui sensori a lui collegati, per tenersi aggiornato sul loro valore. Al momento della richiesta Modbus, il disposivo Slave termina momentaneamente di eseguire polling sui sensori e invia l'ultimo valore acquisito da questi al dispositivo Master. Quest'ultimo, appena riceve i valori, aggiorna l'interfaccia grafica e mostra all'utente il risultato dell'interrogazione. Fatto ciò, il dispositivo Master rimane in attesa di ordini dall'utente, mentre il dispositivo Slave continua a fare polling sui sensori a lui collegati.
+Questo diagramma rappresenta una generica interazione tra utente e sistema. Ad ogni scelta dell'utente, visualizzabile come un messaggio (ovviamente non testuale) inviato dall'utente al dispositivo Master, viene trasformata in messaggio Modbus da inviare al corrispondente dispositivo Slave. Il dispositivo Slave, prima di essere interrogato via Modbus, continua ad eseguire polling sui sensori a lui collegati, per tenersi aggiornato sul loro valore. Al momento della richiesta Modbus, il dispositivo Slave termina momentaneamente di eseguire polling sui sensori e invia l'ultimo valore acquisito da questi al dispositivo Master. Quest'ultimo, appena riceve i valori, aggiorna l'interfaccia grafica e mostra all'utente il risultato dell'interrogazione. Fatto ciò, il dispositivo Master rimane in attesa di ordini dall'utente, mentre il dispositivo Slave continua a fare polling sui sensori a lui collegati.
 
 ~
 
@@ -750,7 +750,7 @@ A seguito di tutte le considerazioni sul modello di sistema e sulla tecnologia u
 \section{Protocollo Modbus}
 
 
-Modbus è un protocollo semplice di tipo Master-Slave, cioè esiste un dispositivo centrale che invia una richiesta e i diversi slave soddisfano la richiesta dando una risposta al Master. Il dispositivo Master è sempre pronto ad inviare una richiesta, mentre gli Slave rimangono sempre in ascolto e non inviano alcun tipo di messaggio se non vengono interpellati dal Master.
+Modbus è un protocollo semplice di tipo Master-Slave, cioè esiste un dispositivo centrale che invia una richiesta e i diversi Slave soddisfano la richiesta dando una risposta al Master. Il dispositivo Master è sempre pronto ad inviare una richiesta, mentre gli Slave rimangono sempre in ascolto e non inviano alcun tipo di messaggio se non vengono interpellati dal Master.
 
 ~
 
@@ -768,11 +768,11 @@ Il messaggio tipico del protocollo è formato da questi campi:
 \hline
 \multicolumn{1}{|c|}{\textbf {campo}} & \multicolumn{1}{c}{\textbf {byte}} & \multicolumn{1}{|c|}{\textbf {descrizione}} \\
 \hline
-Indirizzo	&	1	&	l'indirizzo del dispositivo con cui il master ha stabilito la transazione\\
+Indirizzo	&	1	&	l'indirizzo del dispositivo da interrogare\\
 
-Funzione	&	1	&	il codice della funzione che deve essere o è stata eseguita \\
+Funzione	&	1	&	il codice della funzione richiesta\\
 
-Dati		&	2 $\cdot$ n\_dati	&	i dati che devono essere scambiati tra i due dispositivi in base alla funzione scelta \\
+Dati		&	2 $\cdot$ n\_dati	&	i dati che devono essere scambiati \\
 
 CRC		&	2			&	il controllo d'errore composto secondo l'algoritmo CRC16 \\
 
@@ -783,17 +783,17 @@ CRC		&	2			&	il controllo d'errore composto secondo l'algoritmo CRC16 \\
 
 ~
 
-Se un dispositivo individua un errore nel messaggio ricevuto (di formato, di parità o nel CRC16) il messaggio viene considerato non valido e viene notificato al Master (o scartato); se uno slave quindi rileva un errore nel messaggio, non eseguirà l'azione e non risponderà alla domanda, così come se ricevesse un messaggio con l'indirizzo non corrispondente al suo.
+Se un dispositivo individua un errore nel messaggio ricevuto (di formato, di parità o nel CRC16) il messaggio viene considerato non valido e viene notificato al Master (o scartato); se uno Slave quindi rileva un errore nel messaggio, non eseguirà l'azione e non risponderà alla domanda, così come se ricevesse un messaggio con l'indirizzo non corrispondente al suo.
 
 
 \subsection{Registri}
 
-Il protocollo Modbus permette la comunicazione tra master e slave tramite diversi tipi di variabili chiamate ``registri''. In base al tipo di registro, sono permesse diverse operazioni:
+Il protocollo Modbus permette la comunicazione tra Master e Slave tramite diversi tipi di variabili chiamate ``registri''. In base al tipo di registro, sono permesse diverse operazioni:
 
 \itema
 
 \item i registri di \textbf{``Input''} rappresentano dei booleani (registri a bit singolo) che possono essere solo letti, quindi in questi può essere eseguita una funzione di tipo read;
-\item i registri di \textbf{``Input Discreti''} hanno lo stesso funzionamento, in generale il master può solo leggere i registri di questo tipo;
+\item i registri di \textbf{``Input Discreti''} hanno lo stesso funzionamento, in generale il Master può solo leggere i registri di questo tipo;
 \item i registri di \textbf{``Holding''} rappresentano una word a 16 bit che può essere sia letta sia scritta;
 \item i registri di \textbf{``Coil''} rappresentano un booleano che può essere sia letto che scritto dal Master;
 
@@ -867,7 +867,7 @@ Per il calcolo di questi due caratteri il messaggio (indirizzo, codice funzione 
 
 \end{enumerate}
 
-Questa parte del messaggio è particolarmente importante perché garantisce la correttezza del messaggio; in un sistema industriale, quindi disturbato, è possibile che un messaggio su seriale possa essere afflitto da disturbi, quindi è necessario garantire la sicurezza della richiesta. Comandare un dispositivo con un messaggio sbagliato corrisponde a fare danni al sistema o a ciò che lo circonda. In un contesto casalingo, potrebbe non crea molti danni, però può creare disagio; ad esempio, se piove e l'utente vuole chiudere le finestre, se il messaggio risulta corrotto potrebbe essere interpretato come ``aprire le finestre'' e ciò crea problemi.
+Questa parte del messaggio è particolarmente importante perché garantisce la correttezza del messaggio; in un sistema industriale, quindi disturbato, è possibile che un messaggio su seriale possa essere afflitto da disturbi, quindi è necessario garantire la sicurezza della richiesta. Comandare un dispositivo con un messaggio sbagliato corrisponde a fare danni al sistema o a ciò che lo circonda. In un contesto casalingo, potrebbe non creare molti danni, però può creare disagio; ad esempio, se piove e l'utente vuole chiudere le finestre, se il messaggio risulta corrotto potrebbe essere interpretato come ``aprire le finestre'' e ciò crea problemi.
 
 \subsection{Sincronizzazione}
 La sincronizzazione del messaggio tra trasmettitore e ricevitore viene ottenuta interponendo una pausa tra i messaggi pari ad almeno 3.5 volte il tempo di un carattere. Se il dispositivo ricevente non riceve per un tempo di 3,5 caratteri, ritiene completato il messaggio precedente e considera che il successivo byte ricevuto sarà il primo di un nuovo messaggio e quindi un indirizzo.
@@ -900,9 +900,9 @@ typedef struct
    {
       int8_t address; //indirizzo del ricevente
       int8_t len;    //numero di byte del messaggio
-      function func; //funzione richiesta del messaggio
-      exception error;  //eccezione riscontrata nel messaggio
-      uint8_t data[MODBUS_SERIAL_RX_BUFFER_SIZE]; //sezione dati del messaggio
+      function func; //funzione richiesta
+      exception error;  //eccezione riscontrata
+      uint8_t data[MODBUS_SERIAL_RX_BUFFER_SIZE]; //sezione dati
       uint16_t data_converted[125];  //dati omogenei convertiti
    }_modbus_rx;
 \end{lstlisting}
@@ -911,13 +911,13 @@ In questo modo, si semplifica notevolmente il lavoro di interpretazione del mess
 
 Bisogna notare che il campo CRC non è presente, in quanto l'elaborazione di questo non è utilizzata all'esterno del protocollo e deve essere calcolato real time durante la ricezione del messaggio (quindi non serve memorizzarlo).
 
-Bisogna notare inoltre che esiste una sezione \textbf{data[]} diversa da \textbf{data\_converted[]}, poiché i dati arrivano a coppie di byte (memorizzati in \textbf{data[]}), in modo da rappresentare non un \textbf{char} ma una \textbf{word}; in questo modo si può rappresentare un numero molto più grande, però deve essere convertito shiftando i bit dei due singoli \textbf{char} in una singola \textbf{word}. Questo spiega perché vengono rappresentate da variabili di tipo diverso, ossia un \textbf{uint8\_t} per il \textbf{char} e \textbf{uint16\_t} per la \textbf{word}.
+Bisogna notare inoltre che esiste una sezione \code!data[]! diversa da \code!data_converted[]!, poiché i dati arrivano a coppie di byte (memorizzati in \code!data[]!), in modo da rappresentare non un \code!char! ma una \code!word!; in questo modo si può rappresentare un numero molto più grande, però deve essere convertito shiftando i bit dei due singoli \code!char! in una singola \code!word!. Questo spiega perché vengono rappresentate da variabili di tipo diverso, ossia un \code!uint8_t! per il \code!char! e \code!uint16_t! per la \code!word!.
 
 ~
 
 ~
 
-Successivamente bisogna attivare e dirigere nel dispositivo la seriale e il timer interno; in questo modo si implementa la ricezione e invio dei messaggi e la sincronizzazione dei dispositivi. Dal momento che la sincronizzazione corrisponde a ``contare'' il tempo tra un carattere e l'altro (quando il Master riceve la risposta), basta attivare un timer appena si riceve il primo carattere di risposta e comportarsi come segue:
+Successivamente bisogna attivare e controllare la seriale e il timer interno del dispositivo; in questo modo si implementa la ricezione e invio dei messaggi e la sincronizzazione dei dispositivi. Dal momento che la sincronizzazione corrisponde a ``contare'' il tempo tra un carattere e l'altro (quando il Master riceve la risposta), basta attivare un timer appena si riceve il primo carattere di risposta e comportarsi come segue:
 
 \begin{enumerate}[noitemsep,topsep=15pt,parsep=6pt,partopsep=0pt]
 
@@ -969,7 +969,6 @@ void MODBUS_SERIAL_WAIT_FOR_RESPONSE()
 }
 \end{lstlisting}
 
-\newpage
 Per quanto riguarda la seriale, visto che il sistema utilizzato è molto semplice (quindi senza gestione ad alto livello degli eventi del sistema), l'unico modo per non sprecare cicli di clock per il polling su seriale è stato quello di utilizzare gli interrupt. È stato quindi implementato un sistema di interrupt che si potesse adattare al protocollo Modbus: ad ogni carattere ricevuto si attiva la funzione \lstinline!uart_rx_interrupt()!,  in base al contatore globale dei caratteri (la variabile \lstinline!modbus_serial_state!) si gestisce in maniera automatica l'interpretazione dei singoli caratteri inserendoli nel campo giusto della struttura dati, incrementando, dopo aver acquisito un nuovo carattere, il valore di questa variabile. Di fatto questa rappresenta la ``posizione'' che ha il carattere appena ricevuto all'interno della struttura dati.
 In particolare questa variabile acquisisce questa forma:
 
@@ -1275,7 +1274,7 @@ I Relè sono stati associati a 6 input del gruppo delle GPIO B, quindi RB0, RB1,
 
 ~
 
-Nei sistemi di tipo Pic, è necessario inizializzare lo hardware prima del codice con una macro, la quale si occupa di impostare dei registri di Boot e di futura programmazione. Questo è stato reso nel codice in questo modo:
+Nei sistemi di tipo PIC, è necessario inizializzare l'hardware prima del codice con una macro, la quale si occupa di impostare dei registri di Boot e di futura programmazione. Questo è stato reso nel codice in questo modo:
 
 \begin{lstlisting}
 
@@ -1293,7 +1292,7 @@ Le diverse macro hanno questo significato:
 
 \item \lstinline!PWRTE_ON! abilita l'ingresso MCLR in modo che, quando vale 0, viene resettato il microcontrollore;
 
-\item \lstinline!BOREN_OFF! disabilita la funzione che resetta il Pic quando la tensione scende sotto una certa soglia, non serve perché, nel caso in cui tutti i Relè vengono attivati, può esserci un calo di tensione;
+\item \lstinline!BOREN_OFF! disabilita la funzione che resetta il PIC quando la tensione scende sotto una certa soglia, non serve perché, nel caso in cui tutti i Relè vengono attivati, può esserci un calo di tensione;
 
 \item \lstinline!CP_OFF! disabilita la protezione di codice, in quanto se si volesse aggiornare il software deve essere possibile la riprogrammazione.
 
@@ -1301,7 +1300,7 @@ Le diverse macro hanno questo significato:
 
 \subsection{Main}
 
-Nella funzione principale è stato necessario inizializzare lo hardware impostando i registri associati alle GPIO come output; questo è possibile con il seguente codice:
+Nella funzione principale è stato necessario inizializzare l'hardware impostando i registri associati alle GPIO come output; questo è possibile con il seguente codice:
 
 \begin{lstlisting}
 
@@ -1353,7 +1352,7 @@ Ogni volta che inizia la ricezione del messaggio, la funzione \lstinline!BOOL mo
 
 \subsubsection{Controllo Relè}
 
-Quando non esegue la gestione del protocollo, in base al settaggio dei registri Coils, imposta i registri delle GPIO, quindi se un registro di Coil vale 1, la GPIO verrà impostata a 1, altrimenti a 0. Il codice è il seguente:
+Quando non si esegue la gestione del protocollo, in base al settaggio dei registri Coils, si impostano i registri delle GPIO, quindi se un registro di Coil vale 1, la GPIO verrà impostata a 1, altrimenti a 0. Il codice è il seguente:
 
 \begin{lstlisting}
 
@@ -1430,9 +1429,9 @@ Alla fine della progettazione quindi, si è deciso di utilizzare la precisione d
 
 \subsection{Main}
 
-Nella funzione di partenza, come vuole lo standard di FreeRTOS, è necessario inizializzare l'hardware e le relative variabili nell'apposita funzione di inizializzazione chiamata \lstinline!static void setupHardware(void)!, poi bisogna creare il task da eseguire tramite l'apposita funzione \textbf{xTaskCreate} che prende in input: il nome della funzione da eseguire come task, la stringa che rappresenta il nome della funzione (utile durante il debug), la dimensione dedicata dello stack per questa, i parametri da passare, la priorità del task e lo handler della funzione (variabile in cui memorizzare l'indirizzo corrispondente). In questo caso è stato impostato come funzione da eseguire quella chiamata ``MainTask'', identificata dalla stringa \lstinline!""MainTask!, impostando uno stack minimo tramite la macro \lstinline!configMINIMAL_STACK_SIZE!, non inviando alcun valore, impostando la massima priorità di esecuzione e non associando alcun handler (perché l'esecuzione del task non doveva essere controllata dall'esterno).
+Nella funzione di partenza, come vuole lo standard di FreeRTOS, è necessario inizializzare l'hardware e le relative variabili nell'apposita funzione di inizializzazione chiamata \lstinline !setupHardware()!, poi bisogna creare il task da eseguire tramite l'apposita funzione \code!xTaskCreate! che prende in input: il nome della funzione da eseguire come task, la stringa che rappresenta il nome della funzione (utile durante il debug), la dimensione dedicata dello stack per questa, i parametri da passare, la priorità del task e lo handler della funzione (variabile in cui memorizzare l'indirizzo corrispondente). In questo caso è stato impostato come funzione da eseguire quella chiamata ``MainTask'', identificata dalla stringa \lstinline!"MainTask"!, impostando uno stack minimo tramite la macro \lstinline!configMINIMAL_STACK_SIZE!, non inviando alcun valore, impostando la massima priorità di esecuzione e non associando alcun handler (perché l'esecuzione del task non doveva essere controllata dall'esterno).
 
-Per inizializzare il protocollo Modbus, si deve utilizzare la funzione \textbf{eMBInit}, i cui parametri indicano, in ordine, il tipo di comunicazione (RTU, ASCII o TCP), l'indirizzo dello Slave, il numero della porta seriale che si vuole utilizzare, il baudrate e il bit di parità.
+Per inizializzare il protocollo Modbus, si deve utilizzare la funzione \code!eMBInit!, i cui parametri indicano, in ordine, il tipo di comunicazione (RTU, ASCII o TCP), l'indirizzo dello Slave, il numero della porta seriale che si vuole utilizzare, il baudrate e il bit di parità.
 In questo caso si è utilizzato come tipo RTU, l'indirizzo 10, la porta UART0, 38400 di baudrate e nessun bit di parità.
 
 \subsection{Modello dei dati}
@@ -1461,7 +1460,7 @@ typedef struct dht{
 \end{lstlisting} 
 
 
-La prima struttra dati, chiamata \textbf{Sensors}, è stata utilizzata per memorizzare tutti i dati provenienti dai sensori diversi dal DHT11, mentre la seconda struttura dati, chiamata \textbf{dht11}, è stata utilizzata per memorizzare i due valori provenienti dal sensore temperatura. La scelta di dividere il due strutture dati i valori elaborati dai sensori è stata fatta per organizzare meglio il trattamento dei dati, visto che il controllo effettuato dal DHT11 avviene in tempi diversi rispetto al controllo degli altri sensori. I valori sono memorizzati in zone di memoria di tipo ``unsigned int'', poichè Modbus deve trattare esclusivamente valori di questo tipo.
+La prima struttura dati, chiamata \textbf{Sensors}, è stata utilizzata per memorizzare tutti i dati provenienti dai sensori diversi dal DHT11, mentre la seconda struttura dati, chiamata \textbf{dht11}, è stata utilizzata per memorizzare i due valori provenienti dal sensore temperatura. La scelta di dividere il due strutture dati i valori elaborati dai sensori è stata fatta per organizzare meglio il trattamento dei dati, visto che il controllo effettuato dal DHT11 avviene in tempi diversi rispetto al controllo degli altri sensori. I valori sono memorizzati in zone di memoria di tipo \code !unsigned int!, poichè Modbus deve trattare esclusivamente valori di questo tipo.
 
 Nella prima struttura sono stati memorizzati questi valori:
 
@@ -1492,7 +1491,7 @@ Nella seconda struttura sono stati memorizzati questi valori:
 
 ~
 
-Lato Modbus invece è stato utilizzato un array di puntatori a variabili di tipo ``unsigned int'', dichiarato come segue:
+Lato Modbus invece è stato utilizzato un array di puntatori a variabili di tipo \code!unsigned int!, dichiarato come segue:
 
 \begin{lstlisting}
 
@@ -1500,7 +1499,7 @@ USHORT   *usRegHoldingBuf[REG_HOLDING_NREGS];
 
 \end{lstlisting}
 
-La define REG\_HOLDING\_NREGS indica la quantità di registri di tipo Holding che è presente nel sistema. È stato deciso di utilizzare un array di puntatori per definire un binding tra le variabili associate ai sensori e i registri Modbus: in questo modo non è necessario aggiornare in continuazione anche i registri Modbus, ma semplicemente ogni volta che si richiede un registro, si andrà a prendere il valore puntato da quel registro (ottimizzando quindi i tempi). Inoltre questo permette la separazione tra la parte del protocollo e la parte del controllo sensori: il binding si esegue al momento dell'inizializzazione e dopo la parte dedicata al protocollo non utilizzerà mai esplicitamente le variabili associate alla parte del controllo sensori.
+La macro \code!REG_HOLDING_NREGS! indica la quantità di registri di tipo Holding che è presente nel sistema. È stato deciso di utilizzare un array di puntatori per definire un binding tra le variabili associate ai sensori e i registri Modbus: in questo modo non è necessario aggiornare in continuazione anche i registri Modbus, ma semplicemente ogni volta che si richiede un registro, si andrà a prendere il valore puntato da quel registro (ottimizzando quindi i tempi). Inoltre questo permette la separazione tra la parte del protocollo e la parte del controllo sensori: il binding si esegue al momento dell'inizializzazione e dopo la parte dedicata al protocollo non utilizzerà mai esplicitamente le variabili associate alla parte del controllo sensori.
 L'inizializzazione è stata resa in questo modo:
 
 \begin{lstlisting}
@@ -1517,11 +1516,11 @@ L'inizializzazione è stata resa in questo modo:
 
 \subsection{MainTask}
 
-La funzione principale esegue prima il controllo sui sensori e dopo esegue la funzione associata al protocollo Modbus. Poiché il controllo sensori non deve interferire durante l'esecuzione della comunicazione, si controlla che non stia avvenendo uno scambio di dati; questo è reso tramite la variabile di tipo BOOL \textit{modbus\_is\_running}, che vale 1 se è in esecuzione uno scambio di dati, altrimenti vale 0. Poiché però nessun interrupt di comunicazione (proveniente dalla seriale) deve interferire sul controllo sensori, è stato deciso di interrompere la ricezione tramite interrupt dei byte provenienti dalla seriale, tramite la funzione \textbf{vMBPortSerialEnable}, che come primo parametro riceve un BOOL per consentire l'attivazione dell'interrupt RX della seriale e come secondo parametro un BOOL per l'attivazione dell'interrupt TX.
+La funzione principale esegue prima il controllo sui sensori e dopo esegue la funzione associata al protocollo Modbus. Poiché il controllo sensori non deve interferire durante l'esecuzione della comunicazione, si controlla che non stia avvenendo uno scambio di dati; questo è reso tramite la variabile di tipo bool \code!modbus_is_running!, che vale 1 se è in esecuzione uno scambio di dati, altrimenti vale 0. Poiché però nessun interrupt di comunicazione (proveniente dalla seriale) deve interferire sul controllo sensori, è stato deciso di interrompere la ricezione tramite interrupt dei byte provenienti dalla seriale, tramite la funzione \code!vMBPortSerialEnable!, che come primo parametro riceve un BOOL per consentire l'attivazione dell'interrupt RX della seriale e come secondo parametro un BOOL per l'attivazione dell'interrupt TX.
 
 ~
 
-La funzione \textbf{ModbusTask} esegue la funzione \textbf{eMBPoll()}, che si occupa di controllare se è stato registrato nello stack di eventi Modbus una ricezione di dati o un invio completato.
+La funzione \code!ModbusTask! esegue la funzione \code!eMBPoll()!, che si occupa di controllare se è stato registrato nello stack di eventi Modbus una ricezione di dati o un invio completato.
 
 ~
 
@@ -1636,7 +1635,7 @@ Per la grande quantità di dati presenti nel codice, sono state create delle str
 
 typedef struct spinbox_val{
 
-  int slave_id;
+  int Slave_id;
   int multiple_register_from;
   int multiple_register_to;
   int single_register_number;
@@ -1730,7 +1729,7 @@ Per la parte dell'interfaccia di debug, si memorizza:
 
 \itema
 
-\item \code!SPINBOX_value! struttura dati che memorizza tutti i valori provenienti dagli spinbox presenti nella schermata (id dello slave, indirizzo iniziale dei registri richiesti, quantità di registri richiesti, singolo registro richiesto, valore da inserire in un registro);
+\item \code!SPINBOX_value! struttura dati che memorizza tutti i valori provenienti dagli spinbox presenti nella schermata (id dello Slave, indirizzo iniziale dei registri richiesti, quantità di registri richiesti, singolo registro richiesto, valore da inserire in un registro);
 
 \item \code!BUTTON_value! struttura dati che memorizza tutti i valori provenienti dai bottoni della schermata (invio richiesta);
 
@@ -1773,7 +1772,7 @@ Ogni widget ha un proprio id, che serve per identificarlo univocamente rispetto 
 
 \item \textit{maniera diretta}, in cui si crea un oggetto grafico all'interno del codice di inizializzazione, con le sue misure e la sua forma;
 
-\item \textit{maniera indiretta}, utilizzato da GUIBuilder, in cui si popola la struttura dati \code!GUI_WIDGET_CREATE_INFO _aDialogCreate[]! con il nome dei widget da creare, il relativo identificatore, la posizione e la relativa dimensione.
+\item \textit{maniera indiretta}, utilizzato da GUIBuilder, in cui si popola la struttura dati \newline \code!GUI_WIDGET_CREATE_INFO _aDialogCreate[]!\newline con il nome dei widget da creare, il relativo identificatore, la posizione e la relativa dimensione.
 
 \end{itemize}
 
@@ -1846,13 +1845,12 @@ La gestione di questa funzionalità, se ben scritta, sarà automatica e la gesti
 
 \section{Interfaccia grafica}
 
-Appena il processo principale viene mandato in esecuzione, viene presentata la schermata iniziale: tramite questa schermata, si può accedere ai vari sottoprogrammi corrispondenti cliccando l'icona corrispondente. Si può accedere quindi alla schermata di controllo luci, di controllo sensori e di debug; questa ultima ha lo scopo di capire, da parte di un tecnico, l'origine di un guasto, quindi se è un problema legato al protocollo, agli slave o alle varie periferiche pilotate dagli Slave. 
+Appena il processo principale viene mandato in esecuzione, viene presentata la schermata iniziale: tramite questa schermata, si può accedere ai vari sottoprogrammi corrispondenti cliccando l'icona corrispondente. Si può accedere quindi alla schermata di controllo luci, di controllo sensori e di debug; questa ultima ha lo scopo di capire, da parte di un tecnico, l'origine di un guasto, quindi se è un problema legato al protocollo, agli Slave o alle varie periferiche pilotate dagli Slave. 
 
-\newpage
 
 \subsection{Menù principale}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.6]{menu.jpg}
 \end{figure}
@@ -1885,12 +1883,12 @@ Bisogna notare che GUIBuilder non è in grado di applicare delle icone ai botton
 \newpage
 \subsection{Controllo Luci}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.6]{ledgui.jpg}
 \end{figure}
 
-Questa schermata è composta da 6 bottoni che servono per inviare una richiesta di accensione o spegnimento del rispettivo led. Sotto ogni bottone è presente una sezione testuale in cui si scrive lo stato attuale del led (ON o OFF) e viene modificata dalla pressione dei tasti. Questa schermata si interfaccia esclusivamente con il microcontrollore PIC16F77 che ha lo slave id posto a 1. Per terminare l'esecuzione di questa applicazione, basta semplicemente premere il pulsante in alto a sinistra su cui è posta una ``X''.
+Questa schermata è composta da 6 bottoni che servono per inviare una richiesta di accensione o spegnimento del rispettivo led. Sotto ogni bottone è presente una sezione testuale in cui si scrive lo stato attuale del led (ON o OFF) e viene modificata dalla pressione dei tasti. Questa schermata si interfaccia esclusivamente con il microcontrollore PIC16F77 che ha lo Slave id posto a 1. Per terminare l'esecuzione di questa applicazione, basta semplicemente premere il pulsante in alto a sinistra su cui è posta una ``X''.
 
 ~
 
@@ -1898,13 +1896,13 @@ Al momento dell'avvio di questa applicazione, viene inviata una richiesta al mic
 
 ~
 
-Durante l'esecuzione di questa applicazione, viene avviato un task asincrono che esegue continue richieste allo slave per sapere lo stato attuale delle luci; questo è molto utile se avviene un guasto momentaneo al microcontrollore (uno spegnimento improvviso), poiché verrà segnalato impostando ad OFF lo stato di tutte le luci (poiché verranno spente). Esiste quindi un task che modifica dall'esterno l'interfaccia grafica, quindi è possibile notare un cambiamento dell'interfaccia anche se non c'è stata alcuna interazione da parte dell'utente.
+Durante l'esecuzione di questa applicazione, viene avviato un task asincrono che esegue continue richieste allo Slave per sapere lo stato attuale delle luci; questo è molto utile se avviene un guasto momentaneo al microcontrollore (uno spegnimento improvviso), poiché verrà segnalato impostando ad OFF lo stato di tutte le luci (poiché verranno spente). Esiste quindi un task che modifica dall'esterno l'interfaccia grafica, quindi è possibile notare un cambiamento dell'interfaccia anche se non c'è stata alcuna interazione da parte dell'utente.
 
 
 \newpage
 \subsection{Controllo Sensori}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.6]{sensorgui.jpg}
 \end{figure}
@@ -1934,7 +1932,7 @@ Per uscire dall'applicazione, basta premere il bottone in alto a sinistra.
 \newpage
 \subsection{Schermata di Debug}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.6]{debug.jpg}
 \end{figure}
@@ -1995,7 +1993,7 @@ I sensori vengono pilotati e controllati dal processore LPC1768, in quanto offre
 
 ~
 
-Per questo motivo questo slave è in grado di interpretare messaggi sia di lettura/scrittura di registri di holding, sia di registri di coil. I registri di holding verranno utilizzati per memorizzare ed inviare i valori ottenuti dal sensore di temperatura e di umidità, mentre i registri di coil per i sensori di vibrazione, di luce, di distanza e di ostacolo.
+Per questo motivo questo Slave è in grado di interpretare messaggi sia di lettura/scrittura di registri di holding, sia di registri di coil. I registri di holding verranno utilizzati per memorizzare ed inviare i valori ottenuti dal sensore di temperatura e di umidità, mentre i registri di coil per i sensori di vibrazione, di luce, di distanza e di ostacolo.
 
 \subsection{Relè e luci}
 
@@ -2003,7 +2001,7 @@ I relè, e quindi anche le luci a led, vengono pilotati tramite il microcontroll
 
 ~
 
-Per questo, lo slave è in grado di interpretare solo messaggi di lettura/scrittura coil, poiché rappresentano bene il messaggio di on/off dei relè. Nell'architettura di origine di questo protocollo infatti i registri di coil venivano associati direttamente ai relè collegati al PLC. 
+Per questo, lo Slave è in grado di interpretare solo messaggi di lettura/scrittura coil, poiché rappresentano bene il messaggio di on/off dei relè. Nell'architettura di origine di questo protocollo infatti i registri di coil venivano associati direttamente ai relè collegati al PLC. 
 
 
 \chapter{Diagramma dei componenti}
@@ -2012,7 +2010,7 @@ Di seguito si riporta l'organizzazione di tutto il progetto
 
 \subsection{Architettura Hardware}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=4.5]{archihard.pdf}
 \caption{Architettura del sistema hardware}
@@ -2020,7 +2018,7 @@ Di seguito si riporta l'organizzazione di tutto il progetto
 
 \newpage
 \subsection{Architettura Software}
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.4]{deploy.png}
 \caption{Architettura del sistema software}
@@ -2062,11 +2060,11 @@ Per la parte di deploy, poiché LPCXpresso non permette di interfacciarsi dirett
 
 \section{PIC16F77}
 
-Questa architettura è completamente diversa da quelle descritte precedentemente, in quanto i Pic non hanno la possibilità di comunicare via JTAG e fare il relativo deploy e debug, ma hanno bisogno di un hardware specifico. Per questo è stato utilizzato un programmatore specifico per Pic chiamato Pickit3, che esegue solamente il deploy attivando dei pin specifici del microcontrollore.
+Questa architettura è completamente diversa da quelle descritte precedentemente, in quanto i PIC non hanno la possibilità di comunicare via JTAG e fare il relativo deploy e debug, ma hanno bisogno di un hardware specifico. Per questo è stato utilizzato un programmatore specifico per PIC chiamato PICkit3, che esegue solamente il deploy attivando dei pin specifici del microcontrollore.
 
 ~
 
-Per utilizzare il Pickit3 e compilare il progetto, è necessario utilizzare un IDE apposito chiamato MPLAB. Questo IDE però non offre il compilatore specifico per le famiglie di Pic, poiché bisognerebbe acquistarli. È stato quindi utilizzato un compilatore in versione Lite (non a pagamento ma non offre l'ottimizzazione massima di codice) chiamato XC8. 
+Per utilizzare il PICkit3 e compilare il progetto, è necessario utilizzare un IDE apposito chiamato MPLAB. Questo IDE però non offre il compilatore specifico per le famiglie di PIC, poiché bisognerebbe acquistarli. È stato quindi utilizzato un compilatore in versione Lite (non a pagamento ma non offre l'ottimizzazione massima di codice) chiamato XC8. 
 
 
 
