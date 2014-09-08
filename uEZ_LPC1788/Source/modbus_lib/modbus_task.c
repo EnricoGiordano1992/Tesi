@@ -21,6 +21,8 @@ T_uezTask alarm_t;
 int gia_accese = 0;
 int gia_spente = 1;
 
+int counter = 0;
+
 /***********************************
 *
 * DECLARATION SECTION
@@ -165,8 +167,9 @@ void modbus_sensor_check(){
 //controlla che, in base al check relativo, debba accendere o spegnere i led
 void led_function(){
 	
-		if(check_sensors.light != 0){
-		
+	
+		if(check_sensors.light != 0 && (counter++ >2)){
+		counter=0;
 		if(sensors.light == 0){
 			if(!gia_accese){
 				

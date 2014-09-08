@@ -129,6 +129,13 @@ void MODBUS_SERIAL_WAIT_FOR_RESPONSE()
         else
            modbus_rx.error = 0;
 
+				modbus_calc_crc('0');
+
+				//crc_high=modbus_serial_crc.b[1];
+				//crc_low=modbus_serial_crc.b[0];
+
+				if(modbus_serial_crc.b[1] != Message[indix] || modbus_serial_crc.b[0] != Message[indix-1])
+					modbus_rx.error = TIMEOUT;
 
         modbus_serial_wait = MODBUS_SERIAL_TIMEOUT;
         modbus_serial_new = TRUE;
@@ -210,6 +217,7 @@ void uart_rx_interrupt(void)
 
       if(modbus_serial_state == MODBUS_GETADDY)
       {
+				 indix = 0;
          modbus_serial_crc.d = 0xFFFF;
          modbus_rx.address = c;
          modbus_serial_state++;

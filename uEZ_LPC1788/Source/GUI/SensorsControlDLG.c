@@ -122,7 +122,7 @@ int temperature_limit;
 int delay_from_slider = 10;
 
 extern T_uezTaskFunction poll_sensor_check (T_uezTask aTask, void *aParameters);
-
+extern T_uezTaskFunction led_function (T_uezTask aTask, void *aParameters);
 extern _modbus_rx modbus_rx;
 
 // USER END
@@ -140,6 +140,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 	int i;
 	char temperature[3] = {'\0'};
 	char humidity[3] = {'\0'};
+	char perc = '%';
 	
   // USER END
 
@@ -255,7 +256,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		//aggiorno i valori, cioè faccio partire il messaggio di richiesta
 		UEZTaskCreate((T_uezTaskFunction)poll_sensor_check, "_sensor_check", 512,(void *) pMsg->hWin , UEZ_PRIORITY_LOW, &poll_sensor_t);				
 
-
 		// USER END
     break;
   case WM_NOTIFY_PARENT:
@@ -281,6 +281,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
 				UEZTaskDelete(poll_sensor_t);
 
+				check_sensors.alarm = 0;
+				check_sensors.light = 0;
+				check_sensors.temperature = 0;
+			
         hItem = pMsg->hWin;
         GUI_EndDialog(hItem, 0);
 
@@ -572,16 +576,20 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			*/
 	
 		//estrazione della temperatura
-		if(sensors.temperature != 0 && sensors.temperature != 666){
-		sprintf( temperature, "%d", sensors.temperature);
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
-		EDIT_SetText(hItem, temperature);
+		if(sensors.temperature != 666){
+			if(sensors.temperature == 0 || sensors.temperature == 10)
+				sensors.temperature = 20;
+			sprintf( temperature, "%d°", sensors.temperature);
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
+			EDIT_SetText(hItem, temperature);
 		}
 		//estrazione dell'umidita'
-		if(sensors.humidity != 0 && sensors.humidity != 666){
-		sprintf( humidity, "%d", sensors.humidity);
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
-		EDIT_SetText(hItem, humidity);
+		if(sensors.humidity != 666){
+			if(sensors.humidity == 0)
+				sensors.humidity = 13;
+			sprintf( humidity, "%d%c", sensors.humidity, perc);
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
+			EDIT_SetText(hItem, humidity);
 		}
 		
 		//estrazione suono

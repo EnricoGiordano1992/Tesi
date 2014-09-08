@@ -1413,10 +1413,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>58</ColumnNumber>
+      <ColumnNumber>28</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>300</TopLine>
-      <CurrentLine>307</CurrentLine>
+      <TopLine>565</TopLine>
+      <CurrentLine>591</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\..\Source\GUI\SensorsControlDLG.c</PathWithFileName>
       <FilenameWithoutPath>SensorsControlDLG.c</FilenameWithoutPath>
