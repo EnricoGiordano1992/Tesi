@@ -1,0 +1,59 @@
+\BOOKMARK [0][-]{chapter.1}{Il progetto}{}% 1
+\BOOKMARK [0][-]{chapter.2}{Architettura Hardware}{}% 2
+\BOOKMARK [1][-]{section.2.1}{LPC1788}{chapter.2}% 3
+\BOOKMARK [1][-]{section.2.2}{LPC1768}{chapter.2}% 4
+\BOOKMARK [1][-]{section.2.3}{PIC16F77}{chapter.2}% 5
+\BOOKMARK [1][-]{section.2.4}{Bus RS232}{chapter.2}% 6
+\BOOKMARK [1][-]{section.2.5}{Considerazioni}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.6}{Altri componenti}{chapter.2}% 8
+\BOOKMARK [2][-]{subsection.2.6.1}{Sensori}{section.2.6}% 9
+\BOOKMARK [2][-]{subsection.2.6.2}{DHT11}{section.2.6}% 10
+\BOOKMARK [2][-]{subsection.2.6.3}{Rel\350}{section.2.6}% 11
+\BOOKMARK [2][-]{subsection.2.6.4}{Luci a led}{section.2.6}% 12
+\BOOKMARK [2][-]{subsection.2.6.5}{Foto del sistema hardware}{section.2.6}% 13
+\BOOKMARK [0][-]{chapter.3}{Architettura Software}{}% 14
+\BOOKMARK [1][-]{section.3.1}{Dispositivo Master}{chapter.3}% 15
+\BOOKMARK [2][-]{subsection.3.1.1}{uEZ}{section.3.1}% 16
+\BOOKMARK [2][-]{subsection.3.1.2}{emWin}{section.3.1}% 17
+\BOOKMARK [1][-]{section.3.2}{Dispositivi Slave}{chapter.3}% 18
+\BOOKMARK [2][-]{subsection.3.2.1}{FreeRTOS}{section.3.2}% 19
+\BOOKMARK [0][-]{chapter.4}{Modello di sistema}{}% 20
+\BOOKMARK [1][-]{section.4.1}{Use Case Diagram}{chapter.4}% 21
+\BOOKMARK [1][-]{section.4.2}{Sequence Diagram}{chapter.4}% 22
+\BOOKMARK [0][-]{chapter.5}{Implementazione del sistema}{}% 23
+\BOOKMARK [1][-]{section.5.1}{Protocollo Modbus}{chapter.5}% 24
+\BOOKMARK [2][-]{subsection.5.1.1}{Tipi di messaggi}{section.5.1}% 25
+\BOOKMARK [2][-]{subsection.5.1.2}{Registri}{section.5.1}% 26
+\BOOKMARK [2][-]{subsection.5.1.3}{Tipi di richiesta}{section.5.1}% 27
+\BOOKMARK [2][-]{subsection.5.1.4}{CRC16}{section.5.1}% 28
+\BOOKMARK [2][-]{subsection.5.1.5}{Sincronizzazione}{section.5.1}% 29
+\BOOKMARK [1][-]{section.5.2}{Implementazione del protocollo Modbus}{chapter.5}% 30
+\BOOKMARK [2][-]{subsection.5.2.1}{Master}{section.5.2}% 31
+\BOOKMARK [2][-]{subsection.5.2.2}{Slave}{section.5.2}% 32
+\BOOKMARK [1][-]{section.5.3}{Funzionamento generale di PIC16F77}{chapter.5}% 33
+\BOOKMARK [2][-]{subsection.5.3.1}{Main}{section.5.3}% 34
+\BOOKMARK [1][-]{section.5.4}{Funzionamento generale di LPC1768}{chapter.5}% 35
+\BOOKMARK [2][-]{subsection.5.4.1}{Main}{section.5.4}% 36
+\BOOKMARK [2][-]{subsection.5.4.2}{Modello dei dati}{section.5.4}% 37
+\BOOKMARK [2][-]{subsection.5.4.3}{MainTask}{section.5.4}% 38
+\BOOKMARK [1][-]{section.5.5}{Funzionamento generale di LPC1788}{chapter.5}% 39
+\BOOKMARK [2][-]{subsection.5.5.1}{Adattamento delle API}{section.5.5}% 40
+\BOOKMARK [2][-]{subsection.5.5.2}{Modbus Master}{section.5.5}% 41
+\BOOKMARK [2][-]{subsection.5.5.3}{Progettazione interfaccia grafica}{section.5.5}% 42
+\BOOKMARK [2][-]{subsection.5.5.4}{Modello dei dati}{section.5.5}% 43
+\BOOKMARK [2][-]{subsection.5.5.5}{Software dell'interfaccia}{section.5.5}% 44
+\BOOKMARK [1][-]{section.5.6}{Interfaccia grafica}{chapter.5}% 45
+\BOOKMARK [2][-]{subsection.5.6.1}{Men\371 principale}{section.5.6}% 46
+\BOOKMARK [2][-]{subsection.5.6.2}{Controllo Luci}{section.5.6}% 47
+\BOOKMARK [2][-]{subsection.5.6.3}{Controllo Sensori}{section.5.6}% 48
+\BOOKMARK [2][-]{subsection.5.6.4}{Schermata di Debug}{section.5.6}% 49
+\BOOKMARK [1][-]{section.5.7}{Interazione con i componenti hardware}{chapter.5}% 50
+\BOOKMARK [2][-]{subsection.5.7.1}{Sensori}{section.5.7}% 51
+\BOOKMARK [2][-]{subsection.5.7.2}{Rel\350 e luci}{section.5.7}% 52
+\BOOKMARK [0][-]{chapter.6}{Diagramma dei componenti}{}% 53
+\BOOKMARK [1][-]{subsection.6.0.3}{Architettura Hardware}{chapter.6}% 54
+\BOOKMARK [2][-]{subsection.6.0.4}{Architettura Software}{subsection.6.0.3}% 55
+\BOOKMARK [0][-]{chapter.7}{Programmi utilizzati}{}% 56
+\BOOKMARK [1][-]{section.7.1}{LPC1788}{chapter.7}% 57
+\BOOKMARK [1][-]{section.7.2}{LPC1768}{chapter.7}% 58
+\BOOKMARK [1][-]{section.7.3}{PIC16F77}{chapter.7}% 59
