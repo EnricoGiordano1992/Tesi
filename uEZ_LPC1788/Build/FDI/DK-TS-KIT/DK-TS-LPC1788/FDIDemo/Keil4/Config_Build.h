@@ -34,7 +34,7 @@
 
 #if (FDI_PLATFORM == CARRIER_R4)
 #define UEZ_ENABLE_WIRELESS_NETWORK     	0
-#define UEZ_WIRELESS_PROGRAM_MODE           0
+#define UEZ_WIRELESS_PROGRAM_MODE         0
 #define UEZ_ENABLE_AUDIO_CODEC          	1
 #define UEZ_ENABLE_AUDIO_AMP            	1
 #define UEZ_ENABLE_I2S_AUDIO            	0
@@ -46,11 +46,11 @@
 #endif
 
 #define UEZ_ENABLE_USB_HOST_STACK   		1
-#define UEZ_ENABLE_USB_DEVICE_STACK         1
-#define UEZ_ENABLE_TCPIP_STACK      		0
+#define UEZ_ENABLE_USB_DEVICE_STACK     1
+#define UEZ_ENABLE_TCPIP_STACK      		1
 #define UEZ_BASIC_WEB_SERVER        		UEZ_ENABLE_TCPIP_STACK
 #define UEZ_ENABLE_WIRED_NETWORK    		UEZ_ENABLE_TCPIP_STACK
-#define UEZ_HTTP_SERVER             		0
+#define UEZ_HTTP_SERVER             		1
 #define INTERRUPT_BASED_EMAC        		1
 
 #define DKTS_BUTTON_SLIDE_SHOW_DEMO        	0 // set to 1 to be able to load emwin or slideshows using buttons

@@ -21,7 +21,7 @@
 #endif
 
 #ifndef HTTP_SERVER_DRIVE
-#define HTTP_SERVER_DRIVE      "1:/HTTPROOT" // "1" for SD card, "0" for USB drive
+#define HTTP_SERVER_DRIVE      "0:/HTTPROOT" // "1" for SD card, "0" for USB drive
 #endif
  
 T_uezError App_HTTPServerStart(T_uezDevice network);

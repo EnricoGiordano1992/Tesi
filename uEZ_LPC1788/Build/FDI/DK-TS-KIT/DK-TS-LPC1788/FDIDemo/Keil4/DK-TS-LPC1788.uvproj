@@ -357,7 +357,7 @@
               <MiscControls></MiscControls>
               <Define>COMPILER_TYPE=Keil4, GCC_ARMCM3, DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>.;../../../../../../.;../../../../../../Source/App/DKTSKit;../../../../../../Source/App/uEZDemoCommon;../../../../../../Source/App/SEGGER/emWin/GUIDEMO;../../../../../../../uEZ;../../../../../../../uEZ/Include;../../../../../../../uEZ/Source/Platform/FDI/CARRIER_LPC1788;../../../../../../../uEZ/Source/Processor/NXP/LPC17xx_40xx;../../../../../../../uEZ/Source/RTOS/FreeRTOS/include;../../../../../../../uEZ/Source/RTOS/FreeRTOS/portable/RVDS/ARM_CM3;../../../../../../../uEZ/Source/Library/lwIP/src/include;../../../../../../../uEZ/Source/Library/lwIP/src;../../../../../../../uEZ/Source/Library/lwIP/Include;../../../../../../../uEZ/Source/Library/lwIP/src/include/ipv4;../../../../../../../uEZ/Source/Platform/emWin/;../../../../../../../uEZ/Source/Platform/emWin/Config;../../../../../../../uEZ/Source/Platform/emWin/Inc;../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin;../../../../../../../uEZ/Source/Processor/NXP/LPC17xx_40xx/Keil4/include;..\..\..\..\..\..\Source;..\..\..\..\..\..\Source\Data_Model;..\..\..\..\..\..\Source\CMSIS_modbus;..\..\..\..\..\..\Source\GUI;..\..\..\..\..\..\Source\modbus_lib;..\..\..\..\..\..\..\uEZ\Source\Library\Graphics\SWIM;..\..\..\..\..\..\Source\App\GUICommon;..\..\..\..\..\..\Source\App\libwebsockets\lib</IncludePath>
+              <IncludePath>.;../../../../../../.;../../../../../../Source/App/DKTSKit;../../../../../../Source/App/uEZDemoCommon;../../../../../../Source/App/SEGGER/emWin/GUIDEMO;../../../../../../../uEZ;../../../../../../../uEZ/Include;../../../../../../../uEZ/Source/Platform/FDI/CARRIER_LPC1788;../../../../../../../uEZ/Source/Processor/NXP/LPC17xx_40xx;../../../../../../../uEZ/Source/RTOS/FreeRTOS/include;../../../../../../../uEZ/Source/RTOS/FreeRTOS/portable/RVDS/ARM_CM3;../../../../../../../uEZ/Source/Library/lwIP/src/include;../../../../../../../uEZ/Source/Library/lwIP/src;../../../../../../../uEZ/Source/Library/lwIP/Include;../../../../../../../uEZ/Source/Library/lwIP/src/include/ipv4;../../../../../../../uEZ/Source/Platform/emWin/;../../../../../../../uEZ/Source/Platform/emWin/Config;../../../../../../../uEZ/Source/Platform/emWin/Inc;../../../../../../../uEZ/Source/Library/GUI/SEGGER/emWin;../../../../../../../uEZ/Source/Processor/NXP/LPC17xx_40xx/Keil4/include;..\..\..\..\..\..\Source;..\..\..\..\..\..\Source\Data_Model;..\..\..\..\..\..\Source\CMSIS_modbus;..\..\..\..\..\..\Source\GUI;..\..\..\..\..\..\Source\modbus_lib;..\..\..\..\..\..\..\uEZ\Source\Library\Graphics\SWIM;..\..\..\..\..\..\Source\App\GUICommon;..\..\..\..\..\..\Source\App\Websockets</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -685,6 +685,31 @@
               <FileName>datamodel.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\..\..\Source\Data_Model\datamodel.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Websocket</GroupName>
+          <Files>
+            <File>
+              <FileName>aw-base64.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\..\Source\Websocket\aw-base64.h</FilePath>
+            </File>
+            <File>
+              <FileName>aw-sha1.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\..\Source\Websocket\aw-sha1.h</FilePath>
+            </File>
+            <File>
+              <FileName>websocket.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\..\..\Source\Websocket\websocket.c</FilePath>
+            </File>
+            <File>
+              <FileName>websocket.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\..\Source\Websocket\websocket.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1372,6 +1397,31 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>Websocket</GroupName>
+          <Files>
+            <File>
+              <FileName>aw-base64.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\..\Source\Websocket\aw-base64.h</FilePath>
+            </File>
+            <File>
+              <FileName>aw-sha1.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\..\Source\Websocket\aw-sha1.h</FilePath>
+            </File>
+            <File>
+              <FileName>websocket.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\..\..\Source\Websocket\websocket.c</FilePath>
+            </File>
+            <File>
+              <FileName>websocket.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\..\Source\Websocket\websocket.h</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -2053,6 +2103,31 @@
               <FileName>datamodel.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\..\..\Source\Data_Model\datamodel.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Websocket</GroupName>
+          <Files>
+            <File>
+              <FileName>aw-base64.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\..\Source\Websocket\aw-base64.h</FilePath>
+            </File>
+            <File>
+              <FileName>aw-sha1.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\..\Source\Websocket\aw-sha1.h</FilePath>
+            </File>
+            <File>
+              <FileName>websocket.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\..\..\Source\Websocket\websocket.c</FilePath>
+            </File>
+            <File>
+              <FileName>websocket.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\..\Source\Websocket\websocket.h</FilePath>
             </File>
           </Files>
         </Group>

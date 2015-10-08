@@ -42,6 +42,7 @@
 #include <trcUser.h>
 #endif
 
+
 extern T_uezTask G_mainTask;
 extern void gui_task(const T_choice *aChoice);
 /*---------------------------------------------------------------------------*
