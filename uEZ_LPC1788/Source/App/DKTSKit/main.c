@@ -1,27 +1,3 @@
-/*-------------------------------------------------------------------------*
- * File:  main.c
- *-------------------------------------------------------------------------*
- * Description:
- *      Example program that tests the LCD, Queue, Semaphore, and
- *      touchscreen features.
- *
- * Implementation:
- *-------------------------------------------------------------------------*/
-
-/*--------------------------------------------------------------------------
- * uEZ(R) - Copyright (C) 2007-2010 Future Designs, Inc.
- *--------------------------------------------------------------------------
- * This file is part of the uEZ(R) distribution.  See the included
- * uEZLicense.txt or visit http://www.teamfdi.com/uez for details.
- *
- *    *===============================================================*
- *    |  Future Designs, Inc. can port uEZ(tm) to your own hardware!  |
- *    |             We can get you up and running fast!               |
- *    |      See http://www.teamfdi.com/uez for more details.         |
- *    *===============================================================*
- *
- *-------------------------------------------------------------------------*/
-
 #include <string.h>
 #include <stdio.h>
 #include <uEZ.h>
@@ -42,6 +18,7 @@
 #include <trcUser.h>
 #endif
 
+#include <http.h>
 
 extern T_uezTask G_mainTask;
 extern void gui_task(const T_choice *aChoice);
@@ -106,17 +83,14 @@ void MainTask(void)
 
     // Setup any additional misc. tasks (such as the heartbeat task)
     SetupTasks();
-
     AudioStart();
-
-    // Pass control to the main menu
     MainMenu();
 
 		  while(1) 
-                  {
-                    modbus_init();
-                    gui_task(0);  
-                  }
+			{
+					modbus_init();
+					gui_task(0);  
+			}
 		
     // We should not exit main unless we want to reset the board
    // return 0;

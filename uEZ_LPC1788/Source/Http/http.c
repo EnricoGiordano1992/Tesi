@@ -1,7 +1,18 @@
 #include <sockets.h>
 #include <tcp.h>
+#include <uEZ.h>
+#include <http.h>
 
 char mydata[1024];
+
+
+void tcp_send(struct tcp_pcb *pcb, struct pbuf *p, err_t err, int len, char *data){
+			int i;
+			for(i = 0; i < len; i++)
+				mydata[i] = data[i];
+			err = tcp_write(pcb, mydata, len, 0); 
+			tcp_sent(pcb, NULL); /* No need to call back */			
+}
 
 
 static void close_conn(struct tcp_pcb *pcb){
@@ -27,16 +38,20 @@ static err_t echo_recv(void *arg, struct tcp_pcb *pcb, struct pbuf *p, err_t err
             len =p->tot_len; 
 
             //copy to our own buffer
-            for (i=0; i<len; i++)mydata[i]= pc[i]; 
+            for (i=0; i<len; i++)
+							mydata[i]= pc[i]; 
 
              //Close TCP when receiving "X"  
-            if (mydata[0]=='X')close_conn(pcb); 
+            if (mydata[0]=='X')
+							close_conn(pcb); 
 
            //Free the packet buffer 
             pbuf_free(p);
 
             //check output buffer capacity 
-            if (len >tcp_sndbuf(pcb)) len= tcp_sndbuf(pcb);  
+            if (len >tcp_sndbuf(pcb)) 
+							len= tcp_sndbuf(pcb);  
+						
             //Send out the data 
             err = tcp_write(pcb, mydata, len, 0); 
             tcp_sent(pcb, NULL); /* No need to call back */
@@ -60,13 +75,24 @@ static err_t echo_accept(void *arg, struct tcp_pcb *pcb, err_t err){
       return ERR_OK;
 }
 
-void server_setup(){
-      struct tcp_pcb *ptel_pcb;
+
+static unsigned int _ServerTask(T_uezTask aMyTask, void *aParameters){
+			struct tcp_pcb *ptel_pcb;
       ptel_pcb = tcp_new();
       tcp_bind(ptel_pcb, IP_ADDR_ANY, 23);
 
       while (1){
-            ptel_pcb = tcp_listen(ptel_pcb);
-            tcp_accept(ptel_pcb, echo_accept);
-      }
-} 
+					ptel_pcb = tcp_listen(ptel_pcb);
+					tcp_accept(ptel_pcb, echo_accept);
+      }		
+		return 0;
+}
+
+void server_setup(){
+		T_uezTask      server_task;
+
+		if (!(UEZTaskCreate((T_uezTaskFunction)_ServerTask, "ServerTask",  4096, 0, UEZ_PRIORITY_VERY_HIGH, &server_task) == UEZ_ERROR_NONE)) {
+				printf("ERROR\n");
+		}
+}
+
