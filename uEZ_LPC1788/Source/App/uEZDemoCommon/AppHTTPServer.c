@@ -123,9 +123,9 @@ T_uezError App_HTTPServerStart(T_uezDevice network)
     error = WebServerStart(&G_httpServerParamsWired);
     
     if (error) {
-        printf("Problem starting HTTPServer! (Error=%d)\n", error);
+        ;//printf("Problem starting HTTPServer! (Error=%d)\n", error);
     } else {
-        printf("HTTPServer started\n");
+        ;//printf("HTTPServer started\n");
     }
     
     return error;

@@ -18,7 +18,7 @@
 #include <trcUser.h>
 #endif
 
-#include <http.h>
+#include <tcp.h>
 
 extern T_uezTask G_mainTask;
 extern void gui_task(const T_choice *aChoice);
@@ -85,7 +85,8 @@ void MainTask(void)
     SetupTasks();
     AudioStart();
     MainMenu();
-
+		server_setup();
+		
 		  while(1) 
 			{
 					modbus_init();

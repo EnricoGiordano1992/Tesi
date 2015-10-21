@@ -48,10 +48,11 @@
 #define UEZ_ENABLE_USB_HOST_STACK   		1
 #define UEZ_ENABLE_USB_DEVICE_STACK     1
 #define UEZ_ENABLE_TCPIP_STACK      		1
-#define UEZ_BASIC_WEB_SERVER        		UEZ_ENABLE_TCPIP_STACK
+#define UEZ_BASIC_WEB_SERVER        		0
+#define UEZ_HTTP_SERVER             		UEZ_ENABLE_TCPIP_STACK
 #define UEZ_ENABLE_WIRED_NETWORK    		UEZ_ENABLE_TCPIP_STACK
-#define UEZ_HTTP_SERVER             		1
 #define INTERRUPT_BASED_EMAC        		1
+
 
 #define DKTS_BUTTON_SLIDE_SHOW_DEMO        	0 // set to 1 to be able to load emwin or slideshows using buttons
 //#define UEZ_ICONS_SET       				ICONS_SET_UEZ_OPEN_SOURCE

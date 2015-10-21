@@ -202,7 +202,7 @@ void INetworkConfigureWiredConnection(T_uezDevice network)
         { 0, 0, 0, 0, 0, 0 },
 
         // IP Address
-        { 0, 0, 0, 0 },
+        { 192, 168, 1, 3 },
         // Subnet mask
         { 255, 255, 255, 0 },
         // Gateway address
@@ -253,9 +253,9 @@ void INetworkConfigureWiredConnection(T_uezDevice network)
     UEZNetworkIPV4StringToAddr(buffer, &settings.iGatewayAddress);
     UEZINIClose(ini);
 #elif 0
-    UEZNetworkIPV4StringToAddr("192.168.10.2", &network_settings.iIPAddress);
+    UEZNetworkIPV4StringToAddr("192.168.40.50", &network_settings.iIPAddress);
     UEZNetworkIPV4StringToAddr("255.255.255.0", &network_settings.iSubnetMask);
-    UEZNetworkIPV4StringToAddr("192.168.10.0", &network_settings.iGatewayAddress);
+    UEZNetworkIPV4StringToAddr("192.168.40.1", &network_settings.iGatewayAddress);
 #else
     // Use non-volatile settings
     // Wired network uses the settings in NVSettings
@@ -287,7 +287,7 @@ TUInt32 NetworkStartup(T_uezTask aMyTask, void *aParams)
     // ----------------------------------------------------------------------
     // Bring up the Wired Network
     // ----------------------------------------------------------------------
-    printf("Bringing up wired network: Start\n");
+    //printf("Bringing up wired network: Start\n");
 
     // First, get the Wired Network connection
     UEZPlatform_WiredNetwork0_Require();
@@ -312,7 +312,7 @@ TUInt32 NetworkStartup(T_uezTask aMyTask, void *aParams)
     if (error) {
         printf("Bringing up wired network: **FAILED** (error = %d)\n", error);
     } else {
-        printf("Bringing up wired network: Done\n");
+        ;//printf("Bringing up wired network: Done\n");
     }
 #endif
 
@@ -351,12 +351,12 @@ TUInt32 NetworkStartup(T_uezTask aMyTask, void *aParams)
 #endif
 
 #if UEZ_BASIC_WEB_SERVER
-    printf("Webserver starting\n");
+    //printf("Webserver starting\n");
     error = BasicWebStart(wired_network);
     if (error) {
-        printf("Problem starting BasicWeb! (Error=%d)\n", error);
+        ;//printf("Problem starting BasicWeb! (Error=%d)\n", error);
     } else {
-        printf("BasicWeb started\n");
+        ;//printf("BasicWeb started\n");
     }
 #endif
 

@@ -99,25 +99,26 @@ void iSetSlider(const T_LAFMapping *p, WM_HWIN hItem);
  *---------------------------------------------------------------------------*/
 static const GUI_WIDGET_CREATE_INFO _iDemoDialog[] = {
   //Function                 Text                       ID                      XP                  YP                      XS                      YS
-    {WINDOW_CreateIndirect    , ""                      , DEMO_WINDOW           , 0                 , 0                 , UEZ_LCD_DISPLAY_WIDTH     , UEZ_LCD_DISPLAY_HEIGHT    , 0, 0, 0},
-    {TEXT_CreateIndirect      , "FDI emWin Demo"        , DEMO_TITLE_TEXT       , TEXT_XPOS         , TEXT_YPOS         , TEXT_XSIZE                 , TEXT_YSIZE               , TEXT_CF_HCENTER | TEXT_CF_VCENTER, 0, 0},
-    {BUTTON_CreateIndirect    , "Enter Text Here..."    , DEMO_KEYBOARD_BUTTON  , BUTTON_XPOS(0)    , BUTTON_YPOS(1)    , BUTTON_XSIZE              , BUTTON_YSIZE              , 0, 0, 0},
-    {BUTTON_CreateIndirect    , "Enter Numbers Here.."  , DEMO_KEYPAD_BUTTON    , BUTTON_XPOS(0)    , BUTTON_YPOS(2)    , BUTTON_XSIZE              , BUTTON_YSIZE              , 0, 0, 0},
-    {BUTTON_CreateIndirect    , "Close"                 , DEMO_CLOSE_BUTTON     , BUTTON_XPOS(0)    , BUTTON_YPOS(3)    , BUTTON_XSIZE              , BUTTON_YSIZE              , 0, 0, 0},
-    {TEXT_CreateIndirect      , "Backlight Level"       , DEMO_BACKLIGHT_TEXT   , SLIDER_TEXT_XPOS  , SLIDER_TEXT_YPOS  , SLIDER_TEXT_XSIZE         , SLIDER_TEXT_YSIZE         , TEXT_CF_HCENTER | TEXT_CF_VCENTER , 0, 0},
-    {SLIDER_CreateIndirect    , ""                      , DEMO_BACKLIGHT_SLIDER , SLIDER_XPOS       , SLIDER_YPOS       , SLIDER_XSIZE              , SLIDER_YSIZE              , SLIDER_CF_VERTICAL, 0, 0},
-    {TEXT_CreateIndirect      , ""                      , DEMO_RTC_TEXT         , BUTTON_XPOS(0)    , BUTTON_YPOS(4)    , BUTTON_XSIZE              , BUTTON_YSIZE              , TEXT_CF_HCENTER | TEXT_CF_VCENTER , 0, 0},
+//    {WINDOW_CreateIndirect    , ""                      , DEMO_WINDOW           , 0                 , 0                 , UEZ_LCD_DISPLAY_WIDTH     , UEZ_LCD_DISPLAY_HEIGHT    , 0, 0, 0},
+//    {TEXT_CreateIndirect      , "FDI emWin Demo"        , DEMO_TITLE_TEXT       , TEXT_XPOS         , TEXT_YPOS         , TEXT_XSIZE                 , TEXT_YSIZE               , TEXT_CF_HCENTER | TEXT_CF_VCENTER, 0, 0},
+//    {BUTTON_CreateIndirect    , "Enter Text Here..."    , DEMO_KEYBOARD_BUTTON  , BUTTON_XPOS(0)    , BUTTON_YPOS(1)    , BUTTON_XSIZE              , BUTTON_YSIZE              , 0, 0, 0},
+//    {BUTTON_CreateIndirect    , "Enter Numbers Here.."  , DEMO_KEYPAD_BUTTON    , BUTTON_XPOS(0)    , BUTTON_YPOS(2)    , BUTTON_XSIZE              , BUTTON_YSIZE              , 0, 0, 0},
+//    {BUTTON_CreateIndirect    , "Close"                 , DEMO_CLOSE_BUTTON     , BUTTON_XPOS(0)    , BUTTON_YPOS(3)    , BUTTON_XSIZE              , BUTTON_YSIZE              , 0, 0, 0},
+//    {TEXT_CreateIndirect      , "Backlight Level"       , DEMO_BACKLIGHT_TEXT   , SLIDER_TEXT_XPOS  , SLIDER_TEXT_YPOS  , SLIDER_TEXT_XSIZE         , SLIDER_TEXT_YSIZE         , TEXT_CF_HCENTER | TEXT_CF_VCENTER , 0, 0},
+//    {SLIDER_CreateIndirect    , ""                      , DEMO_BACKLIGHT_SLIDER , SLIDER_XPOS       , SLIDER_YPOS       , SLIDER_XSIZE              , SLIDER_YSIZE              , SLIDER_CF_VERTICAL, 0, 0},
+//    {TEXT_CreateIndirect      , ""                      , DEMO_RTC_TEXT         , BUTTON_XPOS(0)    , BUTTON_YPOS(4)    , BUTTON_XSIZE              , BUTTON_YSIZE              , TEXT_CF_HCENTER | TEXT_CF_VCENTER , 0, 0},
+    {0},
 };
 
 static T_LAFMapping demoMapping[] = {
-    { DEMO_WINDOW           , ""     , WINDOW_BK_COLOR        , WINDOW_BK_COLOR   , &TEXT_DEFAULT_FONT    , LAFSetupWindow    , 0},
-    { DEMO_TITLE_TEXT       , ""     , TEXT_BK_COLOR          , TEXT_FONT_COLOR   , &TEXT_DEFAULT_FONT    , LAFSetupText      , 0},
-    { DEMO_KEYBOARD_BUTTON  , ""     , BUTTON_UNPRESSED_COLOR , TEXT_FONT_COLOR   , &BUTTON_DEFAULT_FONT  , LAFSetupButton    , IHandleKeyboardButton},
-    { DEMO_KEYPAD_BUTTON    , ""     , BUTTON_UNPRESSED_COLOR , BUTTON_FONT_COLOR , &BUTTON_DEFAULT_FONT  , LAFSetupButton    , IHandleKeypadButton},
-    { DEMO_CLOSE_BUTTON     , ""     , BUTTON_UNPRESSED_COLOR , BUTTON_FONT_COLOR , &BUTTON_DEFAULT_FONT  , LAFSetupButton    , IHandleCloseButton},
-    { DEMO_BACKLIGHT_TEXT   , ""     , TEXT_BK_COLOR          , TEXT_FONT_COLOR   , &TEXT_DEFAULT_FONT    , LAFSetupText      , 0},
-    { DEMO_BACKLIGHT_SLIDER , ""     , BUTTON_UNPRESSED_COLOR , BUTTON_FONT_COLOR , &BUTTON_DEFAULT_FONT  , iSetSlider        , IHandleValueChanged},
-    { DEMO_RTC_TEXT         , ""     , TEXT_BK_COLOR          , TEXT_FONT_COLOR   , &TEXT_DEFAULT_FONT    , LAFSetupText      , 0},
+//    { DEMO_WINDOW           , ""     , WINDOW_BK_COLOR        , WINDOW_BK_COLOR   , &TEXT_DEFAULT_FONT    , LAFSetupWindow    , 0},
+//    { DEMO_TITLE_TEXT       , ""     , TEXT_BK_COLOR          , TEXT_FONT_COLOR   , &TEXT_DEFAULT_FONT    , LAFSetupText      , 0},
+//    { DEMO_KEYBOARD_BUTTON  , ""     , BUTTON_UNPRESSED_COLOR , TEXT_FONT_COLOR   , &BUTTON_DEFAULT_FONT  , LAFSetupButton    , IHandleKeyboardButton},
+//    { DEMO_KEYPAD_BUTTON    , ""     , BUTTON_UNPRESSED_COLOR , BUTTON_FONT_COLOR , &BUTTON_DEFAULT_FONT  , LAFSetupButton    , IHandleKeypadButton},
+//    { DEMO_CLOSE_BUTTON     , ""     , BUTTON_UNPRESSED_COLOR , BUTTON_FONT_COLOR , &BUTTON_DEFAULT_FONT  , LAFSetupButton    , IHandleCloseButton},
+//    { DEMO_BACKLIGHT_TEXT   , ""     , TEXT_BK_COLOR          , TEXT_FONT_COLOR   , &TEXT_DEFAULT_FONT    , LAFSetupText      , 0},
+//    { DEMO_BACKLIGHT_SLIDER , ""     , BUTTON_UNPRESSED_COLOR , BUTTON_FONT_COLOR , &BUTTON_DEFAULT_FONT  , iSetSlider        , IHandleValueChanged},
+//    { DEMO_RTC_TEXT         , ""     , TEXT_BK_COLOR          , TEXT_FONT_COLOR   , &TEXT_DEFAULT_FONT    , LAFSetupText      , 0},
     {0},
 };
 
@@ -261,9 +262,9 @@ static TBool IHandleKeyboardButton(WM_MESSAGE * pMsg, int aNCode, int aID)
     if (aNCode == WM_NOTIFICATION_RELEASED) {
         hItem = WM_GetDialogItem(pMsg->hWin, DEMO_KEYBOARD_BUTTON);
         data[0] = '\0';
-        if(Keyboard(data, "Enter Text", 25, showKeys)){
-            BUTTON_SetText(hItem, data);
-        }
+//        if(Keyboard(data, "Enter Text", 25, showKeys)){
+//            BUTTON_SetText(hItem, data);
+//        }
     }
     return EFalse;
 }
@@ -286,9 +287,9 @@ static TBool IHandleKeypadButton(WM_MESSAGE * pMsg, int aNCode, int aID)
     if (aNCode == WM_NOTIFICATION_RELEASED) {
         hItem = WM_GetDialogItem(pMsg->hWin, DEMO_KEYPAD_BUTTON);
         data[0] = '\0';
-        if(Keypad(data, 15, "Enter Numeric Data", "")){ //not using formating
-            BUTTON_SetText(hItem, data);
-        }
+//        if(Keypad(data, 15, "Enter Numeric Data", "")){ //not using formating
+//            BUTTON_SetText(hItem, data);
+//        }
     }
     return EFalse;
 }
@@ -340,7 +341,7 @@ static void _DemoDialog(WM_MESSAGE *pMsg)
     case WM_INIT_DIALOG:
         Id    = WM_GetId(pMsg->hWinSrc);
         NCode = pMsg->Data.v;
-        LAFSetup(pMsg->hWin, DEMO_WINDOW, demoMapping);
+//        LAFSetup(pMsg->hWin, DEMO_WINDOW, demoMapping);
         rtcTimer = WM_CreateTimer(pMsg->hWin, DEMO_RTC_UPDATE_TIMER, 0, 0);
 		hItem = WM_GetDialogItem(pMsg->hWin, DEMO_KEYBOARD_BUTTON);
 		BUTTON_SetSkin(hItem, BUTTON_SKIN_FLEX);
@@ -348,9 +349,9 @@ static void _DemoDialog(WM_MESSAGE *pMsg)
     case WM_NOTIFY_PARENT:
         Id = WM_GetId(pMsg->hWinSrc);
         NCode = pMsg->Data.v;
-        if( !LAFHandleEvent(demoMapping, pMsg, NCode, Id)){
+//        if( !LAFHandleEvent(demoMapping, pMsg, NCode, Id)){
             //Handle special cases here
-        }
+//        }
         break;
     case WM_TIMER:
         NCode = pMsg->Data.v;
@@ -360,7 +361,7 @@ static void _DemoDialog(WM_MESSAGE *pMsg)
         }
         break;
     case WM_POST_PAINT:
-        TouchscreenClearPresses();
+//        TouchscreenClearPresses();
         break;
     default:
       WM_DefaultProc(pMsg);

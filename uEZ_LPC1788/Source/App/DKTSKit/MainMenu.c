@@ -88,11 +88,11 @@ TUInt32 CalcChecksumTask(T_uezTask aMyTask, void *aParams)
 }
 #if APP_DEMO_APPS
 static const T_appMenuEntry apps_menu_entries[] = {
-    { "Accelerometer", AccelDemoMode, G_accelIcon, 0 },
-    { "Time & Date", TimeDateMode, G_timeDateIcon, 0 },
-    { "Temperature", TempMode, G_temperatureIcon, 0 },
+//    { "Accelerometer", AccelDemoMode, G_accelIcon, 0 },
+//    { "Time & Date", TimeDateMode, G_timeDateIcon, 0 },
+//    { "Temperature", TempMode, G_temperatureIcon, 0 },
 #if APP_DEMO_EMWIN
-{ "emWin Demo", emWin, G_segger, 0 },
+//{ "emWin Demo", emWin, G_segger, 0 },
 #endif
 { 0 },
 };
@@ -105,11 +105,11 @@ static const T_appMenu apps_submenu = {
 #endif
 
 static const T_appMenuEntry settings_menu_entries[] = {
-    { "Brightness", BrightnessControlMode, G_contrastIcon, 0 },
-    { "Calibrate", CalibrateMode, G_calibrationIcon, 0 },
-    { "Functional Test", FunctionalTest, G_funcTestIcon, 0 },
+//    { "Brightness", BrightnessControlMode, G_contrastIcon, 0 },
+//    { "Calibrate", CalibrateMode, G_calibrationIcon, 0 },
+ //   { "Functional Test", FunctionalTest, G_funcTestIcon, 0 },
 #if ((FDI_PLATFORM == CARRIER_R4) | (FDI_PLATFORM == CARRIER_R4))
-{ "FCT Loopback", FunctionalTestLoop, G_funcTestLoopIcon, 0 },
+//{ "FCT Loopback", FunctionalTestLoop, G_funcTestLoopIcon, 0 },
 #endif
 { 0 },
 };
@@ -121,7 +121,7 @@ static const T_appMenu settings_submenu = {
 
 #if APP_DEMO_COM
 static const T_appMenuEntry comm_menu_entries[] = {
-    { "Console", ConsoleMode, G_consoleIcon, 0 },
+//    { "Console", ConsoleMode, G_consoleIcon, 0 },
     { 0 },
 };
 
@@ -133,22 +133,22 @@ static const T_appMenu comm_submenu = {
 #endif
 
 static const T_appMenuEntry mainmenu_entries[] = {
-    { "Slideshow", MultiSlideshowMode, G_slideshowIcon, 0 },
+//    { "Slideshow", MultiSlideshowMode, G_slideshowIcon, 0 },
 #if APP_DEMO_APPS
-{ "Apps", AppSubmenu, G_appFolderIcon, (void *)&apps_submenu },
+//{ "Apps", AppSubmenu, G_appFolderIcon, (void *)&apps_submenu },
 #endif
 #if APP_DEMO_COM
-{ "Communications", AppSubmenu, G_consoleIcon, (void *)&comm_submenu },
+//{ "Communications", AppSubmenu, G_consoleIcon, (void *)&comm_submenu },
 #endif
-{ "Settings", AppSubmenu, G_settingsIcon, (void *)&settings_submenu },
+//{ "Settings", AppSubmenu, G_settingsIcon, (void *)&settings_submenu },
 #if APP_DEMO_DRAW
-{ "Draw", DrawMode, G_drawIcon, 0 },
+//{ "Draw", DrawMode, G_drawIcon, 0 },
 #endif
 #if APP_DEMO_EMWIN
-{ "emWin Demo", emWin, G_segger, 0 },
+//{ "emWin Demo", emWin, G_segger, 0 },
 #endif
 #if APP_DEMO_YOUR_APP
-{ "Your App Here!", YourAppMode, G_questionIcon, 0 },
+//{ "Your App Here!", YourAppMode, G_questionIcon, 0 },
 #endif
 { 0 },
 };

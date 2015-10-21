@@ -1,0 +1,479 @@
+[HIMDBVersion]
+2.0
+[DATABASE_VERSION]
+"2.8" 
+[PROJECT_DETAILS]
+"UEZDemo" "C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Build\RTA1668RLCD\HEW_H8S7.0\UEZDemo\UEZDemo" "C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Build\RTA1668RLCD\HEW_H8S7.0\UEZDemo\UEZDemo\UEZDemo.hwp" "H8S,H8/300" "Renesas H8S,H8/300 Standard" "Application" "SX" "H8SX/1668" 
+[INFORMATION]
+"No project information available" 
+[TOOL_CHAIN]
+"Renesas H8S,H8/300 Standard Toolchain" "7.0.0.0" 
+[CONFIGURATIONS]
+"Debug" "C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Build\RTA1668RLCD\HEW_H8S7.0\UEZDemo\UEZDemo\Debug" 
+"Release" "C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Build\RTA1668RLCD\HEW_H8S7.0\UEZDemo\UEZDemo\Release" 
+[BUILD_PHASES]
+"Renesas H8S,H8/300 Assembler" 1 
+"Renesas H8S,H8/300 C/C++ Compiler" 1 
+"Renesas H8S,H8/300 C/C++ Library Generator" 1 
+"Renesas OptLinker" 1 
+[TOOL_ENVIRONMENT]
+[EXTENSIONS]
+"Absolute file" "ABS" 
+"Assembly include file" "INC" 
+"Assembly list file" "LIS" 
+"Assembly source file" "ASM" 
+"Assembly source file" "MAR" 
+"Assembly source file" "SRC" 
+"Binary file" "BIN" 
+"C header file" "H" 
+"C list file" "LST" 
+"C source file" "C" 
+"C++ header file" "HPP" 
+"C++ list file" "LPP" 
+"C++ source file" "CC" 
+"C++ source file" "CP" 
+"C++ source file" "CPP" 
+"CPU information file" "CPU" 
+"Calling information file" "CAL" 
+"Debug information file" "DBG" 
+"Expanded assembly source file" "EXP" 
+"Hex file" "HEX" 
+"Library file" "LIB" 
+"Library information file" "LBP" 
+"Linkage map file" "MAP" 
+"Linkage symbol file" "FSY" 
+"Object file" "OBJ" 
+"Optimize map file" "bls" 
+"Preprocessed C source file" "P" 
+"Preprocessed C++ source file" "PP" 
+"Profile file" "PRO" 
+"Relocatable file" "REL" 
+"S-Record file" "MOT" 
+"Stack information file" "SNI" 
+"TD include object file" "RTI" 
+[FILE_GROUPS]
+"Absolute file" "BIN" "NONE" "" 
+"Assembly include file" "TEXT" "EDITOR" "" 
+"Assembly list file" "TEXT" "EDITOR" "" 
+"Assembly source file" "TEXT" "EDITOR" "" 
+"Binary file" "BIN" "NONE" "" 
+"C header file" "TEXT" "EDITOR" "" 
+"C list file" "TEXT" "EDITOR" "" 
+"C source file" "TEXT" "EDITOR" "" 
+"C++ header file" "TEXT" "EDITOR" "" 
+"C++ list file" "TEXT" "EDITOR" "" 
+"C++ source file" "TEXT" "EDITOR" "" 
+"CPU information file" "BIN" "NONE" "" 
+"Calling information file" "BIN" "NONE" "" 
+"Debug information file" "BIN" "NONE" "" 
+"Expanded assembly source file" "TEXT" "EDITOR" "" 
+"Hex file" "TEXT" "EDITOR" "" 
+"Library file" "BIN" "NONE" "" 
+"Library information file" "TEXT" "EDITOR" "" 
+"Linkage map file" "TEXT" "EDITOR" "" 
+"Linkage symbol file" "TEXT" "EDITOR" "" 
+"Object file" "BIN" "NONE" "" 
+"Optimize map file" "BIN" "NONE" "" 
+"Preprocessed C source file" "TEXT" "EDITOR" "" 
+"Preprocessed C++ source file" "TEXT" "EDITOR" "" 
+"Profile file" "BIN" "NONE" "" 
+"Relocatable file" "BIN" "NONE" "" 
+"S-Record file" "TEXT" "EDITOR" "" 
+"Stack information file" "BIN" "NONE" "" 
+"TD include object file" "BIN" "NONE" "" 
+[ASSOCIATED_APPLICATIONS]
+[TOOLCHAIN_PHASE]
+"Renesas H8S,H8/300 Assembler" 
+"Renesas H8S,H8/300 C/C++ Compiler" 
+"Renesas H8S,H8/300 C/C++ Library Generator" 
+"Renesas OptLinker" 
+[UTILITY_PHASE]
+[CUSTOM_PHASES]
+[CUSTOM_PHASE_INPUT_GROUP]
+[CUSTOM_PHASE_OUTPUT_SYNTAX]
+[BUILD_ORDER]
+"Renesas H8S,H8/300 C/C++ Library Generator" 1 
+"Renesas H8S,H8/300 C/C++ Compiler" 1 
+"Renesas H8S,H8/300 Assembler" 1 
+"Renesas OptLinker" 1 
+[BUILD_PHASE_DETAILS]
+"Renesas H8S,H8/300 Assembler" "Assembly source file|Linkage symbol file" 1 
+"Renesas H8S,H8/300 C/C++ Compiler" "C source file|C++ source file" 1 
+"Renesas H8S,H8/300 C/C++ Library Generator" "" 0 
+"Renesas OptLinker" "Object file|Library file|Relocatable file" 0 
+[BUILD_FILE_ORDER_Assembly source file]
+"Renesas H8S,H8/300 Assembler" 1 
+[BUILD_FILE_ORDER_C source file]
+"Renesas H8S,H8/300 C/C++ Compiler" 1 
+[BUILD_FILE_ORDER_C++ source file]
+"Renesas H8S,H8/300 C/C++ Compiler" 1 
+[BUILD_FILE_ORDER_Linkage symbol file]
+"Renesas H8S,H8/300 Assembler" 1 
+[SCRAP]
+"Project Generator Setup File" "$(PROJDIR)\UEZDemo.pgs" 
+[MAPPINGS]
+"Assembly source file" "Renesas H8S,H8/300 Assembler" "Renesas H8S,H8/300 C/C++ Compiler" 
+"Library file" "Renesas OptLinker" "Renesas H8S,H8/300 C/C++ Library Generator" 
+"Object file" "Renesas OptLinker" "Renesas H8S,H8/300 Assembler" 
+"Object file" "Renesas OptLinker" "Renesas H8S,H8/300 C/C++ Compiler" 
+[PROJECT_FILES]
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\Config.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\Device\LCD\Config_LCD.h" "User" "Include|Device|LCD" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZADC.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZCharDisplay.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZDevice.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZDeviceTable.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZErrors.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZFile.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZFlash.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZI2C.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZKeypad.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZLCD.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZLEDBank.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZMemory.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZProcessor.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZRTOS.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZSPI.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZSSP.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZStream.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZTS.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZTemperature.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZTickCounter.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZTimeDate.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZToneGenerator.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZTypes.h" "User" "Include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\AppDemo.h" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\AppTasks.h" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Calibration.c" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Calibration.h" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Choices.c" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Choices.h" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Config_App.h" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\DrawMode.c" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Drawing.c" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Drawing.h" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\H8SXDemo.c" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Images.c" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Images.h" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\MainMenu.c" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\NVSettings.c" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\NVSettings.h" "User" "Source|App" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Devices\LCD\Toshiba\LTA057A347F\lcdDriver.c" "User" "Source|Devices|LCD|Toshiba|LTA057A347F" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Devices\Touchscreen\H8SX\RTA1668RLCD\RTA1668RLCD_TS.c" "User" "Source|Devices|Touchscreen|H8SX|RTA1668RLCD" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Devices\Touchscreen\H8SX\RTA1668RLCD\RTA1668RLCD_TS.h" "User" "Source|Devices|Touchscreen|H8SX|RTA1668RLCD" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_colors.h" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_fonts.h" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_helvr10.c" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_helvr10.h" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_rom8x16.c" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_rom8x16.h" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_rom8x8.c" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_rom8x8.h" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_swim.c" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_swim.h" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_swim_font.c" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_swim_font.h" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_swim_image.c" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_swim_image.h" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_types.h" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_winfreesystem14x16.c" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_winfreesystem14x16.h" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_x5x7.c" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_x5x7.h" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_x6x13.c" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_x6x13.h" "User" "Source|Library|Graphics|SWIM" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\FreeRTOSConfig.h" "User" "Source|Platform|Renesas|RTA1668RLCD" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\RTA1668RLCD_uEZBSP.c" "User" "Source|Platform|Renesas|RTA1668RLCD" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\RTA1668RLCD_uEZPlatform.c" "User" "Source|Platform|Renesas|RTA1668RLCD" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\DirectLCD.h" "User" "Source|Processor|Renesas|H8SX_1668RF" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\DirectLCD_CNF(Sharp_T3).h" "User" "Source|Processor|Renesas|H8SX_1668RF" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\DirectLCD_CNF(Toshiba_LTA057A347F).h" "User" "Source|Processor|Renesas|H8SX_1668RF" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\DirectLCD_XBCFT.c" "User" "Source|Processor|Renesas|H8SX_1668RF" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\ExMemory.c" "User" "Source|Processor|Renesas|H8SX_1668RF" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\ExMemory.h" "User" "Source|Processor|Renesas|H8SX_1668RF" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\H8SX_1668RF.h" "User" "Source|Processor|Renesas|H8SX_1668RF" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\H8SX_1668RF_GPIO.c" "User" "Source|Processor|Renesas|H8SX_1668RF" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\H8SX_1668RF_HALInit.c" "User" "Source|Processor|Renesas|H8SX_1668RF" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\H8SX_1668RF_LCDController.c" "User" "Source|Processor|Renesas|H8SX_1668RF" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\include\FreeRTOS.h" "User" "Source|RTOS|FreeRTOS|include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\include\StackMacros.h" "User" "Source|RTOS|FreeRTOS|include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\include\croutine.h" "User" "Source|RTOS|FreeRTOS|include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\include\list.h" "User" "Source|RTOS|FreeRTOS|include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\include\mpu_wrappers.h" "User" "Source|RTOS|FreeRTOS|include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\include\portable.h" "User" "Source|RTOS|FreeRTOS|include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\include\projdefs.h" "User" "Source|RTOS|FreeRTOS|include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\include\queue.h" "User" "Source|RTOS|FreeRTOS|include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\include\semphr.h" "User" "Source|RTOS|FreeRTOS|include" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\list.c" "User" "Source|RTOS|FreeRTOS" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\portISR.c" "User" "Source|RTOS|FreeRTOS" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\portable\HEW\Renesas\H8S_H8SX\FreeRTOSPort(H8SX1668_TMR).h" "User" "Source|RTOS|FreeRTOS|portable" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\portable\HEW\Renesas\H8S_H8SX\OSLayer.h" "User" "Source|RTOS|FreeRTOS|portable" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\portable\HEW\Renesas\H8S_H8SX\port.c" "User" "Source|RTOS|FreeRTOS|portable" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\portable\HEW\Renesas\H8S_H8SX\portmacro.h" "User" "Source|RTOS|FreeRTOS|portable" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\portable\MemMang\heap_3.c" "User" "Source|RTOS|FreeRTOS|MemMang" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\queue.c" "User" "Source|RTOS|FreeRTOS" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\tasks.c" "User" "Source|RTOS|FreeRTOS" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\uEZRTOS_FreeRTOS.c" "User" "Source|RTOS" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZADC.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZCharDisplay.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZDeviceTable.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZFile.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZHandles.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZI2C.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZInit.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZKeypad.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZLCD.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZLEDBank.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZMemory.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZSPI.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZSSP.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZStream.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZTS.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZTemperature.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZTimeDate.c" "User" "Source|uEZSystem" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZToneGenerator.c" "User" "Source|uEZSystem" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\HAL\ADCBank.h" "User" "Include|HAL" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\HAL\EMAC.h" "User" "Include|HAL" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\HAL\GPIO.h" "User" "Include|HAL" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\HAL\HAL.h" "User" "Include|HAL" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\HAL\I2CBus.h" "User" "Include|HAL" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\HAL\Interrupt.h" "User" "Include|HAL" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\HAL\LCDController.h" "User" "Include|HAL" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\HAL\PWM.h" "User" "Include|HAL" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\HAL\RTC.h" "User" "Include|HAL" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\HAL\SPI.h" "User" "Include|HAL" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\HAL\SSP.h" "User" "Include|HAL" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\HAL\Serial.h" "User" "Include|HAL" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\HAL\Timer.h" "User" "Include|HAL" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\HAL\USBDeviceController.h" "User" "Include|HAL" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\HAL\USBHost.h" "User" "Include|HAL" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Include\uEZ.h" "User" "Include" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\BSP\uEZBSP.h" "User" "Source|BSP" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\BSP\uEZBSPInit.c" "User" "Source|BSP" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\Config_Platform.h" "User" "Source|Platform|Renesas|RTA1668RLCD" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\dbsct.c" "User" "Source|Platform|Renesas|RTA1668RLCD|HEW7" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\intprg.c" "User" "Source|Platform|Renesas|RTA1668RLCD|HEW7" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\iodefine.h" "User" "Source|Platform|Renesas|RTA1668RLCD|HEW7" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\resetprg.c" "User" "Source|Platform|Renesas|RTA1668RLCD|HEW7" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\sbrk.c" "User" "Source|Platform|Renesas|RTA1668RLCD|HEW7" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\sbrk.h" "User" "Source|Platform|Renesas|RTA1668RLCD|HEW7" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\stacksct.h" "User" "Source|Platform|Renesas|RTA1668RLCD|HEW7" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\typedefine.h" "User" "Source|Platform|Renesas|RTA1668RLCD|HEW7" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\Config_Processor.h" "User" "Source|Processor|Renesas|H8SX_1668RF" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\FreeRTOSPort.h" "User" "Source|Processor|Renesas|H8SX_1668RF" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\H8SX_1668RF_Interrupt.c" "User" "Source|Processor|Renesas|H8SX_1668RF" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\hwsetup.h" "User" "Source|Processor|Renesas|H8SX_1668RF" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\HAL.c" "User" "Source|uEZSystem" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZHandles.h" "User" "Include" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZPlatform.h" "User" "Include" 2 
+[FOLDER]
+"C header file" "C header file" 
+"C source file" "C source file" 
+"Include" "Include" 
+"Include|Device" "" 
+"Include|Device|LCD" "" 
+"Include|HAL" "" 
+"Source" "Source" 
+"Source|App" "" 
+"Source|BSP" "" 
+"Source|Devices" "" 
+"Source|Devices|LCD" "" 
+"Source|Devices|LCD|Toshiba" "" 
+"Source|Devices|LCD|Toshiba|LTA057A347F" "" 
+"Source|Devices|Touchscreen" "" 
+"Source|Devices|Touchscreen|H8SX" "" 
+"Source|Devices|Touchscreen|H8SX|RTA1668RLCD" "" 
+"Source|Library" "" 
+"Source|Library|Graphics" "" 
+"Source|Library|Graphics|SWIM" "" 
+"Source|Platform" "" 
+"Source|Platform|Renesas" "" 
+"Source|Platform|Renesas|RTA1668RLCD" "" 
+"Source|Platform|Renesas|RTA1668RLCD|HEW7" "" 
+"Source|Processor" "" 
+"Source|Processor|Renesas" "" 
+"Source|Processor|Renesas|H8SX_1668RF" "" 
+"Source|RTOS" "" 
+"Source|RTOS|FreeRTOS" "" 
+"Source|RTOS|FreeRTOS|MemMang" "" 
+"Source|RTOS|FreeRTOS|include" "" 
+"Source|RTOS|FreeRTOS|portable" "" 
+"Source|uEZSystem" "" 
+[GENERAL_DATA_PROJECT]
+"USE_CUSTOM_LINKAGE_ORDER" "0" 
+[ON_DEMAND_COMPONENTS_LOADED]
+[SYNC_SESSION_NAMES]
+[SESSIONS]
+"DefaultSession" "C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Build\RTA1668RLCD\HEW_H8S7.0\UEZDemo\UEZDemo\DefaultSession.hsf" 0 
+[GENERAL_DATA_SESSION_DefaultSession]
+[OPTIONS_Debug_Renesas H8S,H8/300 Assembler]
+"Assembly source file" "0686d94099bcac10" 4 
+"Linkage symbol file" "0686d94099bcac10" 4 
+[OPTIONS_Debug_Renesas H8S,H8/300 C/C++ Compiler]
+"C source file" "01dac03c516eac10" 2 
+"C++ source file" "01dac03c516eac10" 3 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Calibration.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Choices.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\DrawMode.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Drawing.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\H8SXDemo.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Images.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\MainMenu.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\NVSettings.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Devices\LCD\Toshiba\LTA057A347F\lcdDriver.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Devices\Touchscreen\H8SX\RTA1668RLCD\RTA1668RLCD_TS.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_helvr10.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_rom8x16.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_rom8x8.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_swim.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_swim_font.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_swim_image.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_winfreesystem14x16.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_x5x7.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_x6x13.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\RTA1668RLCD_uEZBSP.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\RTA1668RLCD_uEZPlatform.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\DirectLCD_XBCFT.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\ExMemory.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\H8SX_1668RF_GPIO.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\H8SX_1668RF_HALInit.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\H8SX_1668RF_LCDController.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\list.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\portISR.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\portable\HEW\Renesas\H8S_H8SX\port.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\portable\MemMang\heap_3.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\queue.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\tasks.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\uEZRTOS_FreeRTOS.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZADC.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZCharDisplay.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZDeviceTable.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZFile.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZHandles.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZI2C.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZInit.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZKeypad.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZLCD.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZLEDBank.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZMemory.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZSPI.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZSSP.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZStream.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZTS.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZTemperature.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZTimeDate.c" "01dac03c516eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZToneGenerator.c" "01dac03c516eac10" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\BSP\uEZBSPInit.c" "01dac03c516eac10" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\dbsct.c" "01dac03c516eac10" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\intprg.c" "01dac03c516eac10" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\resetprg.c" "01dac03c516eac10" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\sbrk.c" "01dac03c516eac10" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\H8SX_1668RF_Interrupt.c" "01dac03c516eac10" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\HAL.c" "01dac03c516eac10" 2 
+[OPTIONS_Debug_Renesas H8S,H8/300 C/C++ Library Generator]
+"Single Shot" "0686d94099bcac10" 1 
+[OPTIONS_Debug_Renesas OptLinker]
+"Single Shot" "06a383de416eac10" 5 
+[OPTIONS_Debug]
+"" 0 
+"[V|VERSION|1] [B|DEBUG|1] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|ERRORPATH|1] [B|CHGINCPATH|1] [S|CPU|H8SXA:24:MD] [I|SBR|FFFF00] [B|SKIPDEPENDENCY|1]
+" 4 
+"[V|VERSION|6] [I|SBR|FFFF00] [S|FORM|STYPE] [S|BYTE_COUNT_VALUE|FF] [B|DEBUG|1] [S|ROM|(D,R)] [S|CRC|NONE|00000000] [B|LIST|1] [S|LIST|^"$(CONFIGDIR)\$(PROJECTNAME).map^"] [S|SHOW|METHODCUSTOM] [S|OUTPUT|^"$(CONFIGDIR)\$(PROJECTNAME).mot^"] [I|SPACE|^"FF^"] [B|OPTIMIZE|0] [I|CACHESIZE|000000008] [I|CACHELINE|000000020] [S|START|CDTC_VECT_AD(0558)|PIntPRG(0800)|PResetPRG(01800)|P,C,C$DSEC,C$BSEC,D(01C00)|BLCD_Frames(0400000)|BDTC_TABLE,B,R(0FEE000)|S(0FFBE00)] [I|CPUINFORMATIONCHECK|1] [S|;CHECKDEVICE|ROM,0x00000000,0x000FFFFF|RAM,0x00400000,0x00BFFFFF|RAM,0x00FEE000,0x00FFBFFF] [B|STACK|1] [B|SKIPDEPENDENCY|1]
+" 5 
+"[V|VERSION|6] [S|CPU|H8SXA:24:MD] [S|DOUBLE|FLOAT] [I|SBR|FFFF00] [S|BIT_ORDER|LEFT] [S|INCLUDE|^"$(WORKSPDIR)\\..\..\..\..\Source\App\Demos\H8SXDemo^"|^"$(WORKSPDIR)\..\..\..\..\Source\Platform\Renesas\RTA1668RLCD^"|^"$(WORKSPDIR)\..\..\..\..\Source\Processor\Renesas\H8SX_1668RF^"|^"$(WORKSPDIR)\..\..\..\..^"|^"$(WORKSPDIR)\..\..\..\..\Include^"|^"$(WORKSPDIR)\..\..\..\..\Source\RTOS\FreeRTOS\include^"|^"$(WORKSPDIR)\..\..\..\..\Source\RTOS\FreeRTOS\portable\HEW\Renesas\H8S_H8SX^"] [S|DEFINE|COMPILER_TYPE=HEW] [S|NOMESSAGE|4|5|6|8|12|16|101] [S|LANG|CPP] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|CPUEXPAND|] [S|ASSEMBLY|^"[V|VERSION|1]] [B|DEBUG|1]] [S|OUTPUTPATH|^"^"$(CONFIGDIR)\$(FILELEAF).obj^"^"]] [B|ERRORPATH|1]] [B|CHGINCPATH|1]] [S|CPU|H8SXA:24]] [I|SBR|0]]^"] [I|ALIGN|] [B|LIST|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lpp^"] [B|SPEED|1] [S|SPEED|REGISTER|SWITCH|SHIFT|STRUCT|EXPRESSION|LOOP|INLINE=100] [S|INLINE|DEFAULT] [B|GOPTIMIZE|1] [S|OPT_RANGE|ALL] [I|MAX_UNROLL|1] [S|LIBRARY|FUNCTION] [S|MISRA2004_CHECK_RULE|ALL] [S|MISRA2004_RULE|1.1|3.4|4.1|5.2|5.3|5.4|5.5|5.6|5.7|6.1|6.2|6.3|6.4|6.5|7.1|8.1|8.2|8.3|8.5|8.6|8.7|8.8|8.11|8.12|9.2|9.3|10.1|10.2|10.3|10.4|10.5|10.6|11.1|11.2|11.3|11.4|11.5|12.1|12.2|12.3|12.4|12.5|12.6|12.7|12.8|12.9|12.10|12.11|12.12|12.13|13.1|13.2|13.3|13.4|13.7|14.1|14.2|14.3|14.4|14.5|14.6|14.7|14.8|14.9|14.10|15.1|15.2|15.3|15.4|15.5|16.1|16.2|16.3|16.4|16.5|16.6|16.8|16.9|17.3|17.4|17.5|17.6|18.1|18.2|18.4|19.1|20.2|20.4|20.5|20.7|20.8|20.9|20.10|20.11|20.12] [S|MISRA1998_CHECK_RULE|ALL] [S|MISRA1998_RULE|1|5|8|12|13|14|17|18|19|20|21|22|24|28|29|31|32|33|34|35|36|37|38|39|40|42|43|44|45|46|48|49|50|51|53|54|55|56|57|58|59|60|61|62|63|64|65|68|69|70|71|72|73|74|75|76|77|78|79|80|82|83|84|85|99|101|102|103|104|105|106|108|110|111|112|113|115|118|119|121|122|123|124|125|126|127] [S|MISRA_GROUP_FILE_PATH|^"$(PROJDIR)\$(PROJECTNAME).rde^"] [B|CHGINCPATH|1] [B|SKIPDEPENDENCY|1]
+" 3 
+"[V|VERSION|6] [S|CPU|H8SXA:24:MD] [S|DOUBLE|FLOAT] [I|SBR|FFFF00] [S|BIT_ORDER|LEFT] [S|INCLUDE|^"$(WORKSPDIR)\\..\..\..\..\Source\App\Demos\H8SXDemo^"|^"$(WORKSPDIR)\..\..\..\..\Source\Platform\Renesas\RTA1668RLCD^"|^"$(WORKSPDIR)\..\..\..\..\Source\Processor\Renesas\H8SX_1668RF^"|^"$(WORKSPDIR)\..\..\..\..^"|^"$(WORKSPDIR)\..\..\..\..\Include^"|^"$(WORKSPDIR)\..\..\..\..\Source\RTOS\FreeRTOS\include^"|^"$(WORKSPDIR)\..\..\..\..\Source\RTOS\FreeRTOS\portable\HEW\Renesas\H8S_H8SX^"] [S|DEFINE|COMPILER_TYPE=HEW] [S|NOMESSAGE|4|5|6|8|12|16|101] [S|LANG|C] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|CPUEXPAND|] [S|ASSEMBLY|^"[V|VERSION|1]] [B|DEBUG|1]] [S|OUTPUTPATH|^"^"$(CONFIGDIR)\$(FILELEAF).obj^"^"]] [B|ERRORPATH|1]] [B|CHGINCPATH|1]] [S|CPU|H8SXA:24]] [I|SBR|0]]^"] [I|ALIGN|] [B|LIST|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lst^"] [B|SPEED|1] [S|SPEED|REGISTER|SWITCH|SHIFT|STRUCT|EXPRESSION|LOOP|INLINE=100] [S|INLINE|DEFAULT] [B|GOPTIMIZE|1] [S|OPT_RANGE|ALL] [I|MAX_UNROLL|1] [S|LIBRARY|FUNCTION] [S|MISRA2004_CHECK_RULE|ALL] [S|MISRA2004_RULE|1.1|3.4|4.1|5.2|5.3|5.4|5.5|5.6|5.7|6.1|6.2|6.3|6.4|6.5|7.1|8.1|8.2|8.3|8.5|8.6|8.7|8.8|8.11|8.12|9.2|9.3|10.1|10.2|10.3|10.4|10.5|10.6|11.1|11.2|11.3|11.4|11.5|12.1|12.2|12.3|12.4|12.5|12.6|12.7|12.8|12.9|12.10|12.11|12.12|12.13|13.1|13.2|13.3|13.4|13.7|14.1|14.2|14.3|14.4|14.5|14.6|14.7|14.8|14.9|14.10|15.1|15.2|15.3|15.4|15.5|16.1|16.2|16.3|16.4|16.5|16.6|16.8|16.9|17.3|17.4|17.5|17.6|18.1|18.2|18.4|19.1|20.2|20.4|20.5|20.7|20.8|20.9|20.10|20.11|20.12] [S|MISRA1998_CHECK_RULE|ALL] [S|MISRA1998_RULE|1|5|8|12|13|14|17|18|19|20|21|22|24|28|29|31|32|33|34|35|36|37|38|39|40|42|43|44|45|46|48|49|50|51|53|54|55|56|57|58|59|60|61|62|63|64|65|68|69|70|71|72|73|74|75|76|77|78|79|80|82|83|84|85|99|101|102|103|104|105|106|108|110|111|112|113|115|118|119|121|122|123|124|125|126|127] [S|MISRA_GROUP_FILE_PATH|^"$(PROJDIR)\$(PROJECTNAME).rde^"] [B|CHGINCPATH|1] [B|SKIPDEPENDENCY|1]
+" 2 
+"[V|VERSION|6] [S|MODE|BUILD/CHANGED] [S|EXISTOUTPUTPATH|^"$(CONFIGDIR)\$(PROJECTNAME).lib^"] [B|RUNTIME|1] [B|NEW|1] [B|CTYPE|1] [B|STDARG|1] [B|STDIO|1] [B|STDLIB|1] [B|STRING|1] [S|LANG|C] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(PROJECTNAME).lib^"] [B|NOCPUEXPAND|1] [I|ALIGN|] [S|SPEED|REGISTER|SWITCH|SHIFT|STRUCT|EXPRESSION|LOOP|INLINE=100] [S|INLINE|DEFAULT] [S|OPT_RANGE|ALL] [I|MAX_UNROLL|1] [S|LIBRARY|FUNCTION] [S|CPU|H8SXA:24:MD] [S|DOUBLE|FLOAT] [I|SBR|FFFF00] [S|BIT_ORDER|LEFT] [B|SKIPDEPENDENCY|1]
+" 1 
+[EXCLUDED_FILES_Debug]
+[LINKAGE_ORDER_Debug]
+[GENERAL_DATA_CONFIGURATION_Debug]
+[OPTIONS_Release_Renesas H8S,H8/300 Assembler]
+"Assembly source file" "031dae69f3bcac10" 4 
+"Linkage symbol file" "031dae69f3bcac10" 4 
+[OPTIONS_Release_Renesas H8S,H8/300 C/C++ Compiler]
+"C source file" "031dae69f3bcac10" 2 
+"C++ source file" "01b0c84134bcac10" 3 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Calibration.c" "070ce60f7f2eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Choices.c" "074d48e8203eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\DrawMode.c" "0a4ef2d5203eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Drawing.c" "0832e5c9fd2eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\H8SXDemo.c" "02b63ee11e2eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\Images.c" "0b8bce66203eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\MainMenu.c" "0c5841de416eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\App\Demos\H8SXDemo\NVSettings.c" "031115168f2eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Devices\LCD\Toshiba\LTA057A347F\lcdDriver.c" "063faf4c3b4eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Devices\Touchscreen\H8SX\RTA1668RLCD\RTA1668RLCD_TS.c" "0393678d2f2eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_helvr10.c" "0ec30d5d04bcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_rom8x16.c" "0ec30d5d04bcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_rom8x8.c" "0ec30d5d04bcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_swim.c" "0ec30d5d04bcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_swim_font.c" "0ec30d5d04bcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_swim_image.c" "0ec30d5d04bcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_winfreesystem14x16.c" "0ec30d5d04bcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_x5x7.c" "0ec30d5d04bcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Library\Graphics\SWIM\lpc_x6x13.c" "0ec30d5d04bcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\RTA1668RLCD_uEZBSP.c" "048051872ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\RTA1668RLCD_uEZPlatform.c" "096106472ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\DirectLCD_XBCFT.c" "0cd2c2cbfc2eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\ExMemory.c" "012205db4d2eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\H8SX_1668RF_GPIO.c" "013ccea6cffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\H8SX_1668RF_HALInit.c" "01ed58d15ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\H8SX_1668RF_LCDController.c" "09bde8374c2eac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\list.c" "0ede951175bcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\portISR.c" "0ede951175bcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\portable\HEW\Renesas\H8S_H8SX\port.c" "04dbd55d64bcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\portable\MemMang\heap_3.c" "0b9ceed074bcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\queue.c" "0ede951175bcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\FreeRTOS\tasks.c" "0ede951175bcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\RTOS\uEZRTOS_FreeRTOS.c" "06349756affcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZADC.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZCharDisplay.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZDeviceTable.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZFile.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZHandles.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZI2C.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZInit.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZKeypad.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZLCD.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZLEDBank.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZMemory.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZSPI.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZSSP.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZStream.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZTS.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZTemperature.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZTimeDate.c" "094eaf387ffcac10" 2 
+"C:\FDI\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\uEZToneGenerator.c" "094eaf387ffcac10" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\BSP\uEZBSPInit.c" "0c5b060335fcac10" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\dbsct.c" "089f5d75e4fcac10" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\intprg.c" "089f5d75e4fcac10" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\resetprg.c" "089f5d75e4fcac10" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Platform\Renesas\RTA1668RLCD\HEW7\sbrk.c" "089f5d75e4fcac10" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\Processor\Renesas\H8SX_1668RF\H8SX_1668RF_Interrupt.c" "004e8605d5fcac10" 2 
+"C:\fdi\uEZ\SW\UEZ_SVN\uEZ_SRC\Source\uEZSystem\HAL.c" "0ada4b4a35fcac10" 2 
+[OPTIONS_Release_Renesas H8S,H8/300 C/C++ Library Generator]
+"Single Shot" "031dae69f3bcac10" 1 
+[OPTIONS_Release_Renesas OptLinker]
+"Single Shot" "06a383de416eac10" 5 
+[OPTIONS_Release]
+"" 0 
+"[S|OUTPUTPATH|^"$(CONFIGDIR)\$(PROJECTNAME).lib^"] [V|VERSION|1] [B|RUNTIME|1] [B|NEW|1] [B|CTYPE|1] [B|MATH|0] [B|MATHF|0] [B|STDARG|1] [B|STDIO|1] [B|STDLIB|1] [B|STRING|1] [B|IOS|0] [B|COMPLEX|0] [B|CPPSTRING|0] [B|C99_COMPLEX|0] [B|INTTYPES|0] [B|WCHAR|0] [B|WCTYPE|0] [S|LANG|C] [B|SPEED|0] [S|MODE|BUILD/CHANGED] [S|CPU|H8SXA:24] [S|STACK|MEDIUM] [I|REGPARAM|2] [B|LONGREG|0] [B|STRUCTREG|0] [B|RTTI|0] [S|BIT_ORDER|LEFT] [B|PACK|0] [B|C89STDIO|0] [B|EXCEPTION|0] [I|SBR|FFFF00]" 1 
+"[V|VERSION|1] [B|DEBUG|0] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|LIST|0] [B|CHGINCPATH|1] [B|ERRORPATH|1] [S|CPU|H8SXA:24] [I|SBR|FFFF00]" 4 
+"[V|VERSION|1] [B|OPTIMIZE|0] [S|OUTPUT|^"$(CONFIGDIR)\$(PROJECTNAME).abs^"] [B|LIST|1] [S|LIST|^"$(CONFIGDIR)\$(PROJECTNAME).map^"] [S|ROM|(D,R)] [S|FORM|STYPE] [S|OUTPUT|^"$(CONFIGDIR)\$(PROJECTNAME).mot^"] [I|SBR|FFFF00] [S|START|PResetPRG,PIntPRG(000000400)|P,C,C$DSEC,C$BSEC,D(000000800)|B,R(00FEE000)|S(000FFBE00)]" 5 
+"[V|VERSION|1] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|LIST|0] [B|CHGINCPATH|1] [S|CPU|H8SXA:24] [S|STACK|MEDIUM] [I|REGPARAM|2] [B|LONGREG|0] [B|STRUCTREG|0] [B|RTTI|0] [S|BIT_ORDER|LEFT] [B|PACK|0] [B|C89STDIO|0] [B|EXCEPTION|0] [I|SBR|FFFF00]" 2 
+"[V|VERSION|6] [S|CPU|H8SXA:24] [I|SBR|FFFF00] [S|BIT_ORDER|LEFT] [S|LANG|CPP] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|NOCPUEXPAND|1] [I|ALIGN|] [B|LIST|0] [S|SPEED|REGISTER|SWITCH|SHIFT|STRUCT|EXPRESSION|LOOP|INLINE=110] [S|INLINE|DEFAULT] [S|OPT_RANGE|ALL] [I|MAX_UNROLL|1] [S|LIBRARY|FUNCTION] [S|MISRA2004_CHECK_RULE|ALL] [S|MISRA2004_RULE|1.1|3.4|4.1|5.2|5.3|5.4|5.5|5.6|5.7|6.1|6.2|6.3|6.4|6.5|7.1|8.1|8.2|8.3|8.5|8.6|8.7|8.8|8.11|8.12|9.2|9.3|10.1|10.2|10.3|10.4|10.5|10.6|11.1|11.2|11.3|11.4|11.5|12.1|12.2|12.3|12.4|12.5|12.6|12.7|12.8|12.9|12.10|12.11|12.12|12.13|13.1|13.2|13.3|13.4|13.7|14.1|14.2|14.3|14.4|14.5|14.6|14.7|14.8|14.9|14.10|15.1|15.2|15.3|15.4|15.5|16.1|16.2|16.3|16.4|16.5|16.6|16.8|16.9|17.3|17.4|17.5|17.6|18.1|18.2|18.4|19.1|20.2|20.4|20.5|20.7|20.8|20.9|20.10|20.11|20.12] [S|MISRA1998_CHECK_RULE|ALL] [S|MISRA1998_RULE|1|5|8|12|13|14|17|18|19|20|21|22|24|28|29|31|32|33|34|35|36|37|38|39|40|42|43|44|45|46|48|49|50|51|53|54|55|56|57|58|59|60|61|62|63|64|65|68|69|70|71|72|73|74|75|76|77|78|79|80|82|83|84|85|99|101|102|103|104|105|106|108|110|111|112|113|115|118|119|121|122|123|124|125|126|127] [S|MISRA_GROUP_FILE_PATH|^"$(PROJDIR)\$(PROJECTNAME).rde^"] [B|CHGINCPATH|1]
+" 3 
+[EXCLUDED_FILES_Release]
+[LINKAGE_ORDER_Release]
+[GENERAL_DATA_CONFIGURATION_Release]
+[GENERAL_DATA_CONFIGURATION_SESSION_Debug_DefaultSession]
+[SESSION_DATA_CONFIGURATION_SESSION_Debug_DefaultSession]
+"MEMORY_MAPPING_OPTIONS" "" 
+[GENERAL_DATA_CONFIGURATION_SESSION_Release_DefaultSession]
+[SESSION_DATA_CONFIGURATION_SESSION_Release_DefaultSession]
+"MEMORY_MAPPING_OPTIONS" "" 
+[EXT_DEBUGGER_INFO]
+0 "" "" "" "" 
+[END]
