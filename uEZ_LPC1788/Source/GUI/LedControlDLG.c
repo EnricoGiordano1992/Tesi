@@ -25,6 +25,7 @@
 #include "datamodel.h"
 #include "modbus.h"
 #include "UEZ.h"
+#include <BS.h>
 
 // USER END
 

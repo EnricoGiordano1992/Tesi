@@ -21,6 +21,7 @@
 // USER START (Optionally insert additional includes)
 
 #include "BUTTON.h"
+#include <BS.h>
 
 // USER END
 
@@ -173,8 +174,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-			ExecLedControl();
-        // USER END
+				
+				BS_wrapper(CHANGE_TO_LED_CONTROLLER);
+        
+				// USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
       // USER END
@@ -190,7 +193,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-			
+			//BS_wrapper(CHANGE_TO_SENSOR_CONTROLLER, TOUCH);			
 			ExecSensor_Control();
 			
         // USER END

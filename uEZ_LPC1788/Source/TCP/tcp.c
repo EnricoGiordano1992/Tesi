@@ -35,6 +35,7 @@
 #include <UEZPlatform.h>
 #include <UEZLCD.h>
 #include <UEZKeypad.h>
+#include <BS.h>
 
 /*-------------------------------------------------------------------------*
  * External Hooks:
@@ -84,7 +85,7 @@ static TUInt32 BasicTCPServer(T_uezTask aMyTask, void *aParams)
     char line[80];
     int clen=0;
     TBool needPrompt = EFalse;
-    const char banner[] = "House Control with TCP\r\n";
+    const char banner[] = "ready\r\n";
 
     /* create an Internet TCP socket */  			
     SrvrDescriptor = socket(AF_INET, SOCK_STREAM, 0);
@@ -100,7 +101,7 @@ static TUInt32 BasicTCPServer(T_uezTask aMyTask, void *aParams)
     /* OK, set queue length for client calls */  			
     listen(SrvrDescriptor,5);  			
 
-    while (1)  	 {  			
+    while (1){  			
         /* wait for a call */  			
         len = sizeof(rem);
         ClntDescriptor = accept(SrvrDescriptor,(struct sockaddr*)&rem,&len);			
@@ -108,11 +109,7 @@ static TUInt32 BasicTCPServer(T_uezTask aMyTask, void *aParams)
 
         ////CO_AddString(banner);
         write(ClntDescriptor, banner, sizeof(banner)-1);
-        while (1)  {
-            if (needPrompt) {
-                write(ClntDescriptor, "> ", 2);
-                needPrompt = EFalse;
-            }
+        while (1){
             if (read(ClntDescriptor, &c, 1) <= 0)
                 break;
 
@@ -120,26 +117,21 @@ static TUInt32 BasicTCPServer(T_uezTask aMyTask, void *aParams)
             } else if (c == '\n') {
                 if (strcmp(command, "quit") == 0) {
                     closesocket(ClntDescriptor);
-                } else if (strcmp(command, "dir") == 0) {
-                    T_uezFileEntry entry;
 
-                    if (UEZFileFindStart(CONSOLE_ROOT_DIRECTORY, &entry) == UEZ_ERROR_NONE) {
-                        do {
-                            sprintf(line, "%c %-12.12s %02d/%02d/%04d\r\n",
-                                (entry.iFileAttributes & UEZ_FILE_ENTRY_ATTR_DIRECTORY)?'D':'F',
-                                entry.iFilename,
-                                entry.iModifiedDate.iDay,
-                                entry.iModifiedDate.iMonth,
-                                entry.iModifiedDate.iYear
-                                );
-                            write(ClntDescriptor, line, strlen(line));
-                        } while (UEZFileFindNext(&entry) == UEZ_ERROR_NONE);
-                    } else {
-                        printf("No files found.\n");
-                    }
-                    UEZFileFindStop(&entry);
-                } else {
-                    write(ClntDescriptor, "\r\nUnknown cmd!\r\n", 16);
+								} else if (strcmp(command, "main_menu") == 0) {
+                    write(ClntDescriptor, "200\r\n", 5);										
+									
+                } else if (strcmp(command, "leds_window") == 0) {
+										BS_wrapper(CHANGE_TO_LED_CONTROLLER);
+										write(ClntDescriptor, "200\r\n", 5);
+ 
+								} else if (strcmp(command, "sensors_window") == 0) {
+                    write(ClntDescriptor, "200\r\n", 5);
+
+                }
+								else {
+                    write(ClntDescriptor, "404\r\n", 5);
+
                 }
                 needPrompt = ETrue;
                 clen = 0;
