@@ -8,9 +8,11 @@ typedef enum command{
 
 	EXIT,
 	
-	CHANGE_TO_LED_CONTROLLER,
-	CHANGE_TO_SENSOR_CONTROLLER,
+	SWITCH_CONTEXT_TO_LEDS_CONTROLLER,
+	SWITCH_CONTEXT_TO_SENSORS_CONTROLLER,
+	SWITCH_CONTEXT_TO_DEBUG_MODBUS_CONTROLLER,
 	
+	INIT_LEDS_CONTROLLER,
 	SET_LED_1_ON,
 	SET_LED_1_OFF,
 	SET_LED_2_ON,
@@ -29,12 +31,13 @@ typedef enum command{
 }command;
 
 
-typedef enum origin{
+//destinatario chiamata
+typedef enum recipient{
 
-	PC,
-	TOUCH
+	INTERNAL,
+	EXTERNAL
 	
-}origin;
+}recipient;
 
 
 typedef struct message{
@@ -43,6 +46,6 @@ typedef struct message{
 
 
 
-void BS_wrapper(command signal);
+void BS_wrapper(command signal, recipient rec, void *obj);
 
 #endif

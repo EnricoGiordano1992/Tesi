@@ -53,6 +53,20 @@ extern void BeepError(void);
  * Prototypes:
  *-------------------------------------------------------------------------*/
 
+
+typedef enum TCPCommand{
+	
+	QUIT,
+	LEDS_CONTROLLER,
+	SENSORS_CONTROLLER,
+	DEBUG_MODBUS_CONTROLLER
+	
+}TCPCommand;
+
+
+
+
+
 /*-------------------------------------------------------------------------*
  * Globals:
  *-------------------------------------------------------------------------*/
@@ -67,8 +81,6 @@ static int SrvrDescriptor;  /* socket descriptor for server */
 
 static TBool G_tcpServerRunning = EFalse;
 #endif
-
-
 
 /*---------------------------------------------------------------------------*
  * Task:  BasicTCPServer
@@ -86,6 +98,7 @@ static TUInt32 BasicTCPServer(T_uezTask aMyTask, void *aParams)
     int clen=0;
     TBool needPrompt = EFalse;
     const char banner[] = "ready\r\n";
+		TCPCommand n_command;
 
     /* create an Internet TCP socket */  			
     SrvrDescriptor = socket(AF_INET, SOCK_STREAM, 0);
@@ -115,27 +128,44 @@ static TUInt32 BasicTCPServer(T_uezTask aMyTask, void *aParams)
 
             if (c == '\r') {
             } else if (c == '\n') {
-                if (strcmp(command, "quit") == 0) {
-                    closesocket(ClntDescriptor);
+							
+							n_command = atoi(command);
+							
+							switch(n_command){
 
-								} else if (strcmp(command, "main_menu") == 0) {
-                    write(ClntDescriptor, "200\r\n", 5);										
-									
-                } else if (strcmp(command, "leds_window") == 0) {
-										BS_wrapper(CHANGE_TO_LED_CONTROLLER);
-										write(ClntDescriptor, "200\r\n", 5);
- 
-								} else if (strcmp(command, "sensors_window") == 0) {
-                    write(ClntDescriptor, "200\r\n", 5);
+								case QUIT:
+									closesocket(ClntDescriptor);
+									break;
 
-                }
-								else {
-                    write(ClntDescriptor, "404\r\n", 5);
+								//MENU' COMMANDS
+								case LEDS_CONTROLLER:
+									BS_wrapper(SWITCH_CONTEXT_TO_LEDS_CONTROLLER, INTERNAL, NULL);
+									write(ClntDescriptor, "200\r\n", 5);
+									break;
+								
+								case SENSORS_CONTROLLER:
+									BS_wrapper(SWITCH_CONTEXT_TO_SENSORS_CONTROLLER, INTERNAL, NULL);
+									write(ClntDescriptor, "200\r\n", 5);
+									break;
 
-                }
-                needPrompt = ETrue;
-                clen = 0;
-                command[0] = '\0';
+								case DEBUG_MODBUS_CONTROLLER:
+									BS_wrapper(SWITCH_CONTEXT_TO_DEBUG_MODBUS_CONTROLLER, INTERNAL, NULL);
+									write(ClntDescriptor, "200\r\n", 5);
+									break;
+								
+								//LEDS COMMANDS
+								
+								//UNKNOW COMMAND
+								default:
+									write(ClntDescriptor, "400\r\n", 5);
+									break;									
+								
+							};
+
+							needPrompt = ETrue;
+							clen = 0;
+							command[0] = '\0';
+
             } else if (c == '\b') {
                 if (clen > 0) {
                     clen--;

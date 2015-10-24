@@ -175,7 +175,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
 				
-				BS_wrapper(CHANGE_TO_LED_CONTROLLER);
+				BS_wrapper(SWITCH_CONTEXT_TO_LEDS_CONTROLLER, INTERNAL, NULL);
         
 				// USER END
         break;
@@ -193,8 +193,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-			//BS_wrapper(CHANGE_TO_SENSOR_CONTROLLER, TOUCH);			
-			ExecSensor_Control();
+			
+				BS_wrapper(SWITCH_CONTEXT_TO_SENSORS_CONTROLLER, INTERNAL, NULL);			
 			
         // USER END
         break;
@@ -214,8 +214,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
 
-        ExecModbus_Master_testWindow();
-        
+				BS_wrapper(SWITCH_CONTEXT_TO_DEBUG_MODBUS_CONTROLLER, INTERNAL, NULL);			
+
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)

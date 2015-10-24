@@ -23,7 +23,6 @@
 #include "GUI.h"
 #include "port.h"
 #include "datamodel.h"
-#include "modbus.h"
 #include "UEZ.h"
 #include <BS.h>
 
@@ -65,15 +64,6 @@
 
 // USER START (Optionally insert additional static data)
 
-extern _modbus_rx modbus_rx;
-BOOL led_status[7] = {FALSE};
-
-BOOL exit_thread_led_control;
-
-//handler al task modbus
-T_uezTask poll_led_t;
-
-BOOL changed;
 
 // USER END
 
@@ -110,14 +100,10 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 // USER START (Optionally insert additional static code)
 
 
-extern T_uezTaskFunction poll_led_check (T_uezTask aTask, void *aParameters);
-
-
-
 void change_led_status(WM_HWIN *hItem, WM_MESSAGE *pMsg, int led){
 	
 	//invio il messaggio allo slave di on/off rele'
-	modbus_led_task(led, led_status[led]);
+/*	modbus_led_task(led, led_status[led]);
 	
 	led_status[led] = !led_status[led];
 			
@@ -129,12 +115,12 @@ void change_led_status(WM_HWIN *hItem, WM_MESSAGE *pMsg, int led){
 		*hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0 + led - 1);
 		EDIT_SetText(*hItem, " 0FF");						
 		}	
-
+*/
 }
 
 
 void autochange_led_status(WM_HWIN *hItem, WM_MESSAGE *pMsg, int led, BOOL value){
-	
+/*	
 	led_status[led] = value;
 			
 	if(!exit_thread_led_control){
@@ -147,7 +133,7 @@ void autochange_led_status(WM_HWIN *hItem, WM_MESSAGE *pMsg, int led, BOOL value
 			EDIT_SetText(*hItem, " 0FF");						
 			}	
 		}
-
+*/
 }
 
 
@@ -245,25 +231,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     EDIT_SetText(hItem, " 0FF");
     // USER START (Optionally insert additional code for further widget initialization)
 				
-				//all'inizio chiedo allo slave il valore dei coil
-				
-				modbus_led_check();
-				for(i = 0; i < 7; i++)
-					if(bit_test(modbus_rx.data_converted[0],i)){
-						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0 + i);
-								EDIT_SetText(hItem, " 0N");
-								led_status[i+1] = TRUE;
-					}
-					else{
-						    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0 + i);
-								EDIT_SetText(hItem, " 0FF");
-								led_status[i+1] = FALSE;
-						
-					}
-		
-			exit_thread_led_control = FALSE;
-			UEZTaskCreate((T_uezTaskFunction)poll_led_check, "poll_led_check", 512,(void *) pMsg->hWin , UEZ_PRIORITY_LOW, &poll_led_t);				
-				
+				BS_wrapper(INIT_LEDS_CONTROLLER, EXTERNAL, pMsg);
+								
     // USER END
     break;
   case WM_NOTIFY_PARENT:
@@ -283,15 +252,15 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
 			
-				UEZTaskDelete(poll_led_t);
-			  exit_thread_led_control = TRUE;
+				//UEZTaskDelete(poll_led_t);
+			  //exit_thread_led_control = TRUE;
 			
 			  PlayAudio(900, 20);				
         PlayAudio(1000, 20);				
         PlayAudio(1100, 20);							
 			  
-        hItem = pMsg->hWin;
-        GUI_EndDialog(hItem, 0);
+        //hItem = pMsg->hWin;
+        //GUI_EndDialog(hItem, 0);
 
         // USER END
         break;
@@ -531,13 +500,13 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
 	//ottengo i valori ricevuti da modbus (numero più a sinistra: posizione del led
 	//																		 numero più a destra: valore del led)
-		pos_led = pMsg->Data.v/10;
-		if(pMsg->Data.v%10 == 1)
-			value = TRUE;
-		else
-			value = FALSE;
+		//pos_led = pMsg->Data.v/10;
+		//if(pMsg->Data.v%10 == 1)
+		//	value = TRUE;
+		//else
+		//	value = FALSE;
 	
-	  autochange_led_status(&hItem, pMsg, pos_led, value);
+	  //autochange_led_status(&hItem, pMsg, pos_led, value);
 	
 		
 	
