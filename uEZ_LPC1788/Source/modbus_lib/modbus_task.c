@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "modbus.h"
+#include <BS.h>
 
 #ifndef ID_EDIT_0
 #define ID_EDIT_0  (GUI_ID_USER + 0x0A)
@@ -317,12 +318,12 @@ T_uezTaskFunction poll_led_check (T_uezTask aTask, void *aParameters){
 				
 				msg.MsgId = MB_MSG_COIL;
 				msg.Data.v = ((i+1)*10) + 1;
-				modify_label(&msg);
+				BS_wrapper(UPDATE_LEDS_STATUS, EXTERNAL, &msg);
 			}
 			else{
 				msg.MsgId = MB_MSG_COIL;
 				msg.Data.v = ((i+1)*10) + 0;
-				modify_label(&msg);
+				BS_wrapper(UPDATE_LEDS_STATUS, EXTERNAL, &msg);
 
 			}
 

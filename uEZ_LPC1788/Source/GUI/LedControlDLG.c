@@ -99,44 +99,6 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 
 // USER START (Optionally insert additional static code)
 
-
-void change_led_status(WM_HWIN *hItem, WM_MESSAGE *pMsg, int led){
-	
-	//invio il messaggio allo slave di on/off rele'
-/*	modbus_led_task(led, led_status[led]);
-	
-	led_status[led] = !led_status[led];
-			
-	if(led_status[led]){
-		*hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0 + led - 1);
-		EDIT_SetText(*hItem, " 0N");						
-		}
-	else{
-		*hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0 + led - 1);
-		EDIT_SetText(*hItem, " 0FF");						
-		}	
-*/
-}
-
-
-void autochange_led_status(WM_HWIN *hItem, WM_MESSAGE *pMsg, int led, BOOL value){
-/*	
-	led_status[led] = value;
-			
-	if(!exit_thread_led_control){
-		if(led_status[led]){
-			*hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0 + led - 1);
-			EDIT_SetText(*hItem, " 0N");						
-			}
-		else{
-			*hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0 + led - 1);
-			EDIT_SetText(*hItem, " 0FF");						
-			}	
-		}
-*/
-}
-
-
 // USER END
 
 /*********************************************************************
@@ -251,16 +213,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-			
-				//UEZTaskDelete(poll_led_t);
-			  //exit_thread_led_control = TRUE;
-			
+						
 			  PlayAudio(900, 20);				
         PlayAudio(1000, 20);				
         PlayAudio(1100, 20);							
 			  
-        //hItem = pMsg->hWin;
-        //GUI_EndDialog(hItem, 0);
+				BS_wrapper(EXIT_TO_LEDS_CONTROLLER, INTERNAL, pMsg);
 
         // USER END
         break;
@@ -279,7 +237,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
 			
-				change_led_status(&hItem, pMsg, 1);
+				BS_wrapper(CHANGE_LED_STATUS_1, INTERNAL, pMsg);
 			
         // USER END
         break;
@@ -298,7 +256,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
  			
-				change_led_status(&hItem, pMsg, 2);
+				BS_wrapper(CHANGE_LED_STATUS_2, INTERNAL, pMsg);
 			
        // USER END
         break;
@@ -317,7 +275,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
  			
-				change_led_status(&hItem, pMsg, 3);
+				BS_wrapper(CHANGE_LED_STATUS_3, INTERNAL, pMsg);
 			
        // USER END
         break;
@@ -336,7 +294,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
 			
-				change_led_status(&hItem, pMsg, 4);
+				BS_wrapper(CHANGE_LED_STATUS_4, INTERNAL, pMsg);
 			
         // USER END
         break;
@@ -355,7 +313,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
  			
-				change_led_status(&hItem, pMsg, 5);
+				BS_wrapper(CHANGE_LED_STATUS_5, INTERNAL, pMsg);
 			
        // USER END
         break;
@@ -374,7 +332,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
 			
-				change_led_status(&hItem, pMsg, 6);
+				BS_wrapper(CHANGE_LED_STATUS_6, INTERNAL, pMsg);
 			
         // USER END
         break;
@@ -500,15 +458,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
 	//ottengo i valori ricevuti da modbus (numero più a sinistra: posizione del led
 	//																		 numero più a destra: valore del led)
-		//pos_led = pMsg->Data.v/10;
-		//if(pMsg->Data.v%10 == 1)
-		//	value = TRUE;
-		//else
-		//	value = FALSE;
-	
-	  //autochange_led_status(&hItem, pMsg, pos_led, value);
-	
-		
 	
 	break;
 		
