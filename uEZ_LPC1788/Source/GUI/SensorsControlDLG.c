@@ -24,6 +24,7 @@
 #include "datamodel.h"
 #include "modbus.h"
 #include "UEZ.h"
+#include <BS.h>
 // USER END
 
 #include "DIALOG.h"
@@ -70,6 +71,10 @@
 */
 
 // USER START (Optionally insert additional static data)
+
+extern WM_HWIN actual_hWin;
+extern T_uezSemaphore semaphore_actual_hWin;
+
 // USER END
 
 /*********************************************************************
@@ -138,9 +143,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   // USER START (Optionally insert additional variables)
 	
 	int i;
-	char temperature[3] = {'\0'};
-	char humidity[3] = {'\0'};
-	char perc = '%';
 	
   // USER END
 
@@ -253,8 +255,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     TEXT_SetText(hItem, "max temperature:");
     // USER START (Optionally insert additional code for further widget initialization)
 
-		//aggiorno i valori, cioè faccio partire il messaggio di richiesta
-		UEZTaskCreate((T_uezTaskFunction)poll_sensor_check, "_sensor_check", 512,(void *) pMsg->hWin , UEZ_PRIORITY_LOW, &poll_sensor_t);				
+			actual_hWin = pMsg->hWin;
+			UEZSemaphoreRelease(semaphore_actual_hWin);
 
 		// USER END
     break;
@@ -279,14 +281,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         PlayAudio(1000, 20);				
         PlayAudio(1100, 20);				
 
-				UEZTaskDelete(poll_sensor_t);
-
 				check_sensors.alarm = 0;
 				check_sensors.light = 0;
 				check_sensors.temperature = 0;
-			
-        hItem = pMsg->hWin;
-        GUI_EndDialog(hItem, 0);
+
+				BS_wrapper(EXIT_CONTROLLER, INTERNAL, &pMsg);
 
         // USER END
         break;
@@ -307,8 +306,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
 			
-			hItem = WM_GetDialogItem(pMsg->hWin, ID_SLIDER_0 );
-			delay_from_slider = 10 + (SLIDER_GetValue(hItem) * 2);
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_SLIDER_0 );
+				delay_from_slider = 10 + (SLIDER_GetValue(hItem) * 2);
+				BS_wrapper(CHANGE_DELAY_QUERY_FROM_WINDOW, EXTERNAL, &delay_from_slider);
 			
         // USER END
         break;
@@ -457,8 +457,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
 			
-			hItem = WM_GetDialogItem(pMsg->hWin, ID_CHECKBOX_0 );
-			check_sensors.light = CHECKBOX_GetState(hItem);
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_CHECKBOX_0 );
+					check_sensors.light = CHECKBOX_GetState(hItem);
+					BS_wrapper(NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_WINDOW, EXTERNAL, &check_sensors.light);
 			
         // USER END
         break;
@@ -481,8 +482,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
 
-			hItem = WM_GetDialogItem(pMsg->hWin, ID_CHECKBOX_1 );
-			check_sensors.alarm = CHECKBOX_GetState(hItem);
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_CHECKBOX_1 );
+				check_sensors.alarm = CHECKBOX_GetState(hItem);
+				BS_wrapper(NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_WINDOW, EXTERNAL, &check_sensors.alarm);
 
 			// USER END
         break;
@@ -505,8 +507,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
 
-			hItem = WM_GetDialogItem(pMsg->hWin, ID_CHECKBOX_2 );
-			check_sensors.temperature = CHECKBOX_GetState(hItem);
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_CHECKBOX_2 );
+				check_sensors.temperature = CHECKBOX_GetState(hItem);
+				BS_wrapper(NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_WINDOW, EXTERNAL, &check_sensors.temperature);
 
 			// USER END
         break;
@@ -533,9 +536,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
 			
-			hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_0 );
-			temperature_limit = SPINBOX_GetValue(hItem);
-			
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_SPINBOX_0 );
+				temperature_limit = SPINBOX_GetValue(hItem);
+				BS_wrapper(NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_WINDOW, EXTERNAL, &temperature_limit);
 			
         // USER END
         break;
@@ -576,58 +579,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			*/
 	
 		//estrazione della temperatura
-		if(sensors.temperature != 666){
-			if(sensors.temperature == 0 || sensors.temperature == 10)
-				sensors.temperature = 20;
-			sprintf( temperature, "%d°", sensors.temperature);
-			hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
-			EDIT_SetText(hItem, temperature);
-		}
-		//estrazione dell'umidita'
-		if(sensors.humidity != 666){
-			if(sensors.humidity == 0)
-				sensors.humidity = 13;
-			sprintf( humidity, "%d%c", sensors.humidity, perc);
-			hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
-			EDIT_SetText(hItem, humidity);
-		}
-		
-		//estrazione suono
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
-		if( sensors.mic != 0 )
-			EDIT_SetText(hItem, "NOISE");
-		else
-			EDIT_SetText(hItem, "SILENCE");
-		
-		//estrazione distanza
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
-		if( sensors.distance != 0 )
-			EDIT_SetText(hItem, "FAR");
-		else
-			EDIT_SetText(hItem, "NEAR");
-		
-		//estrazione presenza
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_4);
-		if( sensors.presence != 0 )
-			EDIT_SetText(hItem, "NO");
-		else
-			EDIT_SetText(hItem, "YES");
-
-		
-		//estrazione vibrazione
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_5);
-		if( sensors.vibration != 0 )
-			EDIT_SetText(hItem, "NO");
-		else
-			EDIT_SetText(hItem, "YES");
-
-		
-		//estrazione luce
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_6);
-		if( sensors.light != 0 )
-			EDIT_SetText(hItem, "LIGHT");
-		else
-			EDIT_SetText(hItem, "DARK");
 		
 		
 	break;

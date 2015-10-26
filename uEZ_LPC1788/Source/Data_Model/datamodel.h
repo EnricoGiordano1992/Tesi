@@ -5,6 +5,7 @@
 #include "modbus.h"
 #include "GUI.h"
 #include "DIALOG.h"
+#include "UEZ.h"
 
 #define MB_MSG_COIL 8000
 

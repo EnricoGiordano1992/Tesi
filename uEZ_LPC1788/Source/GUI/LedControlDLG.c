@@ -64,6 +64,8 @@
 
 // USER START (Optionally insert additional static data)
 
+extern WM_HWIN actual_hWin;
+extern T_uezSemaphore semaphore_actual_hWin;
 
 // USER END
 
@@ -193,7 +195,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     EDIT_SetText(hItem, " 0FF");
     // USER START (Optionally insert additional code for further widget initialization)
 				
-				BS_wrapper(INIT_LEDS_CONTROLLER, EXTERNAL, pMsg);
+			actual_hWin = pMsg->hWin;
+			UEZSemaphoreRelease(semaphore_actual_hWin);
+
 								
     // USER END
     break;
@@ -218,7 +222,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         PlayAudio(1000, 20);				
         PlayAudio(1100, 20);							
 			  
-				BS_wrapper(EXIT_TO_LEDS_CONTROLLER, INTERNAL, pMsg);
+				BS_wrapper(EXIT_CONTROLLER, INTERNAL, pMsg);
 
         // USER END
         break;

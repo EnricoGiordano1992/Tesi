@@ -45,6 +45,9 @@ extern int delay_from_slider;
 extern Check_Sensor check_sensors;
 extern Sensors sensors;
 extern int temperature_limit;
+extern WM_HWIN actual_hWin;
+extern BOOL exit_subtask_control;
+extern T_uezSemaphore semaphore_actual_hWin;
 
 
 /***********************************
@@ -250,7 +253,10 @@ T_uezTaskFunction poll_sensor_check (T_uezTask aTask, void *aParameters){
 	int j;
 	WM_MESSAGE msg;
 
-	msg.hWin = (WM_HWIN) aParameters;
+	UEZSemaphoreGrab(semaphore_actual_hWin, 10000);
+	UEZSemaphoreDelete(semaphore_actual_hWin);
+
+	msg.hWin = actual_hWin;
 
 	while(1){
 		modbus_read_holding_registers(10, 1999, 7);
@@ -288,9 +294,8 @@ T_uezTaskFunction poll_sensor_check (T_uezTask aTask, void *aParameters){
 					UEZTaskCreate((T_uezTaskFunction)alarm_task, "_alarm_task", 512,(void *) 0 , UEZ_PRIORITY_LOW, &alarm_t);				
 					led_function();
 		}
-		msg.MsgId = MB_MSG_SENSOR;
 		
-		modify_label_sensors(&msg);
+		BS_wrapper(UPDATE_SENSORS_STATUS, EXTERNAL, NULL);
 			
 		UEZTaskDelay(delay_from_slider);
 	}
@@ -305,7 +310,10 @@ T_uezTaskFunction poll_led_check (T_uezTask aTask, void *aParameters){
 	
 	int i;
 	WM_MESSAGE msg;
-	msg.hWin = (WM_HWIN) aParameters;
+	//TODO: gestire con semafori
+	while(actual_hWin == NULL);
+	
+	msg.hWin = actual_hWin;
 	
 	do{
 		
@@ -327,7 +335,7 @@ T_uezTaskFunction poll_led_check (T_uezTask aTask, void *aParameters){
 
 			}
 
-	}while(!exit_thread_led_control);
+	}while(!exit_subtask_control);
 
 	return 0;	
 }
