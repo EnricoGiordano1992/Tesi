@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
@@ -56,7 +57,12 @@ public class SensorsControlPanel extends JPanel {
 		JButton btnX = new JButton(new ImageIcon(new ImageIcon(SensorsControlPanel.class.getResource("/javax/swing/plaf/metal/icons/ocean/close.gif")).getImage().getScaledInstance(30, 30, 0)));
 		btnX.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				g.showMenu();
+				try {
+					g.showMenu();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnX.setBounds(0, 0, 30, 30);
@@ -82,7 +88,12 @@ public class SensorsControlPanel extends JPanel {
 			public void stateChanged(ChangeEvent e) {
 				JSpinner source = (JSpinner) e.getSource();
 				int val = (int)source.getValue();
-				g.changeMaxTemp(val);
+				try {
+					g.changeMaxTemp(val);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		spinner.setBounds(486, 282, 77, 28);
@@ -93,7 +104,12 @@ public class SensorsControlPanel extends JPanel {
 			public void stateChanged(ChangeEvent arg0) {
 				JSlider source = (JSlider) arg0.getSource();
 		        double val = (double)source.getValue();
-		        g.changeDelay(val);
+		        try {
+					g.changeDelay(val);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		slider.setBounds(95, 368, 200, 21);
@@ -104,7 +120,12 @@ public class SensorsControlPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				JCheckBox source = (JCheckBox) arg0.getSource();
 				boolean val = (boolean) source.isSelected();
-				g.setAlarmTempAction(val);
+				try {
+					g.setAlarmTempAction(val);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		chckbxNewCheckBox.setBounds(440, 336, 200, 18);
@@ -115,7 +136,12 @@ public class SensorsControlPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				JCheckBox source = (JCheckBox) e.getSource();
 				boolean val = (boolean) source.isSelected();
-				g.setAlarmLightAction(val);
+				try {
+					g.setAlarmLightAction(val);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		chckbxNewCheckBox_1.setBounds(440, 368, 297, 18);
@@ -126,7 +152,12 @@ public class SensorsControlPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				JCheckBox source = (JCheckBox) e.getSource();
 				boolean val = (boolean) source.isSelected();
-				g.setAlarmPresenceAction(val);
+				try {
+					g.setAlarmPresenceAction(val);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		chckbxNewCheckBox_2.setBounds(440, 400, 188, 18);

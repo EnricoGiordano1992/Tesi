@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <tcp.h>
 
 //defines
 #define ID_EDIT_0_LEDS  		(GUI_ID_USER + 0x0A)
@@ -241,7 +242,7 @@ void BS_notify(void (*f_for_tcp)(void *), void (*f_for_gui)(void *), void *obj){
 
 
 void switch_context_to_leds_controller(){
-	;
+	//write_from_BS("{\"context\": \"leds\"}", strlen("{\"context\": \"leds\"}"));
 }
 
 void switch_context_to_leds_window(){

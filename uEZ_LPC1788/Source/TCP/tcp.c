@@ -59,8 +59,25 @@ typedef enum TCPCommand{
 	QUIT,
 	LEDS_CONTROLLER,
 	SENSORS_CONTROLLER,
-	DEBUG_MODBUS_CONTROLLER
+	DEBUG_MODBUS_CONTROLLER,
+	RETURN_TO_MENU,
 	
+	INIT_LEDS,
+	CHANGE_LED_STATUS_CONTROLLER_1,
+	CHANGE_LED_STATUS_CONTROLLER_2,
+	CHANGE_LED_STATUS_CONTROLLER_3,
+	CHANGE_LED_STATUS_CONTROLLER_4,
+	CHANGE_LED_STATUS_CONTROLLER_5,
+	CHANGE_LED_STATUS_CONTROLLER_6,
+	UPDATE_LEDS_STATUS_CONTROLLER,
+	
+	INIT_SENSORS,
+	CHANGE_DELAY_QUERY_FROM_CONTROLLER_TO_WINDOW,
+	NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER_TO_WINDOW,
+	NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW,
+	NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW,
+	NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW
+		
 }TCPCommand;
 
 
@@ -140,20 +157,93 @@ static TUInt32 BasicTCPServer(T_uezTask aMyTask, void *aParams)
 								//MENU' COMMANDS
 								case LEDS_CONTROLLER:
 									BS_wrapper(SWITCH_CONTEXT_TO_LEDS_CONTROLLER, INTERNAL, NULL);
-									write(ClntDescriptor, "200\r\n", 5);
+									//write(ClntDescriptor, "200\r\n", 5);
 									break;
 								
 								case SENSORS_CONTROLLER:
 									BS_wrapper(SWITCH_CONTEXT_TO_SENSORS_CONTROLLER, INTERNAL, NULL);
-									write(ClntDescriptor, "200\r\n", 5);
+									//write(ClntDescriptor, "200\r\n", 5);
 									break;
 
 								case DEBUG_MODBUS_CONTROLLER:
 									BS_wrapper(SWITCH_CONTEXT_TO_DEBUG_MODBUS_CONTROLLER, INTERNAL, NULL);
-									write(ClntDescriptor, "200\r\n", 5);
+									//write(ClntDescriptor, "200\r\n", 5);
+									break;
+
+								case RETURN_TO_MENU:
+									BS_wrapper(EXIT_CONTROLLER, INTERNAL, NULL);
+									//write(ClntDescriptor, "200\r\n", 5);
+									break;
+
+								//LEDS COMMANDS
+
+								case INIT_LEDS:
+									BS_wrapper(INIT_LEDS_CONTROLLER, INTERNAL, NULL);
+									//write(ClntDescriptor, "200\r\n", 5);
+									break;
+
+								case CHANGE_LED_STATUS_CONTROLLER_1:
+									BS_wrapper(CHANGE_LED_STATUS_1, INTERNAL, NULL);
+									//write(ClntDescriptor, "200\r\n", 5);
+									break;
+
+								case CHANGE_LED_STATUS_CONTROLLER_2:
+									BS_wrapper(CHANGE_LED_STATUS_2, INTERNAL, NULL);
+									//write(ClntDescriptor, "200\r\n", 5);
+									break;
+
+								case CHANGE_LED_STATUS_CONTROLLER_3:
+									BS_wrapper(CHANGE_LED_STATUS_3, INTERNAL, NULL);
+									//write(ClntDescriptor, "200\r\n", 5);
+									break;
+
+								case CHANGE_LED_STATUS_CONTROLLER_4:
+									BS_wrapper(CHANGE_LED_STATUS_4, INTERNAL, NULL);
+									//write(ClntDescriptor, "200\r\n", 5);
+									break;
+
+								case CHANGE_LED_STATUS_CONTROLLER_5:
+									BS_wrapper(CHANGE_LED_STATUS_5, INTERNAL, NULL);
+									//write(ClntDescriptor, "200\r\n", 5);
 									break;
 								
-								//LEDS COMMANDS
+								case CHANGE_LED_STATUS_CONTROLLER_6:
+									BS_wrapper(CHANGE_LED_STATUS_6, INTERNAL, NULL);
+									//write(ClntDescriptor, "200\r\n", 5);
+									break;
+
+								//INIT SENSORS 
+								
+								case INIT_SENSORS:
+									BS_wrapper(INIT_SENSORS_CONTROLLER, INTERNAL, NULL);
+									//write(ClntDescriptor, "200\r\n", 5);
+									break;
+
+								case CHANGE_DELAY_QUERY_FROM_CONTROLLER_TO_WINDOW:
+									BS_wrapper(CHANGE_DELAY_QUERY_FROM_CONTROLLER, INTERNAL, NULL);
+									//write(ClntDescriptor, "200\r\n", 5);
+									break;
+
+								case NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER_TO_WINDOW:
+									BS_wrapper(NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER, INTERNAL, NULL);
+									//write(ClntDescriptor, "200\r\n", 5);
+									break;
+
+								case NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW:
+									BS_wrapper(NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER, INTERNAL, NULL);
+									//write(ClntDescriptor, "200\r\n", 5);
+									break;
+
+								case NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW:
+									BS_wrapper(NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_CONTROLLER, INTERNAL, NULL);
+									//write(ClntDescriptor, "200\r\n", 5);
+									break;
+
+								case NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW:
+									BS_wrapper(NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_CONTROLLER, INTERNAL, NULL);
+									//write(ClntDescriptor, "200\r\n", 5);
+									break;
+								
 								
 								//UNKNOW COMMAND
 								default:
@@ -182,6 +272,10 @@ static TUInt32 BasicTCPServer(T_uezTask aMyTask, void *aParams)
 } 	 			
 #endif /* UEZ_ENABLE_TCPIP_STACK */
 
+
+void write_from_BS(char *string, int len){
+	write(ClntDescriptor, string, len);
+}
 
 
 void server_setup(){

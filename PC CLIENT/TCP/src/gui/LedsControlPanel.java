@@ -5,6 +5,7 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
@@ -31,7 +32,12 @@ public class LedsControlPanel extends JPanel {
 		JButton btnX = new JButton(new ImageIcon(new ImageIcon(LedsControlPanel.class.getResource("/javax/swing/plaf/metal/icons/ocean/close.gif")).getImage().getScaledInstance(30, 30, 0)));
 		btnX.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				g.showMenu();
+				try {
+					g.showMenu();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnX.setBounds(0, 0, 30, 30);
@@ -40,7 +46,12 @@ public class LedsControlPanel extends JPanel {
 		JButton btnNewButton = new JButton("LED 1");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				g.ledPowerAction(1);
+				try {
+					g.ledPowerAction(1);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton.setBounds(164, 55, 120, 60);
@@ -49,7 +60,12 @@ public class LedsControlPanel extends JPanel {
 		JButton btnNewButton_1 = new JButton("LED 3");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				g.ledPowerAction(3);
+				try {
+					g.ledPowerAction(3);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_1.setBounds(164, 190, 120, 60);
@@ -58,7 +74,12 @@ public class LedsControlPanel extends JPanel {
 		JButton btnNewButton_2 = new JButton("LED 5");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				g.ledPowerAction(5);
+				try {
+					g.ledPowerAction(5);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_2.setBounds(164, 320, 120, 60);
@@ -67,7 +88,12 @@ public class LedsControlPanel extends JPanel {
 		JButton btnNewButton_3 = new JButton("LED 2");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				g.ledPowerAction(2);
+				try {
+					g.ledPowerAction(2);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_3.setBounds(462, 55, 120, 60);
@@ -76,7 +102,12 @@ public class LedsControlPanel extends JPanel {
 		JButton btnNewButton_4 = new JButton("LED 4");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				g.ledPowerAction(4);
+				try {
+					g.ledPowerAction(4);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_4.setBounds(462, 190, 120, 60);
@@ -85,7 +116,12 @@ public class LedsControlPanel extends JPanel {
 		JButton btnNewButton_5 = new JButton("LED 6");
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				g.ledPowerAction(6);
+				try {
+					g.ledPowerAction(6);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_5.setBounds(462, 320, 120, 60);

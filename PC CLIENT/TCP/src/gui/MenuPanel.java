@@ -9,8 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 public class MenuPanel extends JPanel {
 
@@ -31,7 +33,12 @@ public class MenuPanel extends JPanel {
 		JButton btnNewButton = new JButton(new ImageIcon(new ImageIcon(MenuPanel.class.getResource("led_icon.jpg")).getImage().getScaledInstance(86, 86, 0)));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				g.switchToLedsControl();
+				try {
+					g.switchToLedsControl();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnNewButton.setBounds(158, 194, 98, 98);
@@ -41,7 +48,12 @@ public class MenuPanel extends JPanel {
 		JButton btnNewButton_1 = new JButton(new ImageIcon(new ImageIcon(MenuPanel.class.getResource("sensor_icon.jpg")).getImage().getScaledInstance(86, 86, 0)));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				g.switchToSensorsControl();
+				try {
+					g.switchToSensorsControl();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_1.setBounds(336, 194, 98, 98);

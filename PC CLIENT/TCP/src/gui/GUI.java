@@ -26,14 +26,18 @@ import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.FlowLayout;
+import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JTextPane;
+
+import tcp.TCP;
 
 public class GUI {
 
 	private JFrame frame;
 	private JPanel actualP;
+	private TCP tcp;
 
 	/**
 	 * @return the frame
@@ -52,12 +56,14 @@ public class GUI {
 
 	/**
 	 * Create the application.
+	 * @param tcp 
 	 * @throws UnsupportedLookAndFeelException 
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
 	 * @throws ClassNotFoundException 
 	 */
-	public GUI() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+	public GUI(TCP tcp) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+		this.tcp = tcp;
 		initialize();
 	}
 
@@ -84,24 +90,28 @@ public class GUI {
 	 * 
 	 * JPanel caricati Runtime
 	 * 
+	 * 
 	 */
 
 	
-	public void showMenu(){
+	public void showMenu() throws IOException{
+		tcp.sendExitController();
 		getFrame().remove(actualP);
 		actualP = new MenuPanel(this);
 		getFrame().getContentPane().add(actualP, BorderLayout.CENTER);
 		refresh();
 	}
 	
-	public void switchToLedsControl(){
+	public void switchToLedsControl() throws IOException{
+		tcp.sendSwitchContextLeds();
 		getFrame().remove(actualP);
 		actualP = new LedsControlPanel(this);
 		getFrame().getContentPane().add(actualP, BorderLayout.CENTER);
 		refresh();
 	}
 	
-	public void switchToSensorsControl(){
+	public void switchToSensorsControl() throws IOException{
+		tcp.sendSwitchContextSensors();
 		getFrame().remove(actualP);
 		actualP = new SensorsControlPanel(this);
 		getFrame().getContentPane().add(actualP, BorderLayout.CENTER);
@@ -118,30 +128,31 @@ public class GUI {
 	 * 
 	 * Metodi per chiamare operazioni esterne alla GUI
 	 * [OUTPUT]
+	 * @throws IOException 
 	 */
 	
-	public void ledPowerAction(int led){
-		
+	public void ledPowerAction(int led) throws IOException{
+		tcp.sendLedPowerAction(led);
 	}
 	
-	public void changeDelay(double delay){
-		
+	public void changeDelay(double delay) throws IOException{
+		tcp.sendNewDelay(delay);
 	}
 	
-	public void changeMaxTemp(int temp){
-		
+	public void changeMaxTemp(int temp) throws IOException{
+		tcp.sendNewMaxTemp(temp);
 	}
 	
-	public void setAlarmTempAction(boolean check){
-		
+	public void setAlarmTempAction(boolean check) throws IOException{
+		tcp.sendNewAlarmTemp(check);
 	}
 	
-	public void setAlarmLightAction(boolean check){
-	
+	public void setAlarmLightAction(boolean check) throws IOException{
+		tcp.sendNewAlarmLight(check);
 	}
 	
-	public void setAlarmPresenceAction(boolean check){
-		
+	public void setAlarmPresenceAction(boolean check) throws IOException{
+		tcp.sendNewAlarmPresence(check);
 	}
 
 	

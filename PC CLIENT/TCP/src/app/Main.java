@@ -1,6 +1,7 @@
 package app;
 
 import gui.GUI;
+import tcp.*;
 
 import java.awt.EventQueue;
 
@@ -10,7 +11,8 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GUI window = new GUI();
+					TCP tcp = new TCP();
+					GUI window = new GUI(tcp);
 					window.getFrame().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
