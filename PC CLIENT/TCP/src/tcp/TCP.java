@@ -1,4 +1,4 @@
-package examples.telnet;
+package tcp;
 
 // TCPClient.java
 // A client program implementing TCP socket
@@ -6,7 +6,7 @@ import java.net.*;
 import java.io.*; 
 
 public class TCP { 
-	public static void main (String args[]) 
+	public void tcp() 
 	{// arguments supply message and hostname of destination  
 		Socket s = null; 
 		try{ 
