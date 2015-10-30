@@ -247,7 +247,7 @@ void switch_context_to_leds_controller(){
 
 void switch_context_to_leds_window(){
 
-		if (UEZTaskCreate(ExecLedControl, "ExecLedControl", UEZ_TASK_STACK_BYTES(2048), (void *)0, UEZ_PRIORITY_HIGH, 0))
+		if (UEZTaskCreate(ExecLedControl, "ExecLedControl", UEZ_TASK_STACK_BYTES(2048), (void *)0, UEZ_PRIORITY_NORMAL, 0))
 			; //anomalia
 }
 
@@ -257,7 +257,7 @@ void switch_context_to_sensors_controller(){
 
 void switch_context_to_sensors_window(){
 
-	if (UEZTaskCreate(ExecSensor_Control, "ExecSensor_Control", UEZ_TASK_STACK_BYTES(2048), (void *)0, UEZ_PRIORITY_HIGH, 0))
+	if (UEZTaskCreate(ExecSensor_Control, "ExecSensor_Control", UEZ_TASK_STACK_BYTES(2048), (void *)0, UEZ_PRIORITY_NORMAL, 0))
 			; //anomalia
 
 }
@@ -268,7 +268,7 @@ void switch_context_to_debug_modbus_controller(){
 
 void switch_context_to_debug_modbus_window(){
 
-	if (UEZTaskCreate(ExecModbus_Master_testWindow, "ExecModbus_Master_testWindow", UEZ_TASK_STACK_BYTES(2048), (void *)0, UEZ_PRIORITY_HIGH, 0))
+	if (UEZTaskCreate(ExecModbus_Master_testWindow, "ExecModbus_Master_testWindow", UEZ_TASK_STACK_BYTES(2048), (void *)0, UEZ_PRIORITY_NORMAL, 0))
 			; //anomalia
 	
 }
