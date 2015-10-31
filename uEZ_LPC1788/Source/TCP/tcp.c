@@ -219,28 +219,28 @@ static TUInt32 BasicTCPServer(T_uezTask aMyTask, void *aParams)
 									//write(ClntDescriptor, "200\r\n", 5);
 									break;
 
-								case CHANGE_DELAY_QUERY_FROM_CONTROLLER_TO_WINDOW:
-									BS_wrapper(CHANGE_DELAY_QUERY_FROM_CONTROLLER, INTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
+//								case CHANGE_DELAY_QUERY_FROM_CONTROLLER_TO_WINDOW:
+//									BS_wrapper(CHANGE_DELAY_QUERY_FROM_CONTROLLER, INTERNAL, NULL);
+//									//write(ClntDescriptor, "200\r\n", 5);
+//									break;
 
-								case NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER_TO_WINDOW:
-									BS_wrapper(NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER, INTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
+//								case NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER_TO_WINDOW:
+//									BS_wrapper(NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER, INTERNAL, NULL);
+//									//write(ClntDescriptor, "200\r\n", 5);
+//									break;
 
 								case NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW:
-									BS_wrapper(NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER, INTERNAL, NULL);
+									BS_wrapper(NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_CONTROLLER, EXTERNAL, NULL);
 									//write(ClntDescriptor, "200\r\n", 5);
 									break;
 
 								case NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW:
-									BS_wrapper(NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_CONTROLLER, INTERNAL, NULL);
+									BS_wrapper(NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_CONTROLLER, EXTERNAL, NULL);
 									//write(ClntDescriptor, "200\r\n", 5);
 									break;
 
 								case NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW:
-									BS_wrapper(NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_CONTROLLER, INTERNAL, NULL);
+									BS_wrapper(NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_CONTROLLER, EXTERNAL, NULL);
 									//write(ClntDescriptor, "200\r\n", 5);
 									break;
 								

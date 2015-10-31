@@ -7,14 +7,18 @@
 #include <tcp.h>
 
 //defines
-#define ID_EDIT_0_LEDS  		(GUI_ID_USER + 0x0A)
-#define ID_EDIT_0_SENSORS   (GUI_ID_USER + 0x06)
-#define ID_EDIT_1_SENSORS   (GUI_ID_USER + 0x09)
-#define ID_EDIT_2_SENSORS   (GUI_ID_USER + 0x0B)
-#define ID_EDIT_3_SENSORS   (GUI_ID_USER + 0x0D)
-#define ID_EDIT_4_SENSORS   (GUI_ID_USER + 0x0F)
-#define ID_EDIT_5_SENSORS   (GUI_ID_USER + 0x11)
-#define ID_EDIT_6_SENSORS   (GUI_ID_USER + 0x13)
+#define ID_EDIT_0_LEDS  				(GUI_ID_USER + 0x0A)
+#define ID_EDIT_0_SENSORS   		(GUI_ID_USER + 0x06)
+#define ID_EDIT_1_SENSORS   		(GUI_ID_USER + 0x09)
+#define ID_EDIT_2_SENSORS   		(GUI_ID_USER + 0x0B)
+#define ID_EDIT_3_SENSORS   		(GUI_ID_USER + 0x0D)
+#define ID_EDIT_4_SENSORS   		(GUI_ID_USER + 0x0F)
+#define ID_EDIT_5_SENSORS   		(GUI_ID_USER + 0x11)
+#define ID_EDIT_6_SENSORS   		(GUI_ID_USER + 0x13)
+#define ID_CHECKBOX_0_LIGHT     (GUI_ID_USER + 0x14)
+#define ID_CHECKBOX_1_ALARM     (GUI_ID_USER + 0x15)
+#define ID_CHECKBOX_2_TEMP    	(GUI_ID_USER + 0x16)
+
 
 //Executor
 void BS_exec(void (*f_for_tcp)(void), void (*f_for_gui)(WM_MESSAGE *), WM_MESSAGE *obj);
@@ -49,9 +53,13 @@ void update_sensors_status_controller();
 void update_sensors_status_window();
 
 void notify_change_delay_to_controller(void *delay);
-void notify_change_alarm_temperature_sensor_to_controller(void *checked);
-void notify_change_alarm_sensor_to_controller(void *checked);
+void notify_change_alarm_temperature_sensor_to_controller();
+void notify_change_alarm_sensor_to_controller();
+void notify_change_alarm_no_light_sensor_to_controller();
 void notify_change_max_temperature_threshold_to_controller(void *new_threshold);
+void notify_change_alarm_temperature_sensor_to_window();
+void notify_change_alarm_sensor_to_window();
+void notify_change_alarm_no_light_sensor_to_window();
 
 //GUI Interfaces
 extern WM_HWIN ExecLedControl(void);
@@ -184,14 +192,34 @@ void BS_wrapper(command signal, recipient rec, void *obj){
 					break;
 				
 				case NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_WINDOW:
-					BS_notify(notify_change_alarm_sensor_to_controller, NULL, obj);
-					break;
-				
-				case NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_WINDOW:
 					BS_notify(notify_change_alarm_temperature_sensor_to_controller, NULL, obj);
 					break;
 				
+				case NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_WINDOW:
+					BS_notify(notify_change_alarm_sensor_to_controller, NULL, obj);
+					break;
+
+				case NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_WINDOW:
+					BS_notify(notify_change_alarm_no_light_sensor_to_controller, NULL, obj);					
+					break;
+				
 				case NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_WINDOW:
+					BS_notify(notify_change_max_temperature_threshold_to_controller, NULL, obj);
+					break;
+
+				case NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_CONTROLLER:
+					BS_notify(NULL, notify_change_alarm_temperature_sensor_to_window, obj);
+					break;
+
+				case NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_CONTROLLER:
+					BS_notify(NULL, notify_change_alarm_no_light_sensor_to_window, obj);					
+					break;
+				
+				case NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_CONTROLLER:
+					BS_notify(NULL, notify_change_alarm_sensor_to_window, obj);
+					break;
+				
+				case NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER:
 					BS_notify(notify_change_max_temperature_threshold_to_controller, NULL, obj);
 					break;
 				
@@ -221,9 +249,11 @@ void BS_wrapper(command signal, recipient rec, void *obj){
 //FUNCTIONS
 
 void BS_exec(void (*f_for_tcp)(void), void (*f_for_gui)(WM_MESSAGE *), WM_MESSAGE *obj){
-
-	(*f_for_tcp)();
-	(*f_for_gui)(obj);
+	if(*f_for_tcp != NULL)
+		(*f_for_tcp)();
+	
+	if(*f_for_gui != NULL)
+		(*f_for_gui)(obj);
 }
 
 void BS_pre_exec(void (*f)(void *), void *obj){
@@ -235,8 +265,11 @@ void BS_post_exec(void (*f)(void *), void *obj){
 }
 
 void BS_notify(void (*f_for_tcp)(void *), void (*f_for_gui)(void *), void *obj){
-	(*f_for_tcp)(obj);
-	(*f_for_gui)(obj);	
+	if(*f_for_tcp != NULL)
+		(*f_for_tcp)(obj);
+
+	if(*f_for_gui != NULL)
+		(*f_for_gui)(obj);	
 }
 
 
@@ -394,12 +427,40 @@ void notify_change_delay_to_controller(void *delay){
 	;
 }
 
-void notify_change_alarm_temperature_sensor_to_controller(void *checked){
+void notify_change_alarm_temperature_sensor_to_controller(){
 	;
 }
 
-void notify_change_alarm_sensor_to_controller(void *checked){
-	;
+void notify_change_alarm_temperature_sensor_to_window(){
+	WM_HWIN hItem;
+	int value;
+	hItem = WM_GetDialogItem(actual_hWin, ID_CHECKBOX_2_TEMP);
+	value = CHECKBOX_GetState(hItem);
+	CHECKBOX_SetState(hItem, !value);						
+}
+
+void notify_change_alarm_no_light_sensor_to_controller(){
+
+}
+
+void notify_change_alarm_no_light_sensor_to_window(){
+	WM_HWIN hItem;
+	int value;
+	hItem = WM_GetDialogItem(actual_hWin, ID_CHECKBOX_0_LIGHT);
+	value = CHECKBOX_GetState(hItem);
+	CHECKBOX_SetState(hItem, !value);						
+}
+
+
+void notify_change_alarm_sensor_to_controller(){
+}
+
+void notify_change_alarm_sensor_to_window(){
+	WM_HWIN hItem;
+	int value;
+	hItem = WM_GetDialogItem(actual_hWin, ID_CHECKBOX_1_ALARM);
+	value = CHECKBOX_GetState(hItem);
+	CHECKBOX_SetState(hItem, !value);						
 }
 
 void notify_change_max_temperature_threshold_to_controller(void *new_threshold){

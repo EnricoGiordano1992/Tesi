@@ -135,11 +135,11 @@ public class TCP {
 	}
 
 	public void sendNewAlarmTemp(boolean check) throws IOException {
-		writeCommand(COMMAND.NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW, ""+(check == true? "1" : "0"));		
+		writeCommand(COMMAND.NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW);		
 	}
 
 	public void sendNewAlarmLight(boolean check) throws IOException {
-		writeCommand(COMMAND.NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW, ""+(check == true? "1" : "0"));		
+		writeCommand(COMMAND.NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW);		
 	}
 
 	public void sendNewAlarmPresence(boolean check) throws IOException {
