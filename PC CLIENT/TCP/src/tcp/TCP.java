@@ -2,6 +2,7 @@ package tcp;
 
 // TCPClient.java
 // A client program implementing TCP socket
+import gui.GUI;
 import gui.LedsControlPanel;
 
 import java.net.*; 
@@ -13,6 +14,8 @@ public class TCP {
 	private String data;
 	private DataInputStream input;
 	private DataOutputStream output;
+	public ReadDaemon rd;
+	public GUI window;
 	
 	private enum COMMAND{
 		QUIT,
@@ -40,7 +43,7 @@ public class TCP {
 	};
 	
 	public TCP() 
-	{// arguments supply message and hostname of destination  
+	{		
 		try{ 
 			int serverPort = 23;
 			String ip = "192.168.10.20";
@@ -54,8 +57,10 @@ public class TCP {
 
 			digit = read();
 			st = new String(digit);
-			System.out.println(st); 
-
+			System.out.println(st);
+			rd = new ReadDaemon(this);
+			Thread t = new Thread(rd);
+			t.start();
 		}
 		catch (UnknownHostException e){ 
 			System.out.println("Sock:"+e.getMessage());}
@@ -69,6 +74,10 @@ public class TCP {
 //				} 
 //			catch (IOException e) {/*close failed*/}
 //		}
+	}
+	
+	public void setGUI(GUI window){
+		this.window = window;
 	}
 	
 	
@@ -154,7 +163,7 @@ public class TCP {
 	 * 
 	 */
 
-	private String read() throws IOException{
+	public String read() throws IOException{
 		return input.readLine();
 	}
 	

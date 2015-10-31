@@ -80,6 +80,8 @@ extern void modify_label(WM_MESSAGE *msg);
 extern void modify_label_sensors(WM_MESSAGE *msg);
 extern void modify_edit_text(int led, BOOL status, char *string);
 
+extern void write_from_BS(char *string);
+
 //external variables
 extern _modbus_rx modbus_rx;
 extern Sensors sensors;
@@ -197,6 +199,7 @@ void BS_wrapper(command signal, recipient rec, void *obj){
 
 				case CHANGE_DELAY_QUERY_FROM_CONTROLLER:
 					BS_notify(NULL, notify_change_delay_to_window, obj);
+					break;
 				
 				case NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_WINDOW:
 					BS_notify(notify_change_alarm_temperature_sensor_to_controller, NULL, obj);
@@ -272,17 +275,30 @@ void BS_post_exec(void (*f)(void *), void *obj){
 }
 
 void BS_notify(void (*f_for_tcp)(void *), void (*f_for_gui)(void *), void *obj){
+	unsigned short check1;
+	unsigned short check2;
+	
 	if(*f_for_tcp != NULL)
+		check1 = 1;
+	else
+		check1 = NULL;
+	
+	if(*f_for_gui != NULL)
+		check2 = 1;
+	else
+		check2 = NULL;
+	
+	if(check1 != NULL)
 		(*f_for_tcp)(obj);
 
-	if(*f_for_gui != NULL)
+	if(check2 != NULL)
 		(*f_for_gui)(obj);	
 }
 
 
 
 void switch_context_to_leds_controller(){
-	//write_from_BS("{\"context\": \"leds\"}", strlen("{\"context\": \"leds\"}"));
+	write_from_BS("{\"command\" :\"context\", \"value\": \"leds\"}\r\n");
 }
 
 void switch_context_to_leds_window(){
@@ -292,7 +308,7 @@ void switch_context_to_leds_window(){
 }
 
 void switch_context_to_sensors_controller(){
-	;
+	write_from_BS("{\"command\" :\"context\", \"value\": \"sensors\"}\r\n");
 }
 
 void switch_context_to_sensors_window(){
@@ -367,7 +383,7 @@ void stop_subtask(){
 }
 
 void exit_controller(){
-	;
+	write_from_BS("{\"command\" :\"context\", \"value\": \"menu\"}\r\n");
 }
 
 void exit_window(WM_MESSAGE *pMsg){
@@ -430,8 +446,9 @@ void autoupdate_leds_status_controller(){
 
 
 void notify_change_delay_to_controller(void *delay){
-	//send delay to tcp
-	;
+	char str[80];
+	sprintf(str, "{\"command\" :\"update_widget\", \"value\": \"slider_delay\", \"w_val\" : %d}\r\n", *(int *)delay);
+	write_from_BS(str);
 }
 
 void notify_change_delay_to_window(void *delay){
@@ -443,7 +460,7 @@ void notify_change_delay_to_window(void *delay){
 
 
 void notify_change_alarm_temperature_sensor_to_controller(){
-	;
+	write_from_BS("{\"command\" :\"update_widget\", \"value\": \"check_alarm_temp\"}\r\n");
 }
 
 void notify_change_alarm_temperature_sensor_to_window(){
@@ -455,7 +472,7 @@ void notify_change_alarm_temperature_sensor_to_window(){
 }
 
 void notify_change_alarm_no_light_sensor_to_controller(){
-
+	write_from_BS("{\"command\" :\"update_widget\", \"value\": \"check_no_light\"}\r\n");
 }
 
 void notify_change_alarm_no_light_sensor_to_window(){
@@ -468,6 +485,7 @@ void notify_change_alarm_no_light_sensor_to_window(){
 
 
 void notify_change_alarm_sensor_to_controller(){
+	write_from_BS("{\"command\" :\"update_widget\", \"value\": \"check_sensor\"}\r\n");
 }
 
 void notify_change_alarm_sensor_to_window(){
@@ -479,7 +497,9 @@ void notify_change_alarm_sensor_to_window(){
 }
 
 void notify_change_max_temperature_threshold_to_controller(void *new_threshold){
-	;
+	char str[50];
+	sprintf(str, "{\"command\" :\"update_widget\", \"value\": \"spin_temp_threshold\", \"w_val\" : %d}\r\n", *(int *)new_threshold);
+	write_from_BS(str);
 }
 
 void notify_change_max_temperature_threshold_to_window(void *new_threshold){

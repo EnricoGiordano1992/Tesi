@@ -37,7 +37,9 @@ public class GUI {
 
 	private JFrame frame;
 	private JPanel actualP;
-	private TCP tcp;
+	public TCP tcp;
+	private SensorsControlPanel sP;
+	private LedsControlPanel lP;
 
 	/**
 	 * @return the frame
@@ -56,17 +58,18 @@ public class GUI {
 
 	/**
 	 * Create the application.
-	 * @param tcp 
 	 * @throws UnsupportedLookAndFeelException 
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
 	 * @throws ClassNotFoundException 
 	 */
-	public GUI(TCP tcp) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		this.tcp = tcp;
+	public GUI() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		initialize();
 	}
 
+	public void setTCP(TCP tcp){
+		this.tcp = tcp;
+	}
 	/**
 	 * Initialize the contents of the frame.
 	 * @throws UnsupportedLookAndFeelException 
@@ -95,7 +98,6 @@ public class GUI {
 
 	
 	public void showMenu() throws IOException{
-		tcp.sendExitController();
 		getFrame().remove(actualP);
 		actualP = new MenuPanel(this);
 		getFrame().getContentPane().add(actualP, BorderLayout.CENTER);
@@ -103,17 +105,17 @@ public class GUI {
 	}
 	
 	public void switchToLedsControl() throws IOException{
-		tcp.sendSwitchContextLeds();
 		getFrame().remove(actualP);
 		actualP = new LedsControlPanel(this);
+		lP = (LedsControlPanel) actualP;
 		getFrame().getContentPane().add(actualP, BorderLayout.CENTER);
 		refresh();
 	}
 	
 	public void switchToSensorsControl() throws IOException{
-		tcp.sendSwitchContextSensors();
 		getFrame().remove(actualP);
 		actualP = new SensorsControlPanel(this);
+		sP = (SensorsControlPanel) actualP;
 		getFrame().getContentPane().add(actualP, BorderLayout.CENTER);
 		refresh();
 	}
@@ -170,23 +172,23 @@ public class GUI {
 		
 	}
 
-	public void changeDelayFromExt(double delay){
-		
+	public void changeDelayFromExt(long delay){
+		sP.slider.setValue((int) delay);
 	}
 	
-	public void changeMaxTempFromExt(int temp){
-		
+	public void changeMaxTempFromExt(long temp){
+		sP.spinner.setValue(temp);		
 	}
 	
-	public void setAlarmTempActionFromExt(boolean check){
-		
+	public void setAlarmTempActionFromExt(){
+		sP.chckbxNewCheckBox.setSelected(!sP.chckbxNewCheckBox.isSelected());
 	}
 	
-	public void setAlarmLightActionFromExt(boolean check){
-	
+	public void setAlarmLightActionFromExt(){
+		sP.chckbxNewCheckBox_1.setSelected(!sP.chckbxNewCheckBox_1.isSelected());
 	}
 	
-	public void setAlarmPresenceActionFromExt(boolean check){
-		
+	public void setAlarmPresenceActionFromExt(){
+		sP.chckbxNewCheckBox_2.setSelected(!sP.chckbxNewCheckBox_2.isSelected());		
 	}
 }

@@ -34,7 +34,7 @@ public class MenuPanel extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					g.switchToLedsControl();
+					g.tcp.sendSwitchContextLeds();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -49,7 +49,7 @@ public class MenuPanel extends JPanel {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					g.switchToSensorsControl();
+					g.tcp.sendSwitchContextSensors();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

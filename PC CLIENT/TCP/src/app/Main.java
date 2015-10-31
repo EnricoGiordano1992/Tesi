@@ -12,7 +12,10 @@ public class Main {
 			public void run() {
 				try {
 					TCP tcp = new TCP();
-					GUI window = new GUI(tcp);
+					GUI window = new GUI();
+					window.setTCP(tcp);
+					tcp.setGUI(window);
+					
 					window.getFrame().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

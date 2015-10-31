@@ -33,7 +33,7 @@ public class LedsControlPanel extends JPanel {
 		btnX.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					g.showMenu();
+					g.tcp.sendExitController();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -459,7 +459,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			
 					hItem = WM_GetDialogItem(pMsg->hWin, ID_CHECKBOX_0 );
 					check_sensors.light = CHECKBOX_GetState(hItem);
-					BS_wrapper(NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_WINDOW, EXTERNAL, &check_sensors.light);
+					BS_wrapper(NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_WINDOW, EXTERNAL, NULL);
 			
         // USER END
         break;
@@ -484,7 +484,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
 				hItem = WM_GetDialogItem(pMsg->hWin, ID_CHECKBOX_1 );
 				check_sensors.alarm = CHECKBOX_GetState(hItem);
-				BS_wrapper(NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_WINDOW, EXTERNAL, &check_sensors.alarm);
+				BS_wrapper(NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_WINDOW, EXTERNAL, NULL);
 
 			// USER END
         break;
@@ -509,7 +509,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
 				hItem = WM_GetDialogItem(pMsg->hWin, ID_CHECKBOX_2 );
 				check_sensors.temperature = CHECKBOX_GetState(hItem);
-				BS_wrapper(NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_WINDOW, EXTERNAL, &check_sensors.temperature);
+				BS_wrapper(NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_WINDOW, EXTERNAL, NULL);
 
 			// USER END
         break;
