@@ -128,14 +128,14 @@ public class GUI {
 	 * 
 	 * Metodi per chiamare operazioni esterne alla GUI
 	 * [OUTPUT]
-	 * @throws IOException 
+	 * 
 	 */
 	
 	public void ledPowerAction(int led) throws IOException{
 		tcp.sendLedPowerAction(led);
 	}
 	
-	public void changeDelay(double delay) throws IOException{
+	public void changeDelay(int delay) throws IOException{
 		tcp.sendNewDelay(delay);
 	}
 	

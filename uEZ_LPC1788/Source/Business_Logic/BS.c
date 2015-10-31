@@ -18,6 +18,8 @@
 #define ID_CHECKBOX_0_LIGHT     (GUI_ID_USER + 0x14)
 #define ID_CHECKBOX_1_ALARM     (GUI_ID_USER + 0x15)
 #define ID_CHECKBOX_2_TEMP    	(GUI_ID_USER + 0x16)
+#define ID_SLIDER_0_DELAY				(GUI_ID_USER + 0x04)
+#define ID_SPINBOX_0_THRTEMP    (GUI_ID_USER + 0x17)
 
 
 //Executor
@@ -53,10 +55,12 @@ void update_sensors_status_controller();
 void update_sensors_status_window();
 
 void notify_change_delay_to_controller(void *delay);
+void notify_change_delay_to_window(void *delay);
 void notify_change_alarm_temperature_sensor_to_controller();
 void notify_change_alarm_sensor_to_controller();
 void notify_change_alarm_no_light_sensor_to_controller();
 void notify_change_max_temperature_threshold_to_controller(void *new_threshold);
+void notify_change_max_temperature_threshold_to_window(void *new_threshold);
 void notify_change_alarm_temperature_sensor_to_window();
 void notify_change_alarm_sensor_to_window();
 void notify_change_alarm_no_light_sensor_to_window();
@@ -190,6 +194,9 @@ void BS_wrapper(command signal, recipient rec, void *obj){
 				case CHANGE_DELAY_QUERY_FROM_WINDOW:
 					BS_notify(notify_change_delay_to_controller, NULL, obj);
 					break;
+
+				case CHANGE_DELAY_QUERY_FROM_CONTROLLER:
+					BS_notify(NULL, notify_change_delay_to_window, obj);
 				
 				case NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_WINDOW:
 					BS_notify(notify_change_alarm_temperature_sensor_to_controller, NULL, obj);
@@ -203,10 +210,6 @@ void BS_wrapper(command signal, recipient rec, void *obj){
 					BS_notify(notify_change_alarm_no_light_sensor_to_controller, NULL, obj);					
 					break;
 				
-				case NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_WINDOW:
-					BS_notify(notify_change_max_temperature_threshold_to_controller, NULL, obj);
-					break;
-
 				case NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_CONTROLLER:
 					BS_notify(NULL, notify_change_alarm_temperature_sensor_to_window, obj);
 					break;
@@ -219,8 +222,12 @@ void BS_wrapper(command signal, recipient rec, void *obj){
 					BS_notify(NULL, notify_change_alarm_sensor_to_window, obj);
 					break;
 				
-				case NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER:
+				case NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_WINDOW:
 					BS_notify(notify_change_max_temperature_threshold_to_controller, NULL, obj);
+					break;
+
+				case NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER:
+					BS_notify(NULL, notify_change_max_temperature_threshold_to_window, obj);
 					break;
 				
 				case INIT_SENSORS_CONTROLLER:
@@ -427,6 +434,14 @@ void notify_change_delay_to_controller(void *delay){
 	;
 }
 
+void notify_change_delay_to_window(void *delay){
+	WM_HWIN hItem;
+	int value = *(int *) delay;
+	hItem = WM_GetDialogItem(actual_hWin, ID_SLIDER_0_DELAY);
+	SLIDER_SetValue(hItem, value);
+}
+
+
 void notify_change_alarm_temperature_sensor_to_controller(){
 	;
 }
@@ -465,6 +480,13 @@ void notify_change_alarm_sensor_to_window(){
 
 void notify_change_max_temperature_threshold_to_controller(void *new_threshold){
 	;
+}
+
+void notify_change_max_temperature_threshold_to_window(void *new_threshold){
+	WM_HWIN hItem;
+	int value = *(int *) new_threshold;
+	hItem = WM_GetDialogItem(actual_hWin, ID_SPINBOX_0_THRTEMP);
+	SPINBOX_SetValue(hItem, value);
 }
 
 void activate_sensors_subtask(){

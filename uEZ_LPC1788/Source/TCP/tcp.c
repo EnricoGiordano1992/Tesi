@@ -111,11 +111,15 @@ static TUInt32 BasicTCPServer(T_uezTask aMyTask, void *aParams)
     char c;
     unsigned int len;		
     char command[80];
+    char arg[80];
     char line[80];
-    int clen=0;
+    int clen = 0;
+		int arglen = 0;
+		unsigned short has_arg = 0;
     TBool needPrompt = EFalse;
     const char banner[] = "ready\r\n";
 		TCPCommand n_command;
+		int arg_val;
 
     /* create an Internet TCP socket */  			
     SrvrDescriptor = socket(AF_INET, SOCK_STREAM, 0);
@@ -137,136 +141,168 @@ static TUInt32 BasicTCPServer(T_uezTask aMyTask, void *aParams)
         ClntDescriptor = accept(SrvrDescriptor,(struct sockaddr*)&rem,&len);			
         needPrompt = ETrue;
 
-        ////CO_AddString(banner);
         write(ClntDescriptor, banner, sizeof(banner)-1);
         while (1){
             if (read(ClntDescriptor, &c, 1) <= 0)
                 break;
 
-            if (c == '\r') {
-            } else if (c == '\n') {
+						//CASO DI COMANDO CON ARGOMENTI
+						if( c == ' ' || has_arg){
+
+							//ho finito di leggere tutto
+							if (c == '\r' && has_arg) {
+							} else if (c == '\n' && has_arg) {
+								n_command = atoi(command);
+								arg_val = atoi(arg);
+
+								switch(n_command){
+									case CHANGE_DELAY_QUERY_FROM_CONTROLLER_TO_WINDOW:
+										BS_wrapper(CHANGE_DELAY_QUERY_FROM_CONTROLLER, EXTERNAL, &arg_val);
+										break;
+									
+									case NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER_TO_WINDOW:
+										BS_wrapper(NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER, EXTERNAL, &arg_val);
+										break;
+									
+								}
+
+								memset(&command[0], '\0', sizeof(command));								
+								memset(&arg[0], '\0', sizeof(arg));
+								has_arg = 0;
+								arglen = 0;
+								clen = 0;
+							}
 							
-							n_command = atoi(command);
-							
-							switch(n_command){
-
-								case QUIT:
-									closesocket(ClntDescriptor);
-									break;
-
-								//MENU' COMMANDS
-								case LEDS_CONTROLLER:
-									BS_wrapper(SWITCH_CONTEXT_TO_LEDS_CONTROLLER, INTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
+							else{
+								//ho appena letto ' '
+								if( c == ' '){
+									has_arg = 1;
+									arglen = 0;
+								}
+								//altrimenti sto leggendo l'argomento
+								else{
+									arg[arglen++] = c;
+								}
+							}
+						}
+						
+						else{
+							//CASO DI COMANDO SENZA ARGOMENTI
+							if (c == '\r' && !has_arg) {
+							} else if (c == '\n' && !has_arg) {
+								n_command = atoi(command);
 								
-								case SENSORS_CONTROLLER:
-									BS_wrapper(SWITCH_CONTEXT_TO_SENSORS_CONTROLLER, INTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
+								switch(n_command){
 
-								case DEBUG_MODBUS_CONTROLLER:
-									BS_wrapper(SWITCH_CONTEXT_TO_DEBUG_MODBUS_CONTROLLER, INTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
+									case QUIT:
+										closesocket(ClntDescriptor);
+										break;
 
-								case RETURN_TO_MENU:
-									BS_wrapper(EXIT_CONTROLLER, INTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
+									//MENU' COMMANDS
+									case LEDS_CONTROLLER:
+										BS_wrapper(SWITCH_CONTEXT_TO_LEDS_CONTROLLER, INTERNAL, NULL);
+										//write(ClntDescriptor, "200\r\n", 5);
+										break;
+									
+									case SENSORS_CONTROLLER:
+										BS_wrapper(SWITCH_CONTEXT_TO_SENSORS_CONTROLLER, INTERNAL, NULL);
+										//write(ClntDescriptor, "200\r\n", 5);
+										break;
 
-								//LEDS COMMANDS
+									case DEBUG_MODBUS_CONTROLLER:
+										BS_wrapper(SWITCH_CONTEXT_TO_DEBUG_MODBUS_CONTROLLER, INTERNAL, NULL);
+										//write(ClntDescriptor, "200\r\n", 5);
+										break;
 
-								case INIT_LEDS:
-									BS_wrapper(INIT_LEDS_CONTROLLER, INTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
+									case RETURN_TO_MENU:
+										BS_wrapper(EXIT_CONTROLLER, INTERNAL, NULL);
+										//write(ClntDescriptor, "200\r\n", 5);
+										break;
 
-								case CHANGE_LED_STATUS_CONTROLLER_1:
-									BS_wrapper(CHANGE_LED_STATUS_1, INTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
+									//LEDS COMMANDS
 
-								case CHANGE_LED_STATUS_CONTROLLER_2:
-									BS_wrapper(CHANGE_LED_STATUS_2, INTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
+									case INIT_LEDS:
+										BS_wrapper(INIT_LEDS_CONTROLLER, INTERNAL, NULL);
+										//write(ClntDescriptor, "200\r\n", 5);
+										break;
 
-								case CHANGE_LED_STATUS_CONTROLLER_3:
-									BS_wrapper(CHANGE_LED_STATUS_3, INTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
+									case CHANGE_LED_STATUS_CONTROLLER_1:
+										BS_wrapper(CHANGE_LED_STATUS_1, INTERNAL, NULL);
+										//write(ClntDescriptor, "200\r\n", 5);
+										break;
 
-								case CHANGE_LED_STATUS_CONTROLLER_4:
-									BS_wrapper(CHANGE_LED_STATUS_4, INTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
+									case CHANGE_LED_STATUS_CONTROLLER_2:
+										BS_wrapper(CHANGE_LED_STATUS_2, INTERNAL, NULL);
+										//write(ClntDescriptor, "200\r\n", 5);
+										break;
 
-								case CHANGE_LED_STATUS_CONTROLLER_5:
-									BS_wrapper(CHANGE_LED_STATUS_5, INTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
-								
-								case CHANGE_LED_STATUS_CONTROLLER_6:
-									BS_wrapper(CHANGE_LED_STATUS_6, INTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
+									case CHANGE_LED_STATUS_CONTROLLER_3:
+										BS_wrapper(CHANGE_LED_STATUS_3, INTERNAL, NULL);
+										//write(ClntDescriptor, "200\r\n", 5);
+										break;
 
-								//INIT SENSORS 
-								
-								case INIT_SENSORS:
-									BS_wrapper(INIT_SENSORS_CONTROLLER, INTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
+									case CHANGE_LED_STATUS_CONTROLLER_4:
+										BS_wrapper(CHANGE_LED_STATUS_4, INTERNAL, NULL);
+										//write(ClntDescriptor, "200\r\n", 5);
+										break;
 
-//								case CHANGE_DELAY_QUERY_FROM_CONTROLLER_TO_WINDOW:
-//									BS_wrapper(CHANGE_DELAY_QUERY_FROM_CONTROLLER, INTERNAL, NULL);
-//									//write(ClntDescriptor, "200\r\n", 5);
-//									break;
+									case CHANGE_LED_STATUS_CONTROLLER_5:
+										BS_wrapper(CHANGE_LED_STATUS_5, INTERNAL, NULL);
+										//write(ClntDescriptor, "200\r\n", 5);
+										break;
+									
+									case CHANGE_LED_STATUS_CONTROLLER_6:
+										BS_wrapper(CHANGE_LED_STATUS_6, INTERNAL, NULL);
+										//write(ClntDescriptor, "200\r\n", 5);
+										break;
 
-//								case NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER_TO_WINDOW:
-//									BS_wrapper(NOTIFY_MAX_TEMPERATURE_THRESHOLD_FROM_CONTROLLER, INTERNAL, NULL);
-//									//write(ClntDescriptor, "200\r\n", 5);
-//									break;
+									//INIT SENSORS 
+									
+									case INIT_SENSORS:
+										BS_wrapper(INIT_SENSORS_CONTROLLER, INTERNAL, NULL);
+										//write(ClntDescriptor, "200\r\n", 5);
+										break;
 
-								case NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW:
-									BS_wrapper(NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_CONTROLLER, EXTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
+									case NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW:
+										BS_wrapper(NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_CONTROLLER, EXTERNAL, NULL);
+										//write(ClntDescriptor, "200\r\n", 5);
+										break;
 
-								case NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW:
-									BS_wrapper(NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_CONTROLLER, EXTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
+									case NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW:
+										BS_wrapper(NOTIFY_ALARM_TEMPERATURE_SENSOR_CHANGED_FROM_CONTROLLER, EXTERNAL, NULL);
+										//write(ClntDescriptor, "200\r\n", 5);
+										break;
 
-								case NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW:
-									BS_wrapper(NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_CONTROLLER, EXTERNAL, NULL);
-									//write(ClntDescriptor, "200\r\n", 5);
-									break;
-								
-								
-								//UNKNOW COMMAND
-								default:
-									write(ClntDescriptor, "400\r\n", 5);
-									break;									
-								
-							};
+									case NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW:
+										BS_wrapper(NOTIFY_NO_LIGHT_SENSOR_CHANGED_FROM_CONTROLLER, EXTERNAL, NULL);
+										//write(ClntDescriptor, "200\r\n", 5);
+										break;
+									
+									
+									//UNKNOW COMMAND
+									default:
+										write(ClntDescriptor, "400\r\n", 5);
+										break;									
+									
+									};
 
-							needPrompt = ETrue;
-							clen = 0;
-							command[0] = '\0';
+									needPrompt = ETrue;
+									clen = 0;
+									//command[0] = '\0';
+									memset(&command[0], '\0', sizeof(command));								
 
-            } else if (c == '\b') {
-                if (clen > 0) {
-                    clen--;
-                    command[clen] = '\0';
-                }
-            } else {
-                if (clen < sizeof(command)-1)
-                    command[clen++] = c;
-                command[clen] = '\0';
-            }
-        }
+								} else if (c == '\b') {
+										if (clen > 0) {
+												clen--;
+												command[clen] = '\0';
+										}
+								} else {
+										if (clen < sizeof(command)-1)
+												command[clen++] = c;
+										command[clen] = '\0';
+								}
+							}
+						}
         close(ClntDescriptor);
     }
 } 	 			

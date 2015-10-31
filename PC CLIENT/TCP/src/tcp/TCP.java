@@ -126,7 +126,7 @@ public class TCP {
 	}
 
 	// SENSORS CONTROLLER
-	public void sendNewDelay(double delay) throws IOException {
+	public void sendNewDelay(int delay) throws IOException {
 		writeCommand(COMMAND.CHANGE_DELAY_QUERY_FROM_CONTROLLER_TO_WINDOW, ""+delay);
 	}
 
@@ -143,7 +143,7 @@ public class TCP {
 	}
 
 	public void sendNewAlarmPresence(boolean check) throws IOException {
-		writeCommand(COMMAND.NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW, ""+(check == true? "1" : "0"));		
+		writeCommand(COMMAND.NOTIFY_ALARM_PRESENCE_SENSOR_CHANGED_FROM_CONTROLLER_TO_WINDOW);		
 	}
 	
 	
@@ -164,6 +164,7 @@ public class TCP {
 	}
 
 	private void writeCommand(COMMAND data, String arg) throws IOException{
+		System.out.println(data.ordinal()+" "+arg+"\r\n");
 		output.writeBytes(data.ordinal()+" "+arg+"\r\n");
 	}
 

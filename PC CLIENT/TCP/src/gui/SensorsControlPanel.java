@@ -84,6 +84,7 @@ public class SensorsControlPanel extends JPanel {
 		textField_6.setColumns(10);
 		
 		JSpinner spinner = new JSpinner();
+		spinner.setValue(0);
 		spinner.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				JSpinner source = (JSpinner) e.getSource();
@@ -100,10 +101,11 @@ public class SensorsControlPanel extends JPanel {
 		add(spinner);
 		
 		JSlider slider = new JSlider();
+		slider.setValue(0);
 		slider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				JSlider source = (JSlider) arg0.getSource();
-		        double val = (double)source.getValue();
+		        int val = (int)source.getValue();
 		        try {
 					g.changeDelay(val);
 				} catch (IOException e) {
