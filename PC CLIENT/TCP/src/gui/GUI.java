@@ -164,12 +164,46 @@ public class GUI {
 	 * [INPUT]
 	 */
 	
-	public void setLedsGUI(){
-		
+	public void setLedsGUI(String object, String object2, String object3, String object4, String object5, String object6){
+		lP.txtOff.setText(object);
+		lP.txtOff_1.setText(object2);
+		lP.txtOff_2.setText(object3);
+		lP.txtOff_3.setText(object4);
+		lP.txtOff_4.setText(object5);
+		lP.txtOff_5.setText(object6);
 	}
-	
-	public void setSensorsGUI(){
-		
+
+	public void setLedGUI(int led, String state){
+		switch(led){
+			case 1:
+				lP.txtOff.setText(state);
+				break;
+			case 2:
+				lP.txtOff_1.setText(state);
+				break;
+			case 3:
+				lP.txtOff_2.setText(state);
+				break;
+			case 4:
+				lP.txtOff_3.setText(state);
+				break;
+			case 5:
+				lP.txtOff_4.setText(state);
+				break;
+			case 6:
+				lP.txtOff_5.setText(state);
+				break;
+		}
+	}
+
+	public void setSensorsGUI(String object, String object2, String object3, String object4, String object5, String object6, String object7){
+		sP.textField.setText(object);
+		sP.textField_1.setText(object2);
+		sP.textField_2.setText(object3);
+		sP.textField_3.setText(object6);
+		sP.textField_4.setText(object5);
+		sP.textField_5.setText(object4);
+		sP.textField_6.setText(object7);
 	}
 
 	public void changeDelayFromExt(long delay){

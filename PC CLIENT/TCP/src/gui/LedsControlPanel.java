@@ -12,12 +12,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 
 public class LedsControlPanel extends JPanel {
-	private JTextField txtOff;
-	private JTextField txtOff_1;
-	private JTextField txtOff_2;
-	private JTextField txtOff_3;
-	private JTextField txtOff_4;
-	private JTextField txtOff_5;
+	public JTextField txtOff;
+	public JTextField txtOff_1;
+	public JTextField txtOff_2;
+	public JTextField txtOff_3;
+	public JTextField txtOff_4;
+	public JTextField txtOff_5;
 	
 	private GUI g;
 

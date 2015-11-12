@@ -294,7 +294,7 @@ static TUInt32 BasicTCPServer(T_uezTask aMyTask, void *aParams)
 
 
 void write_from_BS(char *string){
-	char str[80];
+	char str[120];
 	int len;
 
 	strcpy(str, string);

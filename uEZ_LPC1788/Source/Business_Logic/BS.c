@@ -53,6 +53,8 @@ void autoupdate_leds_status_controller();
 void autoupdate_leds_status_window(WM_MESSAGE *pMsg);
 void update_sensors_status_controller();
 void update_sensors_status_window();
+void init_leds();
+void update_led_status();
 
 void notify_change_delay_to_controller(void *delay);
 void notify_change_delay_to_window(void *delay);
@@ -137,6 +139,7 @@ void BS_wrapper(command signal, recipient rec, void *obj){
 				case CHANGE_LED_STATUS_1:
 					led = 1;
 					BS_pre_exec(change_led_status_modbus_task, NULL);
+					BS_pre_exec(update_led_status, NULL);
 					BS_exec(update_led_status_controller, update_led_status_window, (WM_MESSAGE *)obj);
 					break;
 
@@ -184,7 +187,8 @@ void BS_wrapper(command signal, recipient rec, void *obj){
 					err = UEZSemaphoreCreateBinary(&semaphore_actual_hWin);
 					UEZSemaphoreGrab(semaphore_actual_hWin, 1000);
 					BS_pre_exec(modbus_led_check, NULL);
-					BS_exec(init_leds_controller, init_leds_window, NULL);
+					BS_pre_exec(init_leds, NULL);
+					//BS_exec(init_leds_controller, init_leds_window, NULL);
 					BS_post_exec(activate_leds_subtask, obj);
 					break;
 				
@@ -329,25 +333,29 @@ void switch_context_to_debug_modbus_window(){
 	
 }
 
+void init_leds(){
+	if (UEZTaskCreate(init_leds_window_subtask, "init_leds_window_subtask", UEZ_TASK_STACK_BYTES(2048), (void *)0, UEZ_PRIORITY_NORMAL, 0))
+			; //anomalia	
+}
+
 void init_leds_controller(){
-	;
+
+	int i;
+	char res[120];
+
+	sprintf(res, "{\"command\" : \"update_leds\", \"value\" : [\"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\"]}\r\n",
+		led_status[1]==1?"ON":"OFF", led_status[2]==1?"ON":"OFF", led_status[3]==1?"ON":"OFF", led_status[4]==1?"ON":"OFF", 
+		led_status[5]==1?"ON":"OFF", led_status[6]==1?"ON":"OFF");
+	
+	write_from_BS(res);
+	
 }
 
 void init_leds_window(){
 
-	if (UEZTaskCreate(init_leds_window_subtask, "init_leds_window_subtask", UEZ_TASK_STACK_BYTES(2048), (void *)0, UEZ_PRIORITY_NORMAL, 0))
-			; //anomalia
-
-}
-
-void init_leds_window_subtask(){
-	
 	WM_HWIN hItem;
 	int i;
-	
-	UEZSemaphoreGrab(semaphore_actual_hWin, 10000);
-	UEZSemaphoreDelete(semaphore_actual_hWin);
-	
+
 	for(i = 0; i < 7; i++)
 	if(bit_test(modbus_rx.data_converted[0],i)){
 				hItem = WM_GetDialogItem(actual_hWin, ID_EDIT_0_LEDS + i);
@@ -358,8 +366,17 @@ void init_leds_window_subtask(){
 				hItem = WM_GetDialogItem(actual_hWin, ID_EDIT_0_LEDS + i);
 				EDIT_SetText(hItem, " 0FF");
 				led_status[i+1] = FALSE;
-		
 	}
+	
+}
+
+void init_leds_window_subtask(){
+		
+	UEZSemaphoreGrab(semaphore_actual_hWin, 10000);
+	UEZSemaphoreDelete(semaphore_actual_hWin);
+
+	init_leds_window();
+	init_leds_controller();
 
 }
 
@@ -379,7 +396,6 @@ void activate_leds_subtask(){
 void stop_subtask(){
 	UEZTaskDelete(poll_subtask_t);
 	exit_subtask_control = TRUE;
-
 }
 
 void exit_controller(){
@@ -395,21 +411,27 @@ void change_led_status_modbus_task(){
 		modbus_led_task(led, led_status[led]);
 }
 
+void update_led_status(){
+
+	led_status[led] = !led_status[led];
+	
+}
+
 void update_led_status_controller(){
-	;
+	char res[120];
+	sprintf(res, "{\"command\" : \"update_led\", \"value\" : {\"led\": %d, \"value\" : \"%s\"}}\r\n", led, led_status[led] == TRUE? "ON" : "OFF");
+	write_from_BS(res);
 }
 
 void update_led_status_window(WM_MESSAGE *pMsg){
 	WM_HWIN hItem;
 	
-	led_status[led] = !led_status[led];
-			
 	if(led_status[led]){
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0_LEDS + led - 1);
+		hItem = WM_GetDialogItem(actual_hWin, ID_EDIT_0_LEDS + led - 1);
 		EDIT_SetText(hItem, " 0N");						
 		}
 	else{
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0_LEDS + led - 1);
+		hItem = WM_GetDialogItem(actual_hWin, ID_EDIT_0_LEDS + led - 1);
 		EDIT_SetText(hItem, " 0FF");						
 		}		
 }
@@ -441,12 +463,14 @@ void autoupdate_leds_status_window(WM_MESSAGE *pMsg){
 
 
 void autoupdate_leds_status_controller(){
-	;
+	char res[120];
+	sprintf(res, "{\"command\" : \"update_led\", \"value\" : {\"led\": %d, \"value\" : \"%s\"}}\r\n", led, led_status[led] == TRUE? "ON" : "OFF");
+	write_from_BS(res);
 }
 
 
 void notify_change_delay_to_controller(void *delay){
-	char str[80];
+	char str[120];
 	sprintf(str, "{\"command\" :\"update_widget\", \"value\": \"slider_delay\", \"w_val\" : %d}\r\n", *(int *)delay);
 	write_from_BS(str);
 }
@@ -515,6 +539,16 @@ void activate_sensors_subtask(){
 
 void update_sensors_status_controller(){
 
+	int i;
+	char res[120];
+	char perc = '%';
+
+	sprintf(res, "{\"command\" : \"update_sensors\", \"value\" : [\"%d°\", \"%d%c\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\"]}\r\n",
+		((sensors.temperature==0||sensors.temperature==10)?20:sensors.temperature), (sensors.humidity==0?13:sensors.humidity), perc, 
+		(sensors.mic!=0?"NOISE":"SILENCE"), (sensors.distance!=0?"FAR":"NEAR"), (sensors.presence!=0?"NO":"YES"), 
+		(sensors.vibration!=0?"NO":"YES"), (sensors.light!=0?"LIGHT":"DARK"));
+	
+	write_from_BS(res);
 }
 
 void update_sensors_status_window(){
